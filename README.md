@@ -93,14 +93,6 @@ Si desea contribuir a este proyecto, siga estos pasos:
 
 Este proyecto está licenciado bajo la Licencia MIT. Consulte el archivo `LICENSE` para obtener más detalles.
 
----
-
-Para obtener más información, consulte el archivo README en el directorio `fe` para detalles específicos del frontend.
-
-Si tiene alguna pregunta o necesita ayuda, no dude en abrir un issue.
-
-¡Gracias por utilizar SuperAI!
-```
 
 ## Estructura del Directorio `fe/src`
 
