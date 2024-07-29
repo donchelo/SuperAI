@@ -5,6 +5,7 @@ import { Box, Paper, Typography, Avatar } from '@mui/material';
 import { Message } from './types';
 import superAiChatImage from '../../assets/superai-chat.png';  // Ajuste de la ruta
 import profilePicture from '../../assets/profile-picture.jpg';  // Ajuste de la ruta
+import ReactMarkdown from 'react-markdown';
 
 export const MessageItem: React.FC<{ message: Message }> = ({ message }) => (
   <Box
@@ -33,7 +34,11 @@ export const MessageItem: React.FC<{ message: Message }> = ({ message }) => (
         ...(message.sender === 'user' ? { borderBottomRightRadius: 0 } : { borderBottomLeftRadius: 0 }),
       }}
     >
-      <Typography>{message.text}</Typography>
+      {message.sender === 'bot' ? (
+        <ReactMarkdown>{message.text}</ReactMarkdown>
+      ) : (
+        <Typography>{message.text}</Typography>
+      )}
     </Paper>
     {message.sender === 'user' && (
       <Avatar 

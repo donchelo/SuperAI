@@ -7,6 +7,7 @@ import profilePicture from '../../assets/profile-picture.jpg';
 import { Message } from './types';
 import { MessageItem } from './MessageItem';
 import { MessageInput } from './MessageInput';
+import ReactMarkdown from 'react-markdown';
 
 const Chat: React.FC = () => {
   const theme = useTheme();
@@ -21,9 +22,35 @@ const Chat: React.FC = () => {
   const [newMessage, setNewMessage] = useState('');
   const [quickPromptsOpen, setQuickPromptsOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [defaultPrompt, setDefaultPrompt] = useState('');
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/get-responses');
+        const data = await response.json();
+        setDefaultPrompt(`Rol: Eres un asistente profesional de startups.
+
+Contexto: [ ${JSON.stringify(data)} ]
+
+Tarea: Responder las preguntas que se te hacen teniendo en cuenta las siguientes reglas.
+
+1. Responde teniendo en cuenta el contexto proporcionado.
+2. Tómate el tiempo necesario para responder y explica tu proceso paso a paso antes de dar una respuesta final.
+3. Presenta tus respuestas en formato Markdown para una mejor legibilidad.
+
+Instrucciones adicionales:
+
+- Usa ejemplos prácticos cuando sea posible para ilustrar tus respuestas.
+- Divide la información en secciones claras con encabezados y listas para facilitar la lectura.
+- Asegúrate de que la respuesta sea coherente y bien estructurada.
+ `);
+      } catch (error) {
+        console.error('Error al cargar datos del servidor:', error);
+      }
+    };
+    fetchData();
   }, [messages]);
 
   const handleSendMessage = async (text = newMessage) => {
@@ -51,7 +78,10 @@ const Chat: React.FC = () => {
         },
         body: JSON.stringify({
           model: "gpt-4o-mini",
-          messages: [{ role: "user", content: text }],
+          messages: [
+            {role: "system" , content: defaultPrompt},
+            { role: "user", content: text }
+          ],
           temperature: 0.7,
         }),
       });
@@ -91,7 +121,7 @@ const Chat: React.FC = () => {
         pb: '70px',
       }}>
         {messages.map((message) => (
-          <MessageItem key={message.id} message={message} />
+          <MessageItem key={message.id} message={message} renderMarkdown={(text) => <ReactMarkdown>{text}</ReactMarkdown>} />
         ))}
         <div ref={messagesEndRef} />
       </Box>
