@@ -1,4 +1,3 @@
-```markdown
 # SuperAI
 
 Bienvenido a SuperAI, una plataforma diseñada para ofrecer soluciones avanzadas de inteligencia artificial. Este repositorio contiene el código fuente tanto del backend como del frontend de la aplicación. A continuación, se proporciona una guía detallada sobre cómo configurar y ejecutar el proyecto.
@@ -132,4 +131,3 @@ El archivo `vite.config.ts` en el directorio `fe` contiene la configuración par
 Esta documentación proporciona una visión completa del proyecto SuperAI, incluyendo la estructura del directorio, los requisitos previos, la instalación y ejecución, y cómo contribuir. Si tiene alguna pregunta adicional, no dude en abrir un issue en el repositorio.
 
 ¡Gracias por utilizar SuperAI!
-```
