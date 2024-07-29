@@ -26,11 +26,11 @@ const Chat: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSendMessage = (text = newMessage) => {
+  const handleSendMessage = async (text = newMessage) => {
     if (text.trim() !== '') {
       addMessage(text, 'user');
       setNewMessage('');
-      simulateBotResponse();
+      await getBotResponse(text);
     }
     setQuickPromptsOpen(false);
   };
@@ -39,10 +39,34 @@ const Chat: React.FC = () => {
     setMessages(prev => [...prev, { id: prev.length + 1, text, sender }]);
   };
 
-  const simulateBotResponse = () => {
-    setTimeout(() => {
-      addMessage('Gracias por tu pregunta. Estoy procesando la información...', 'bot');
-    }, 1000);
+  const getBotResponse = async (text: string) => {
+    addMessage('Gracias por tu pregunta. Estoy procesando la información...', 'bot');
+
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_APP_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [{ role: "user", content: text }],
+          temperature: 0.7,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error fetching data from OpenAI API');
+      }
+
+      const data = await response.json();
+      const botMessage = { sender: 'bot', text: data.choices[0].message.content.trim() };
+      addMessage(botMessage.text, 'bot');
+    } catch (error) {
+      console.error(error);
+      addMessage('Lo siento, hubo un error procesando tu solicitud.', 'bot');
+    }
   };
 
   const toggleQuickPrompts = () => {
