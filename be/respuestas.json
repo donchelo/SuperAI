@@ -1,0 +1,40 @@
+{
+  "teamContact": {
+    "team": "1. Martin: Jefe de produccion\n2. Simon: Jefe de mercadeo y experiencias\n3. Mariano: Lider de estrategia y growth hacking \n4. Milena: Asistente administrativa\n5. Andres: Lider electronico y mecanico. \n6. Alexander : Comercial Vendedor\n7. Johana: Servicio al cliente, comercial y asistente de aseo.\nRaul: Lider financiero",
+    "contactInfo": "Contacto ventas:+57 300 7107537\nContacto administracion: +57 305 2167699\nDireccion: Carrera 34 # 7 - 11.\nCiudad: Medellin\nPais: Colombia\nWebsite: www.matt.com.co\nemail ventas: ventas@matt.com.co\nemail administracion: 2g@matt.com.co "
+  },
+  "identityStrategy": {
+    "companyName": "AI4U",
+    "mission": "Generar productos y servicios que fomenten una cultura de inclusión y calidad de vida para las personas con movilidad reducida.",
+    "purpose": "Mejorar la calidad de vida y la inclusión de personas con movilidad reducida, facilitando su desplazamiento y acceso a la vida laboral y social, permitiéndoles recuperar su libertad y un lugar activo en la sociedad.",
+    "vision": "Para 2025, ser una empresa líder en proyectos locales, nacionales e internacionales orientados a la cultura de inclusión y calidad de vida para personas con movilidad reducida, impactando a más de 3,000 personas a través de 10 proyectos corporativos y sociales, con 1,000 personas viviendo la experiencia Matt y 500 dispositivos Matt en el mercado​​.",
+    "values": "Inclusión: Promover la integración de personas con movilidad reducida en todos los aspectos de la vida.\nInnovación: Desarrollar soluciones tecnológicas que mejoren la movilidad y calidad de vida.\nCalidad de Vida: Enfocarse en productos y servicios que permitan una vida más plena y autónoma para las personas con movilidad reducida."
+  },
+  "clientsProblems": {
+    "problemSolved": "Movilidad. Exclusion sociolaboral que sufren las personas con movilidad reducida",
+    "targetSegment": "Personas con movilidad reducida: usuarios de sillas de ruedas, personas con obesidad clinica y adulto mayor"
+  },
+  "valueProducts": {
+    "valueProposition": "Mejora de Calidad de Vida: Proporcionamos triciclos eléctricos y dispositivos de movilidad que facilitan el desplazamiento autónomo y seguro de personas con movilidad reducida.\n",
+    "products": "vehiculos electricos para personas con movilidad reducida y experiencias turisticas"
+  },
+  "resourcesChannels": {
+    "keyResources": "Software\n1. CRM\n2. Website\n3. Redes sociales\n4. software club2g",
+    "channels": "1. Página web corporativa\n2. Redes sociales ( facebook, instagram)\n3. Colaboraciones y alianzas con empresas del sector\n4. Publicidad de pago (Meta Ads)\n5. Tienda propia en provenza"
+  },
+  "revenueAlliances": {
+    "revenueSources": "Las fuentes de ingresos de Matt Movilidad son:\n\n1. **Venta de Productos:**\n   - Triciclos eléctricos (MATT V6 y MATT M1)\n   - Dispositivos de arrastre eléctrico (MATT TP)\n\n2. **Experiencias:**\n   - Tours inclusivos y educativos\n\n3. **Club2G:**\n   - Suscripciones y servicios comunitarios\n\n4. **Consultoría y Charlas:**\n   - Conferencias y consultoría sobre inclusión y movilidad\n\n5. **Donaciones y Eventos:**\n   - A través de Matt Fundación",
+    "strategicAlliances": "### Grupos de Alianzas de Matt\n\n1. **Alianzas Estratégicas**\n   - Empresas de tecnología\n   - Instituciones académicas\n\n2. **Alianzas Comerciales**\n   - Tiendas de dispositivos médicos\n   - Distribuidores\n\n3. **Alianzas Filantrópicas**\n   - Fundaciones y ONGs\n   - Centros de rehabilitación\n\n4. **Alianzas de Marketing y Comunicación**\n   - Influencers y embajadores de marca\n   - Agencias de publicidad y medios\n\n5. **Alianzas con Entidades Gubernamentales**\n   - Programas de inclusión social y laboral\n   - Fondos y subsidios gubernamentales\n\n6. **Alianzas de Experiencias y Servicios**\n   - Hoteles y agencias de turismo\n   - Parques y centros recreativos"
+  },
+  "roadmapObjectives": {
+    "mvpRoadmap": "### Roadmap a High Level de Matt Movilidad\n\n**2024:**\n1. **Expansión de Productos:**\n   - Incrementar la producción y ventas de MATT V6, MATT M1 y MATT TP.\n   - Ampliar la línea de productos con nuevas innovaciones en movilidad.\n\n2. **Mejora de Experiencias:**\n   - Lanzar nuevos tours inclusivos en Medellín.\n   - Establecer alianzas con hoteles y agencias de turismo.\n\n3. **Crecimiento de Club2G:**\n   - Aumentar la membresía y la participación en la comunidad.\n   - Desarrollar nuevas funcionalidades en la webapp, como el mapeo de puntos accesibles.\n\n**2024:**\n1. **Internacionalización:**\n   - Iniciar ventas y distribución en mercados internacionales (LATAM y más allá).\n   - Participar en ferias comerciales y eventos internacionales.\n\n2. **Fortalecimiento de Marca:**\n   - Incrementar la presencia online y mejorar el sitio web.\n   - Realizar campañas de marketing y publicidad a nivel global.\n\n3. **Proyectos Corporativos y Sociales:**\n   - Implementar 10 proyectos corporativos y sociales orientados a la inclusión.\n   - Impactar a más de 3,000 personas a través de estas iniciativas.\n\n**2025:**\n1. **Innovación Continua:**\n   - Invertir en investigación y desarrollo para mejorar los productos existentes.\n   - Lanzar nuevas soluciones de movilidad adaptadas a las necesidades del mercado.\n\n2. **Crecimiento Sostenible:**\n   - Aumentar la producción y eficiencia operativa.\n   - Ampliar las instalaciones y capacidades de fabricación.\n\n3. **Responsabilidad Social:**\n   - Fortalecer las actividades de la Fundación Matt.\n   - Incrementar las donaciones y los eventos para apoyar a más personas con movilidad reducida.\n\n**Meta a Largo Plazo:**\n- **Visión 2024:** Ser una empresa líder en inclusión y calidad de vida para personas con movilidad reducida, con presencia local, nacional e internacional, y un impacto significativo en la comunidad",
+    "keyObjectives": "Objetivos clave para 2024-2025:\n\n1. Expansión de productos y ventas\n2. Lanzamiento de nuevos tours inclusivos\n3. Crecimiento de la comunidad Club2G\n4. Internacionalización del negocio\n5. Fortalecimiento de la marca a nivel global\n6. Implementación de 10 proyectos corporativos y sociales\n7. Impactar a más de 3,000 personas con iniciativas de inclusión"
+  },
+  "brandCommunication": {
+    "brandPersonality": "Personalidad de marca: Tecnológica, eficiente, confiable, proactiva y orientada a resultados.\n\nPromesa de marca: Transformamos la vida de personas con movilidad reducida mediante soluciones innovadoras que fomentan su autonomía, inclusión y calidad de vida.",
+    "communicationStyle": "Profesional, tecnológico y orientado a resultados, enfocado en transmitir confianza y eficacia.",
+    "brandMessage": "\"Empoderamos a personas con movilidad reducida, brindando libertad e inclusión a través de soluciones innovadoras de movilidad.\"",
+    "brandVoice": "La voz de Matt Movilidad es empática, innovadora y profesional, transmitiendo confianza y compromiso con la inclusión y la mejora de la calidad de vida a través de soluciones tecnológicas eficientes.",
+    "targetAudience": "Personas con movilidad reducida: usuarios de sillas de ruedas, personas con obesidad clinica y adulto mayor"
+  }
+}
