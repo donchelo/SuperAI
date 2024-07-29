@@ -4,7 +4,7 @@ import React from 'react';
 import { Box, Paper, Typography, Avatar } from '@mui/material';
 import { Message } from './types';
 import superAiChatImage from '../../assets/superai-chat.png';  // Ajuste de la ruta
-import profilePicture from '../../assets/profile-picture.jpg';  // Ajuste de la ruta
+import profilePicture from '../../assets/profile-picture.png';  // Ajuste de la ruta
 import ReactMarkdown from 'react-markdown';
 
 export const MessageItem: React.FC<{ message: Message }> = ({ message }) => (

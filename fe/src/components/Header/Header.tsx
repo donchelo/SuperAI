@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Avatar, Box, Button, useMediaQuery, useThe
 import { Brightness4, Brightness7, Menu as MenuIcon } from '@mui/icons-material';
 import Icon from '@mdi/react';
 import { mdiChat, mdiMemory, mdiHelpCircle, mdiViewDashboard } from '@mdi/js';
-import profilePicture from '../../assets/profile-picture.jpg';
+import profilePicture from '../../assets/profile-picture.png';
 import { useThemeContext } from '../../Theme/ThemeContext';
 
 const ProfilePicture: React.FC = () => {
