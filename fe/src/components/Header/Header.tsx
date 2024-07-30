@@ -5,6 +5,7 @@ import Icon from '@mdi/react';
 import { mdiChat, mdiMemory, mdiHelpCircle, mdiViewDashboard } from '@mdi/js';
 import profilePicture from '../../assets/profile-picture.png';
 import { useThemeContext } from '../../Theme/ThemeContext';
+import { Link } from 'react-router-dom';
 
 const ProfilePicture: React.FC = () => {
   const [imageError, setImageError] = useState(false);
@@ -45,10 +46,10 @@ const Header: React.FC<HeaderProps> = ({ activePage, setActivePage }) => {
   };
 
   const menuItems = [
-    { icon: mdiChat, label: 'Chat', page: 'chat' },
-    { icon: mdiMemory, label: 'Memoria', page: 'memoria' },
-    { icon: mdiViewDashboard, label: 'Dashboards', page: 'dashboards' },
-    { icon: mdiHelpCircle, label: 'Ayuda', page: 'ayuda' }
+    { icon: mdiChat, label: 'Chat', page: 'chat', route: '/chat' },
+    { icon: mdiMemory, label: 'Memoria', page: 'memoria', route: '/memoria' },
+    { icon: mdiViewDashboard, label: 'Dashboards', page: 'dashboards', route: '/dashboards' },
+    { icon: mdiHelpCircle, label: 'Ayuda', page: 'ayuda', route: '/ayuda' }
   ];
 
   return (
@@ -82,6 +83,8 @@ const Header: React.FC<HeaderProps> = ({ activePage, setActivePage }) => {
                   key={item.page} 
                   onClick={() => handlePageChange(item.page as 'chat' | 'memoria' | 'ayuda' | 'dashboards')}
                   selected={activePage === item.page}
+                  component={Link}
+                  to={item.route}
                 >
                   <Icon path={item.icon} size={1} />
                   <Typography sx={{ ml: 1 }}>{item.label}</Typography>
@@ -113,6 +116,8 @@ const Header: React.FC<HeaderProps> = ({ activePage, setActivePage }) => {
             {menuItems.map((item) => (
               <Button
                 key={item.page}
+                component={Link}
+                to={item.route}
                 color="inherit"
                 onClick={() => setActivePage(item.page as 'chat' | 'memoria' | 'ayuda' | 'dashboards')}
                 sx={{
