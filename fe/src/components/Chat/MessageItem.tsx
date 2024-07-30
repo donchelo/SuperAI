@@ -3,11 +3,16 @@
 import React from 'react';
 import { Box, Paper, Typography, Avatar } from '@mui/material';
 import { Message } from './types';
-import superAiChatImage from '../../assets/superai-chat.png';  // Ajuste de la ruta
-import profilePicture from '../../assets/profile-picture.png';  // Ajuste de la ruta
+import superAiChatImage from '../../assets/superai-chat.png';
+import profilePicture from '../../assets/profile-picture.png';
 import ReactMarkdown from 'react-markdown';
 
-export const MessageItem: React.FC<{ message: Message }> = ({ message }) => (
+interface MessageItemProps {
+  message: Message;
+  renderMarkdown: (text: string) => JSX.Element;
+}
+
+export const MessageItem: React.FC<MessageItemProps> = ({ message, renderMarkdown }) => (
   <Box
     sx={{
       display: 'flex',
@@ -35,7 +40,7 @@ export const MessageItem: React.FC<{ message: Message }> = ({ message }) => (
       }}
     >
       {message.sender === 'bot' ? (
-        <ReactMarkdown>{message.text}</ReactMarkdown>
+        renderMarkdown(message.text)
       ) : (
         <Typography>{message.text}</Typography>
       )}
@@ -49,3 +54,5 @@ export const MessageItem: React.FC<{ message: Message }> = ({ message }) => (
     )}
   </Box>
 );
+
+export default MessageItem;

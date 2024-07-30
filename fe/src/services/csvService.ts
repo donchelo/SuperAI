@@ -1,4 +1,4 @@
-import Papa from 'papaparse';
+import Papa, { ParseError, ParseResult } from 'papaparse';
 
 export interface VentaData {
   fecha: string;
@@ -14,9 +14,9 @@ export const leerCSV = async (file: string): Promise<VentaData[]> => {
     console.log("Contenido del CSV leído:", text.substring(0, 500) + "...");
     
     return new Promise((resolve, reject) => {
-      Papa.parse(text, {
+      Papa.parse<VentaData>(text, {
         header: true,
-        complete: (results) => {
+        complete: (results: ParseResult<VentaData>) => {
           console.log("Resultados del parsing:", results.data.length, "filas");
           console.log("Muestra de datos parseados:", results.data.slice(0, 2));
           console.log("Encabezados:", results.meta.fields);
@@ -36,7 +36,7 @@ export const leerCSV = async (file: string): Promise<VentaData[]> => {
           console.log("Muestra de datos procesados:", processedData.slice(0, 2));
           resolve(processedData);
         },
-        error: (error) => {
+        error: (error: ParseError, file: string) => {
           console.error("Error en Papa Parse:", error);
           reject(error);
         }
