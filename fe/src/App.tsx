@@ -6,7 +6,7 @@ import { ThemeProvider } from './Theme/ThemeContext';
 // Importaciones lazy para mejorar el rendimiento
 const Chat = React.lazy(() => import('./components/Chat/Chat'));
 const Ayuda = React.lazy(() => import('./components/Ayuda/Ayuda'));
-const DashboardVentas = React.lazy(() => import('./components/Dashboards/DashboardVentas'));
+const DashboardVentasMensuales = React.lazy(() => import('./components/Dashboards/DashboardVentasMensuales'));
 const TabSwitcher = React.lazy(() => import('./components/TabSwitcher'));
 
 type ActivePage = 'chat' | 'memoria' | 'ayuda' | 'dashboards';
@@ -23,7 +23,7 @@ const App: React.FC = () => {
       case 'ayuda':
         return <Ayuda />;
       case 'dashboards':
-        return <DashboardVentas />;
+        return <DashboardVentasMensuales />;
       default:
         return null;
     }
