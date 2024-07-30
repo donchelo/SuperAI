@@ -28,6 +28,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SendIcon from '@mui/icons-material/Send';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CloseIcon from '@mui/icons-material/Close';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 // Importar el contenido de ayuda
 import { frequentQuestions } from './frequentQuestions';
@@ -38,7 +39,7 @@ import {
   LightbulbIcon,
   BugReportIcon,
   SuggestIcon,
-  HelpIcon
+  HelpIcon,
 } from './icons';
 
 const Ayuda: React.FC = () => {
@@ -73,7 +74,7 @@ const Ayuda: React.FC = () => {
       feedback,
       rating,
       urgent,
-      file: file ? file.name : 'No file attached'
+      file: file ? file.name : 'No file attached',
     });
     handleCloseDialog();
     setSnackbarOpen(true);
@@ -94,7 +95,7 @@ const Ayuda: React.FC = () => {
         <List disablePadding>
           {frequentQuestions.map((faq, index) => (
             <ListItem key={index} sx={{ py: 1 }}>
-              <ListItemText 
+              <ListItemText
                 primary={<Typography variant="subtitle1"><strong>{faq.question}</strong></Typography>}
                 secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>{faq.answer}</Typography>}
               />
@@ -114,7 +115,7 @@ const Ayuda: React.FC = () => {
         <List disablePadding>
           {newsAndUpdates.map((news, index) => (
             <ListItem key={index} sx={{ py: 1 }}>
-              <ListItemText 
+              <ListItemText
                 primary={<Typography variant="subtitle1"><strong>{news.title}</strong></Typography>}
                 secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>{news.description}</Typography>}
               />
@@ -134,21 +135,21 @@ const Ayuda: React.FC = () => {
         <List disablePadding>
           <ListItem sx={{ py: 1 }}>
             <LightbulbIcon color="primary" sx={{ mr: 2, fontSize: 24 }} />
-            <ListItemText 
+            <ListItemText
               primary={<Typography variant="subtitle1">Actualiza tu ADN empresarial</Typography>}
               secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>Mantén actualizado tu ADN empresarial para obtener respuestas más precisas del asistente de IA.</Typography>}
             />
           </ListItem>
           <ListItem sx={{ py: 1 }}>
             <LightbulbIcon color="primary" sx={{ mr: 2, fontSize: 24 }} />
-            <ListItemText 
+            <ListItemText
               primary={<Typography variant="subtitle1">Usa las preguntas rápidas</Typography>}
               secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>Utiliza las preguntas rápidas como punto de partida para conversaciones más profundas con el asistente.</Typography>}
             />
           </ListItem>
           <ListItem sx={{ py: 1 }}>
             <LightbulbIcon color="primary" sx={{ mr: 2, fontSize: 24 }} />
-            <ListItemText 
+            <ListItemText
               primary={<Typography variant="subtitle1">Explora diferentes temas</Typography>}
               secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>Explora diferentes áreas de tu negocio en el chat para descubrir nuevas perspectivas e ideas.</Typography>}
             />
@@ -167,13 +168,13 @@ const Ayuda: React.FC = () => {
         <List disablePadding>
           <ListItem sx={{ py: 1, alignItems: 'flex-start' }}>
             <SuggestIcon color="primary" sx={{ mr: 2, mt: 1, fontSize: 24 }} />
-            <ListItemText 
+            <ListItemText
               primary={<Typography variant="subtitle1">Enviar una sugerencia</Typography>}
               secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>¿Tienes una idea para mejorar nuestra plataforma? ¡Nos encantaría escucharla!</Typography>}
             />
-            <Button 
-              variant="contained" 
-              color="primary" 
+            <Button
+              variant="contained"
+              color="primary"
               onClick={() => handleOpenDialog('sugerencia')}
               sx={{ ml: 2, minWidth: '120px', height: '36px' }}
             >
@@ -182,13 +183,13 @@ const Ayuda: React.FC = () => {
           </ListItem>
           <ListItem sx={{ py: 1, alignItems: 'flex-start' }}>
             <BugReportIcon color="secondary" sx={{ mr: 2, mt: 1, fontSize: 24 }} />
-            <ListItemText 
+            <ListItemText
               primary={<Typography variant="subtitle1">Reportar un bug</Typography>}
               secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>Si has encontrado algún problema o error en la plataforma, por favor háganoslo saber.</Typography>}
             />
-            <Button 
-              variant="contained" 
-              color="secondary" 
+            <Button
+              variant="contained"
+              color="secondary"
               onClick={() => handleOpenDialog('bug')}
               sx={{ ml: 2, minWidth: '120px', height: '36px' }}
             >
@@ -201,9 +202,9 @@ const Ayuda: React.FC = () => {
   );
 
   return (
-    <Box 
-      sx={{ 
-        padding: isMobile ? 2 : 3, 
+    <Box
+      sx={{
+        padding: isMobile ? 2 : 3,
         paddingTop: { xs: '72px', sm: '80px' },
         height: '100%',
         overflowY: 'auto',
@@ -213,7 +214,7 @@ const Ayuda: React.FC = () => {
       }}
     >
       <Paper elevation={3} sx={{ padding: isMobile ? 2 : 3, marginBottom: 3, flexGrow: 1 }}>
-        <Typography variant={isMobile ? "h5" : "h4"} gutterBottom color="primary" sx={{ mb: 2 }}>
+        <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom color="primary" sx={{ mb: 2 }}>
           Ayuda y Soporte
         </Typography>
         <Typography variant="body1" paragraph sx={{ mb: 3 }}>
@@ -228,23 +229,30 @@ const Ayuda: React.FC = () => {
             <List disablePadding>
               <ListItem sx={{ py: 1 }}>
                 <ChatIcon color="primary" sx={{ mr: 2, fontSize: 24 }} />
-                <ListItemText 
+                <ListItemText
                   primary={<Typography variant="subtitle1">Chat con IA</Typography>}
                   secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>Interactúa con nuestro asistente de IA empresarial para obtener respuestas y análisis personalizados.</Typography>}
                 />
               </ListItem>
               <ListItem sx={{ py: 1 }}>
                 <DnsIcon color="primary" sx={{ mr: 2, fontSize: 24 }} />
-                <ListItemText 
+                <ListItemText
                   primary={<Typography variant="subtitle1">ADN Empresarial</Typography>}
                   secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>Accede y actualiza la información detallada del ADN de tu empresa, incluyendo misión, visión y estrategias.</Typography>}
                 />
               </ListItem>
               <ListItem sx={{ py: 1 }}>
                 <HelpIcon color="primary" sx={{ mr: 2, fontSize: 24 }} />
-                <ListItemText 
+                <ListItemText
                   primary={<Typography variant="subtitle1">Preguntas Rápidas</Typography>}
                   secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>Encuentra respuestas inmediatas a preguntas comunes sobre gestión empresarial y estrategias.</Typography>}
+                />
+              </ListItem>
+              <ListItem sx={{ py: 1 }}>
+                <DashboardIcon color="primary" sx={{ mr: 2, fontSize: 24 }} />
+                <ListItemText
+                  primary={<Typography variant="subtitle1">Dashboards</Typography>}
+                  secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>Visualiza métricas y análisis clave en tiempo real para tomar decisiones informadas y estratégicas.</Typography>}
                 />
               </ListItem>
             </List>
@@ -339,9 +347,9 @@ const Ayuda: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancelar</Button>
-          <Button 
-            onClick={handleSubmit} 
-            variant="contained" 
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
             color={dialogType === 'sugerencia' ? 'primary' : 'secondary'}
             endIcon={<SendIcon />}
           >
@@ -354,7 +362,7 @@ const Ayuda: React.FC = () => {
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={() => setSnackbarOpen(false)}
-        message={dialogType === 'sugerencia' ? "¡Gracias por tu sugerencia!" : "Gracias por reportar el bug. Lo revisaremos pronto."}
+        message={dialogType === 'sugerencia' ? '¡Gracias por tu sugerencia!' : 'Gracias por reportar el bug. Lo revisaremos pronto.'}
       />
     </Box>
   );
