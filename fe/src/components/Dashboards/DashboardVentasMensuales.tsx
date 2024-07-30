@@ -1,60 +1,99 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { leerCSV, VentaData } from '../../services/csvService';
-import { Select, MenuItem, FormControl, InputLabel, Box, Typography, SelectChangeEvent } from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel, Box, Typography, SelectChangeEvent, CircularProgress, useMediaQuery, useTheme } from '@mui/material';
 import regression from 'regression';
 
 const DashboardVentasMensuales: React.FC = () => {
   const [data, setData] = useState<VentaData[]>([]);
-  const [yearFilter, setYearFilter] = useState<string>('');
-  const [monthFilter, setMonthFilter] = useState<string>('');
-  const [productFilter, setProductFilter] = useState<string>('');
+  const [yearFilter, setYearFilter] = useState<string>('todos');
+  const [monthFilter, setMonthFilter] = useState<string>('todos');
+  const [productFilter, setProductFilter] = useState<string>('todos');
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const ventas = await leerCSV('/data/ventas.csv'); // Ajusta la ruta al archivo CSV
+        setLoading(true);
+        const ventas = await leerCSV('/data/ventas.csv');
         setData(ventas);
+        setError(null);
       } catch (error) {
         console.error('Error al cargar los datos:', error);
+        setError('Error al cargar los datos. Por favor, intente nuevamente más tarde.');
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  const handleYearChange = (event: SelectChangeEvent<string>) => {
-    setYearFilter(event.target.value as string);
-  };
+  const yearOptions = useMemo(() => {
+    return ['todos', ...new Set(data.map((venta) => venta.fecha.substring(0, 4)))];
+  }, [data]);
 
-  const handleMonthChange = (event: SelectChangeEvent<string>) => {
-    setMonthFilter(event.target.value as string);
-  };
+  const monthOptions = useMemo(() => {
+    return ['todos', ...Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0'))];
+  }, []);
 
-  const handleProductChange = (event: SelectChangeEvent<string>) => {
-    setProductFilter(event.target.value as string);
-  };
+  const productOptions = useMemo(() => {
+    return ['todos', ...new Set(data.map((venta) => venta.producto))];
+  }, [data]);
+
+  const handleFilterChange = useCallback((filterType: 'year' | 'month' | 'product') => (event: SelectChangeEvent<string>) => {
+    const value = event.target.value as string;
+    switch (filterType) {
+      case 'year':
+        setYearFilter(value);
+        break;
+      case 'month':
+        setMonthFilter(value);
+        break;
+      case 'product':
+        setProductFilter(value);
+        break;
+    }
+  }, []);
 
   const filteredData = useMemo(() => {
     return data.filter((venta) => {
-      const yearMatch = yearFilter ? venta.fecha.startsWith(yearFilter) : true;
-      const monthMatch = monthFilter ? venta.fecha.substring(5, 7) === monthFilter : true;
-      const productMatch = productFilter ? venta.producto === productFilter : true;
+      const yearMatch = yearFilter === 'todos' || venta.fecha.startsWith(yearFilter);
+      const monthMatch = monthFilter === 'todos' || venta.fecha.substring(5, 7) === monthFilter;
+      const productMatch = productFilter === 'todos' || venta.producto === productFilter;
       return yearMatch && monthMatch && productMatch;
     });
   }, [data, yearFilter, monthFilter, productFilter]);
 
-  const processedData = useMemo(() => {
-    return filteredData.reduce((acc, venta) => {
-      const month = venta.fecha.substring(0, 7); // Assuming 'fecha' is in 'YYYY-MM-DD' format
-      if (!acc[month]) {
-        acc[month] = { month, total: 0 };
+  const { chartData, totalSales, averageSale, yAxisDomain } = useMemo(() => {
+    const processedData = filteredData.reduce((acc, venta) => {
+      const month = venta.fecha.substring(0, 7);
+      if (!acc.months[month]) {
+        acc.months[month] = { month, total: 0, count: 0 };
       }
-      acc[month].total += venta.precio;
+      acc.months[month].total += venta.precio;
+      acc.months[month].count += 1;
+      acc.totalSales += venta.precio;
+      acc.totalCount += 1;
+      acc.maxSale = Math.max(acc.maxSale, acc.months[month].total);
       return acc;
-    }, {} as Record<string, { month: string, total: number }>);
-  }, [filteredData]);
+    }, { months: {} as Record<string, { month: string, total: number, count: number }>, totalSales: 0, totalCount: 0, maxSale: 0 });
 
-  const chartData = useMemo(() => Object.values(processedData), [processedData]);
+    const chartData = Object.values(processedData.months).sort((a, b) => a.month.localeCompare(b.month));
+    
+    const maxY = processedData.maxSale * 1.1;
+    const yAxisDomain = [0, Math.ceil(maxY / 1000000) * 1000000];
+
+    return {
+      chartData,
+      totalSales: processedData.totalSales,
+      averageSale: processedData.totalSales / processedData.totalCount || 0,
+      yAxisDomain,
+    };
+  }, [filteredData]);
 
   const trendLineData = useMemo(() => {
     const dataPoints = chartData.map((item, index) => [index, item.total]);
@@ -73,54 +112,93 @@ const DashboardVentasMensuales: React.FC = () => {
     }).format(value);
   }, []);
 
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ padding: 2, textAlign: 'center' }}>
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
+
   return (
-    <Box sx={{ padding: 4 }}>
-      <Typography variant="h4" gutterBottom>Dashboard de Ventas Mensuales</Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-        <FormControl style={{ marginRight: '10px', minWidth: 120 }}>
+    <Box sx={{ padding: isMobile ? 2 : 4 }}>
+      <Typography variant={isMobile ? "h5" : "h4"} gutterBottom>Dashboard de Ventas Mensuales</Typography>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: isMobile ? 'column' : 'row', 
+        justifyContent: 'space-between', 
+        marginBottom: 4,
+        gap: 2
+      }}>
+        <FormControl fullWidth={isMobile} style={{ minWidth: isMobile ? 'auto' : 120 }}>
           <InputLabel>Año</InputLabel>
-          <Select value={yearFilter} onChange={handleYearChange}>
-            <MenuItem value="">Todos</MenuItem>
-            {[...new Set(data.map((venta) => venta.fecha.substring(0, 4)))].map((year) => (
-              <MenuItem key={year} value={year}>{year}</MenuItem>
+          <Select value={yearFilter} onChange={handleFilterChange('year')}>
+            {yearOptions.map((year) => (
+              <MenuItem key={year} value={year}>{year === 'todos' ? 'Todos' : year}</MenuItem>
             ))}
           </Select>
         </FormControl>
-        <FormControl style={{ marginRight: '10px', minWidth: 120 }}>
+        <FormControl fullWidth={isMobile} style={{ minWidth: isMobile ? 'auto' : 120 }}>
           <InputLabel>Mes</InputLabel>
-          <Select value={monthFilter} onChange={handleMonthChange}>
-            <MenuItem value="">Todos</MenuItem>
-            {Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0')).map((month) => (
-              <MenuItem key={month} value={month}>{month}</MenuItem>
+          <Select value={monthFilter} onChange={handleFilterChange('month')}>
+            {monthOptions.map((month) => (
+              <MenuItem key={month} value={month}>{month === 'todos' ? 'Todos' : month}</MenuItem>
             ))}
           </Select>
         </FormControl>
-        <FormControl style={{ marginRight: '10px', minWidth: 120 }}>
+        <FormControl fullWidth={isMobile} style={{ minWidth: isMobile ? 'auto' : 120 }}>
           <InputLabel>Producto</InputLabel>
-          <Select value={productFilter} onChange={handleProductChange}>
-            <MenuItem value="">Todos</MenuItem>
-            {[...new Set(data.map((venta) => venta.producto))].map((product) => (
-              <MenuItem key={product} value={product}>{product}</MenuItem>
+          <Select value={productFilter} onChange={handleFilterChange('product')}>
+            {productOptions.map((product) => (
+              <MenuItem key={product} value={product}>{product === 'todos' ? 'Todos' : product}</MenuItem>
             ))}
           </Select>
         </FormControl>
       </Box>
-      <ResponsiveContainer width="100%" height={400}>
+      <Box sx={{ marginBottom: 2 }}>
+        <Typography variant="h6">Resumen de Ventas</Typography>
+        <Typography>Total de Ventas: {formatCOP(totalSales)}</Typography>
+        <Typography>Promedio por Venta: {formatCOP(averageSale)}</Typography>
+      </Box>
+      <ResponsiveContainer width="100%" height={isMobile ? 300 : 400}>
         <LineChart
-          width={500}
-          height={300}
           data={chartData}
           margin={{
-            top: 5, right: 30, left: 100, bottom: 5, // Aumentamos el margen izquierdo
+            top: 5,
+            right: isMobile ? 10 : 30,
+            left: isMobile ? 10 : 100,
+            bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis tickFormatter={(value) => formatCOP(value).replace(/COP\s?/, '')} />
-          <Tooltip formatter={(value: number) => formatCOP(value)} />
-          <Legend />
-          <Line type="monotone" dataKey="total" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="total" data={trendLineData} stroke="#ff7300" dot={false} />
+          <XAxis 
+            dataKey="month" 
+            angle={isMobile ? -45 : 0}
+            textAnchor={isMobile ? "end" : "middle"}
+            height={isMobile ? 80 : 30}
+            tick={{ fontSize: isMobile ? 10 : 12 }}
+          />
+          <YAxis 
+            domain={yAxisDomain}
+            tickFormatter={(value) => formatCOP(value).replace(/COP\s?/, '')}
+            width={isMobile ? 60 : 80}
+            tick={{ fontSize: isMobile ? 10 : 12 }}
+          />
+          <Tooltip
+            formatter={(value: number, name: string) => [formatCOP(value), name === 'total' ? 'Ventas' : 'Tendencia']}
+            labelFormatter={(label) => `Mes: ${label}`}
+          />
+          <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
+          <Line type="monotone" dataKey="total" name="Ventas" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="total" name="Tendencia" data={trendLineData} stroke="#ff7300" dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </Box>
