@@ -69,7 +69,7 @@ const PricingComponent: React.FC = () => {
                 <Typography variant="subtitle2">OFERTA ESPECIAL</Typography>
               </Box>
               <Typography variant="h4" component="h2" gutterBottom>
-                Plan Anual (Pago de Contado)
+                Plan Anual
               </Typography>
               <Typography variant="h3" component="p" gutterBottom>
                 $3,900,000 <Typography variant="subtitle1" component="span">COP/año</Typography>
