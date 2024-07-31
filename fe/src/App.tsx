@@ -11,6 +11,7 @@ const Ayuda = React.lazy(() => import('./components/Ayuda/Ayuda'));
 const Dashboards = React.lazy(() => import('./components/Dashboards/Dashboards'));
 const TabSwitcher = React.lazy(() => import('./components/TabSwitcher'));
 const Pricing = React.lazy(() => import('./components/landingPage/pricing'));
+const TerminosYCondiciones = React.lazy(() => import('./components/landingPage/TerminosYCondiciones'));
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<SuperAILandingPage />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/terms" element={<TerminosYCondiciones />} />
             <Route path="/app" element={<Header />}>
               <Route path="chat" element={<Chat />} />
               <Route path="memoria" element={<TabSwitcher />} />
