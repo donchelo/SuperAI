@@ -19,7 +19,7 @@ const DashboardVentasMensuales: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const ventas = await leerCSV('/data/ventas.csv');
+        const ventas = await leerCSV('data/ventas.csv');
         setData(ventas);
         setError(null);
       } catch (error) {
@@ -71,12 +71,13 @@ const DashboardVentasMensuales: React.FC = () => {
   const { chartData, totalSales, averageSale, yAxisDomain } = useMemo(() => {
     const processedData = filteredData.reduce((acc, venta) => {
       const month = venta.fecha.substring(0, 7);
+      const precio = typeof venta.precio === 'number' ? venta.precio : parseFloat(venta.precio);
       if (!acc.months[month]) {
         acc.months[month] = { month, total: 0, count: 0 };
       }
-      acc.months[month].total += venta.precio;
+      acc.months[month].total += precio;
       acc.months[month].count += 1;
-      acc.totalSales += venta.precio;
+      acc.totalSales += precio;
       acc.totalCount += 1;
       acc.maxSale = Math.max(acc.maxSale, acc.months[month].total);
       return acc;
@@ -96,7 +97,7 @@ const DashboardVentasMensuales: React.FC = () => {
   }, [filteredData]);
 
   const trendLineData = useMemo(() => {
-    const dataPoints = chartData.map((item, index) => [index, item.total]);
+    const dataPoints = chartData.map((item, index) => [index, item.total] as [number, number]);
     const result = regression.linear(dataPoints);
     return result.points.map((point, index) => ({
       month: chartData[index].month,

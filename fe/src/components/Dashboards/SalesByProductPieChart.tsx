@@ -41,7 +41,8 @@ const SalesByProductPieChart: React.FC = () => {
   const data = useMemo(() => {
     const filteredSales = salesData.filter(sale => new Date(sale.fecha).getFullYear() === selectedYear);
     const salesByProduct = filteredSales.reduce<{ [key: string]: number }>((acc, sale) => {
-      acc[sale.producto] = (acc[sale.producto] || 0) + sale.precio;
+      const precio = typeof sale.precio === 'number' ? sale.precio : parseFloat(sale.precio.toString());
+      acc[sale.producto] = (acc[sale.producto] || 0) + precio;
       return acc;
     }, {});
     return Object.entries(salesByProduct)

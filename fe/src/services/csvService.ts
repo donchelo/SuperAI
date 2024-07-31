@@ -5,13 +5,13 @@ export interface VentaData {
   Departamento: string;
   Ciudad: string;
   producto: string;
-  precio: number;
+  precio: number | string;
 }
 
 export const leerCSV = async (file: string): Promise<VentaData[]> => {
   try {
     console.log("Intentando leer el archivo:", file);
-    const response = await fetch(file);
+    const response = await fetch(`/SuperAI/${file}`);
     if (!response.ok) {
       throw new Error(`Error al buscar el archivo: ${response.statusText}`);
     }
@@ -29,18 +29,26 @@ export const leerCSV = async (file: string): Promise<VentaData[]> => {
 
           const processedData = results.data
             .filter(item => item.fecha && item.producto && item.precio !== undefined)
-            .map(item => ({
-              ...item,
-              fecha: item.fecha,
-              producto: item.producto,
-              precio: typeof item.precio === 'number' ? item.precio : parseFloat(item.precio.toString().replace('$', '').replace(',', '')) || 0
-            }));
+            .map(item => {
+              let precio: number;
+              if (typeof item.precio === 'number') {
+                precio = item.precio;
+              } else if (typeof item.precio === 'string') {
+                precio = parseFloat(item.precio.replace('$', '').replace(',', ''));
+              } else {
+                precio = 0;
+              }
+              return {
+                ...item,
+                precio
+              };
+            });
 
           console.log("Datos procesados:", processedData.length, "filas válidas");
           console.log("Muestra de datos procesados:", processedData.slice(0, 2));
           resolve(processedData);
         },
-        error: (error) => {
+        error: (error: Error) => {
           console.error("Error en Papa Parse:", error);
           reject(error);
         }

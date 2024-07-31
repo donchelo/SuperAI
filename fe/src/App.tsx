@@ -16,7 +16,7 @@ const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/P
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <Router basename="/SuperAI">
       <ThemeProvider>
         <Suspense fallback={
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
