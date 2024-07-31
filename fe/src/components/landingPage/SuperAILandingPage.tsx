@@ -145,7 +145,7 @@ const SuperAILandingPage: React.FC = () => {
           size="large"
           endIcon={<ArrowForward />}
           component={RouterLink}
-          to="/demo"
+          to="/app/chat"
           sx={{ bgcolor: customColors.blue, '&:hover': { bgcolor: customColors.orange } }}
         >
           Solicitar Demo
