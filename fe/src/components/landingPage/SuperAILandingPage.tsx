@@ -227,7 +227,7 @@ const SuperAILandingPage: React.FC = () => {
             © 2024 SuperAI Empresarial. Todos los derechos reservados.
           </Typography>
           <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 1 }}>
-            <Link component={RouterLink} to="/privacy" color="inherit">
+            <Link component={RouterLink} to="/politica-de-privacidad" color="inherit">
               Política de Privacidad
             </Link>
             {' | '}

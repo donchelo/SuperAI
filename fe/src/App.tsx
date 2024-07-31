@@ -12,6 +12,7 @@ const Dashboards = React.lazy(() => import('./components/Dashboards/Dashboards')
 const TabSwitcher = React.lazy(() => import('./components/TabSwitcher'));
 const Pricing = React.lazy(() => import('./components/landingPage/pricing'));
 const TerminosYCondiciones = React.lazy(() => import('./components/landingPage/TerminosYCondiciones'));
+const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/PoliticaDePrivacidad'));
 
 const App: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = () => {
             <Route path="/" element={<SuperAILandingPage />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/terms" element={<TerminosYCondiciones />} />
+            <Route path="/politica-de-privacidad" element={<PoliticaDePrivacidad />} />
             <Route path="/app" element={<Header />}>
               <Route path="chat" element={<Chat />} />
               <Route path="memoria" element={<TabSwitcher />} />
