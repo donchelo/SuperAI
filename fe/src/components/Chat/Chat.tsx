@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box, Paper, useTheme, IconButton, Drawer, useMediaQuery } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import QuickPrompts from './QuickPrompts';
-import superAiChatImage from '../../assets/superai-chat.png';
-import profilePicture from '../../assets/profile-picture.jpg';
 import { Message } from './types';
 import { MessageItem } from './MessageItem';
 import { MessageInput } from './MessageInput';
@@ -72,12 +70,12 @@ Instrucciones adicionales:
     try {
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
-        headers: {
+        headers: {  
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_APP_OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
+          model: "gpt-4",
           messages: [
             {role: "system" , content: defaultPrompt},
             { role: "user", content: text }
@@ -107,10 +105,9 @@ Instrucciones adicionales:
     <Box sx={{
       display: 'flex',
       flexDirection: 'column',
-      height: '100vh',
+      height: 'calc(100vh - 64px)', // Ajustado para considerar el header
       bgcolor: 'background.default',
       position: 'relative',
-      pt: { xs: '56px', sm: '64px' },
     }}>
       <Box sx={{ 
         flexGrow: 1, 
@@ -121,7 +118,7 @@ Instrucciones adicionales:
         pb: '70px',
       }}>
         {messages.map((message) => (
-          <MessageItem key={message.id} message={message} renderMarkdown={(text) => <ReactMarkdown>{text}</ReactMarkdown>} />
+          <MessageItem key={message.id} message={message} renderMarkdown={(text: string) => <ReactMarkdown>{text}</ReactMarkdown>} />
         ))}
         <div ref={messagesEndRef} />
       </Box>
@@ -132,7 +129,7 @@ Instrucciones adicionales:
           p: 2, 
           borderTop: 1, 
           borderColor: 'divider', 
-          position: 'fixed', 
+          position: 'sticky', 
           bottom: 0, 
           left: 0, 
           right: 0,

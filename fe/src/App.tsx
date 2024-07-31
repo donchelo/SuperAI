@@ -1,49 +1,39 @@
-import React, { useState, useCallback, Suspense } from 'react';
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
-import Header from './components/Header/Header';
 import { ThemeProvider } from './Theme/ThemeContext';
 
 // Importaciones lazy para mejorar el rendimiento
+const SuperAILandingPage = React.lazy(() => import('./components/landingPage/SuperAILandingPage'));
+const Header = React.lazy(() => import('./components/Header/Header'));
 const Chat = React.lazy(() => import('./components/Chat/Chat'));
 const Ayuda = React.lazy(() => import('./components/Ayuda/Ayuda'));
-const DashboardVentasMensuales = React.lazy(() => import('./components/Dashboards/DashboardVentasMensuales'));
+const Dashboards = React.lazy(() => import('./components/Dashboards/Dashboards'));
 const TabSwitcher = React.lazy(() => import('./components/TabSwitcher'));
-
-type ActivePage = 'chat' | 'memoria' | 'ayuda' | 'dashboards';
+const Pricing = React.lazy(() => import('./components/landingPage/pricing'));
 
 const App: React.FC = () => {
-  const [activePage, setActivePage] = useState<ActivePage>('chat');
-
-  const renderContent = useCallback(() => {
-    switch (activePage) {
-      case 'chat':
-        return <Chat />;
-      case 'memoria':
-        return <TabSwitcher />;
-      case 'ayuda':
-        return <Ayuda />;
-      case 'dashboards':
-        return <DashboardVentasMensuales />;
-      default:
-        return null;
-    }
-  }, [activePage]);
-
   return (
-    <ThemeProvider>
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-        <Header activePage={activePage} setActivePage={setActivePage} />
-        <Box sx={{ flexGrow: 1, overflow: 'auto', padding: 2 }}>
-          <Suspense fallback={
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-              <CircularProgress />
-            </Box>
-          }>
-            {renderContent()}
-          </Suspense>
-        </Box>
-      </Box>
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider>
+        <Suspense fallback={
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <CircularProgress />
+          </Box>
+        }>
+          <Routes>
+            <Route path="/" element={<SuperAILandingPage />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/app" element={<Header />}>
+              <Route path="chat" element={<Chat />} />
+              <Route path="memoria" element={<TabSwitcher />} />
+              <Route path="ayuda" element={<Ayuda />} />
+              <Route path="dashboards" element={<Dashboards />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </ThemeProvider>
+    </Router>
   );
 };
 
