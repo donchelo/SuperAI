@@ -330,7 +330,7 @@ const SuperAILandingPage: React.FC = () => {
             </Link>
           </Typography>
           <Typography variant="body2" align="center" sx={{ mt: 1, color: customColors.darkGray, fontWeight: 'bold' }}>
-            by Mariano - 마리아노
+            Mariano - 마리아노
           </Typography>
         </Container>
       </Box>
