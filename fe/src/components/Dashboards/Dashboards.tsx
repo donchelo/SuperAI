@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import DashboardVentasMensuales from './DashboardVentasMensuales';
-import SalesByProductPieChart from './pieProducto';
+import SalesByProductPieChart from './SalesByProductPieChart'; // Cambiado a SalesByProductPieChart
 
 const Dashboards: React.FC = () => {
   const [selectedDashboard, setSelectedDashboard] = useState<string>('ventas');
@@ -12,8 +12,8 @@ const Dashboards: React.FC = () => {
 
   return (
     <Box sx={{ 
-      padding: 2, 
-      marginTop: '64px', // Ajusta este valor según sea necesario
+      padding: { xs: 1, sm: 2 }, 
+      marginTop: { xs: '56px', sm: '64px' },
     }}>
       <Typography variant="h4" gutterBottom sx={{ marginBottom: 2 }}>
         Dashboards
@@ -26,6 +26,7 @@ const Dashboards: React.FC = () => {
           value={selectedDashboard}
           label="Seleccionar Dashboard"
           onChange={handleDashboardChange}
+          aria-label="Seleccionar tipo de dashboard"
         >
           <MenuItem value="ventas">Dashboard Ventas Mensuales</MenuItem>
           <MenuItem value="productos">Ventas por Producto</MenuItem>
