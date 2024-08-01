@@ -1,6 +1,21 @@
 // src/components/theme/darkTheme.ts
 import { createTheme } from '@mui/material/styles';
 
+declare module '@mui/material/styles' {
+  interface PaletteOptions {
+    background?: {
+      default: string;
+      paper: string;
+      appBar: string; // Añadir la propiedad appBar
+    };
+    text?: {
+      primary: string;
+      secondary: string;
+      appBarText: string; // Añadir la propiedad appBarText
+    };
+  }
+}
+
 const darkTheme = createTheme({
   palette: {
     primary: {
