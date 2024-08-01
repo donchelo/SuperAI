@@ -18,7 +18,14 @@ import {
 } from '@mui/material';
 import { Save, Info } from '@mui/icons-material';
 import CategoryComponent from './CategoryComponent';
-import { sections, Section } from './questionsData';
+import { sections } from './questionsData';
+
+// Asegúrate de que esta interfaz coincida con la definición en CategoryComponent
+interface Section {
+  title: string;
+  key: string;
+  fields: [string, string][];
+}
 
 const ADN: React.FC = () => {
   const theme = useTheme();
@@ -165,7 +172,7 @@ const ADN: React.FC = () => {
       </Paper>
 
       <form onSubmit={handleSubmit}>
-        {sections.map(section => (
+        {(sections as Section[]).map((section) => (
           <CategoryComponent
             key={section.key}
             section={section}
@@ -209,7 +216,13 @@ const ADN: React.FC = () => {
       <Dialog open={showInfoDialog} onClose={() => setShowInfoDialog(false)}>
         <DialogTitle>Importancia del ADN de tu Startup</DialogTitle>
         <DialogContent>
-          {/* ... (Contenido del diálogo, como se mostró anteriormente) ... */}
+          <Typography paragraph>
+            El ADN de tu startup es la esencia de tu negocio y es crucial para que nuestra IA pueda ofrecerte respuestas y análisis altamente personalizados y relevantes para tu empresa.
+          </Typography>
+          <Typography paragraph>
+            Cuanta más información proporciones y más detallada sea, mejor podremos entender tu empresa y ofrecerte insights valiosos. Cada sección del ADN juega un papel importante:
+          </Typography>
+          {/* Aquí puedes añadir más contenido detallado sobre cada sección del ADN */}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setShowInfoDialog(false)} color="primary">Entendido</Button>

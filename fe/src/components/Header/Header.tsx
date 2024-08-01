@@ -7,7 +7,7 @@ import profilePicture from '../../assets/profile-picture.png';
 import { useThemeContext } from '../../Theme/ThemeContext';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-const ProfilePicture: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+const ProfilePicture: React.FC<{ onClick: (event: React.MouseEvent<HTMLElement>) => void }> = ({ onClick }) => {
   const [imageError, setImageError] = useState(false);
   return (
     <Avatar
