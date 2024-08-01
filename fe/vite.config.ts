@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/SuperAI/', // Reemplaza 'SuperAI' con el nombre de tu repositorio
+  base: '/', // Usa '/' si no necesitas un subdirectorio específico
   build: {
     outDir: 'dist',
   },
