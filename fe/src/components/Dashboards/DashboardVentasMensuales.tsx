@@ -83,7 +83,9 @@ const DashboardVentasMensuales: React.FC = () => {
       return acc;
     }, { months: {} as Record<string, { month: string, total: number, count: number }>, totalSales: 0, totalCount: 0, maxSale: 0 });
 
-    const chartData = Object.values(processedData.months).sort((a, b) => a.month.localeCompare(b.month));
+    const chartData = Object.values(processedData.months)
+      .sort((a, b) => a.month.localeCompare(b.month))
+      .map(({ month, total }) => ({ name: month, value: total }));
     
     const maxY = processedData.maxSale * 1.1;
     const yAxisDomain = [0, Math.ceil(maxY / 1000000) * 1000000];
@@ -97,11 +99,11 @@ const DashboardVentasMensuales: React.FC = () => {
   }, [filteredData]);
 
   const trendLineData = useMemo(() => {
-    const dataPoints = chartData.map((item, index) => [index, item.total] as [number, number]);
+    const dataPoints = chartData.map((item, index) => [index, item.value] as [number, number]);
     const result = regression.linear(dataPoints);
     return result.points.map((point, index) => ({
-      month: chartData[index].month,
-      total: point[1],
+      name: chartData[index].name,
+      trendValue: point[1],
     }));
   }, [chartData]);
 
@@ -181,7 +183,7 @@ const DashboardVentasMensuales: React.FC = () => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis 
-            dataKey="month" 
+            dataKey="name" 
             angle={isMobile ? -45 : 0}
             textAnchor={isMobile ? "end" : "middle"}
             height={isMobile ? 80 : 30}
@@ -194,12 +196,12 @@ const DashboardVentasMensuales: React.FC = () => {
             tick={{ fontSize: isMobile ? 10 : 12 }}
           />
           <Tooltip
-            formatter={(value: number, name: string) => [formatCOP(value), name === 'total' ? 'Ventas' : 'Tendencia']}
+            formatter={(value: number, name: string) => [formatCOP(value), name === 'value' ? 'Ventas' : 'Tendencia']}
             labelFormatter={(label) => `Mes: ${label}`}
           />
           <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
-          <Line type="monotone" dataKey="total" name="Ventas" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="total" name="Tendencia" data={trendLineData} stroke="#ff7300" dot={false} />
+          <Line type="monotone" dataKey="value" name="Ventas" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="trendValue" name="Tendencia" data={trendLineData} stroke="#ff7300" dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </Box>
