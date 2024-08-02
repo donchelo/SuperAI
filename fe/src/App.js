@@ -13,7 +13,7 @@ const Pricing = React.lazy(() => import('./components/landingPage/pricing'));
 const TerminosYCondiciones = React.lazy(() => import('./components/landingPage/TerminosYCondiciones'));
 const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/PoliticaDePrivacidad'));
 const App = () => {
-    return (React.createElement(Router, { basename: "/SuperAI" },
+    return (React.createElement(Router, { basename: "/" },
         React.createElement(ThemeProvider, null,
             React.createElement(Suspense, { fallback: React.createElement(Box, { sx: { display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' } },
                     React.createElement(CircularProgress, null)) },
