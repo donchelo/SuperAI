@@ -23,7 +23,7 @@ const Chat = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3001/get-responses');
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/get-responses`);
                 const data = await response.json();
                 setDefaultPrompt(`Rol: Eres un asistente profesional de startups.
 

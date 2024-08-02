@@ -16,7 +16,7 @@ const ADN = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3001/get-responses');
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/get-responses`);
                 const data = await response.json();
                 setFormData(data);
                 calculateProgress(data);
@@ -39,7 +39,7 @@ const ADN = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/save-responses', {
+            const response = await fetch('${import.meta.env.VITE_API_URL}/save-responses', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

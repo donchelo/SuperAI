@@ -11,7 +11,7 @@ export interface VentaData {
 export const leerCSV = async (file: string): Promise<VentaData[]> => {
   try {
     console.log("Intentando leer el archivo:", file);
-    const response = await fetch(`/SuperAI/${file}`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/${file}`);
     if (!response.ok) {
       throw new Error(`Error al buscar el archivo: ${response.statusText}`);
     }
