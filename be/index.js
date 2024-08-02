@@ -41,6 +41,19 @@ app.get('/get-responses', (req, res) => {
   });
 });
 
+app.get('/ventas', (req, res) => {
+  fs.readFile(path.join(__dirname, 'ventas.csv'), 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error al leer los datos de ventas:', err);
+      return res.status(500).send('Error al leer los datos de ventas');
+    }
+    res.status(200).send(data);
+  });
+}
+);
+
+
+
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });
