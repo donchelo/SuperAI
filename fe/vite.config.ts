@@ -3,9 +3,12 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/SuperAI/',  // Ajusta esto al subdirectorio desde el cual se sirve la app en producción
+  base: '/SuperAI/',  // Ajusta esto si tu aplicación se sirve desde un subdirectorio en producción
   build: {
     outDir: 'dist',
+    rollupOptions: {
+      input: 'index.html'  // Asegúrate de que Rollup sepa dónde está el archivo de entrada
+    }
   },
   server: {
     open: true,
