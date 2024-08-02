@@ -16,7 +16,7 @@ const SalesByProductPieChart: React.FC = () => {
     const loadData = async () => {
       try {
         setIsLoading(true);
-        const data = await leerCSV('/data/ventas.csv');
+        const data = await leerCSV('ventas');
         setSalesData(data);
       } catch (err) {
         setError('Error al cargar los datos de ventas');

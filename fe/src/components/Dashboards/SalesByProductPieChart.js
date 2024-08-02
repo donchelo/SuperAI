@@ -13,7 +13,7 @@ const SalesByProductPieChart = () => {
         const loadData = async () => {
             try {
                 setIsLoading(true);
-                const data = await leerCSV('/data/ventas.csv');
+                const data = await leerCSV('ventas');
                 setSalesData(data);
             }
             catch (err) {

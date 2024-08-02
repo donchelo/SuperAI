@@ -16,7 +16,7 @@ const DashboardVentasMensuales = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const ventas = await leerCSV('data/ventas.csv');
+                const ventas = await leerCSV('ventas');
                 setData(ventas);
                 setError(null);
             }
