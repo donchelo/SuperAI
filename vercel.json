@@ -11,9 +11,9 @@
   "routes": [
     {
       "src": "/(.*\\.(js|css|ico|png|jpg|svg|woff|woff2|ttf|eot))",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        }
     },
     {
       "src": "/(.*)",
