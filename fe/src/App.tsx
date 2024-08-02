@@ -10,7 +10,7 @@ const Chat = React.lazy(() => import('./components/Chat/Chat'));
 const Ayuda = React.lazy(() => import('./components/Ayuda/Ayuda'));
 const Dashboards = React.lazy(() => import('./components/Dashboards/Dashboards'));
 const TabSwitcher = React.lazy(() => import('./components/TabSwitcher'));
-const Pricing = React.lazy(() => import('./components/landingPage/pricing'));
+const Pricing = React.lazy(() => import('./components/landingPage/Pricing'));
 const TerminosYCondiciones = React.lazy(() => import('./components/landingPage/TerminosYCondiciones'));
 const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/PoliticaDePrivacidad'));
 

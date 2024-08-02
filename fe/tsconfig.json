@@ -20,7 +20,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "vite.config.ts"
-  ],
+, "src/components/landingPage/SuperAILandingPage.js", "src/components/landingPage/SuperAILandingPage.jsx"  ],
   "exclude": [
     "src/**/__tests__/*"
   ]

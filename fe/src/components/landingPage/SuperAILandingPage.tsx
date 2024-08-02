@@ -34,11 +34,12 @@ import {
   ExpandMore,
   PrecisionManufacturing,
   Speed,
-  Integration,
+  Home,
   TrendingUp,
   Visibility,
   EmojiNature
 } from '@mui/icons-material';
+import HeroSection from '../HeroSection/HeroSection'; // Importa el nuevo componente HeroSection
 
 // Definimos los colores como un objeto de tema personalizado
 const customColors = {
@@ -141,14 +142,14 @@ const SuperAILandingPage: React.FC = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose} component={RouterLink} to="/">Inicio</MenuItem>
-                <MenuItem onClick={handleClose} component={RouterLink} to="/pricing">Pricing</MenuItem>
+                <MenuItem onClick={handleClose} component={RouterLink} to="/Pricing">Pricing</MenuItem>
                 <MenuItem onClick={handleClose} component={RouterLink} to="/app/chat">Sign In</MenuItem>
               </Menu>
             </>
           ) : (
             <Box>
               <Button color="inherit" component={RouterLink} to="/">Inicio</Button>
-              <Button color="inherit" component={RouterLink} to="/pricing">Pricing</Button>
+              <Button color="inherit" component={RouterLink} to="/Pricing">Pricing</Button>
               <Button color="inherit" component={RouterLink} to="/app/chat">Sign In</Button>
             </Box>
           )}
@@ -156,55 +157,7 @@ const SuperAILandingPage: React.FC = () => {
       </AppBar>
 
       {/* Hero Section */}
-      <Box sx={{
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        background: `linear-gradient(45deg, ${customColors.lightGreen} 30%, ${customColors.blue} 90%)`,
-      }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Fade in={true} timeout={1000}>
-                <Box>
-                  <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold', color: customColors.white }}>
-                    SuperAI Empresarial
-                  </Typography>
-                  <Typography variant="h5" component="p" gutterBottom sx={{ mb: 4, color: customColors.white }}>
-                    Transformando el liderazgo empresarial mediante la inteligencia artificial
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    endIcon={<ArrowForward />}
-                    component={RouterLink}
-                    to="/app/chat"
-                    sx={{ 
-                      bgcolor: customColors.orange, 
-                      color: customColors.white,
-                      '&:hover': { 
-                        bgcolor: customColors.darkGray,
-                        transform: 'scale(1.05)'
-                      },
-                      transition: 'all 0.3s ease-in-out',
-                      px: 4,
-                      py: 1.5,
-                      fontSize: '1.1rem'
-                    }}
-                  >
-                    Solicitar Demo
-                  </Button>
-                </Box>
-              </Fade>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Fade in={true} timeout={1500}>
-                <Box component="img" src="/path-to-your-hero-image.png" alt="SuperAI Hero" sx={{ width: '100%', maxWidth: 500 }} />
-              </Fade>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+      <HeroSection /> {/* Llamada al nuevo componente HeroSection */}
 
       {/* Main content */}
       <Container maxWidth="lg" sx={{ mt: 12, mb: 12 }}>
@@ -239,7 +192,7 @@ const SuperAILandingPage: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <ValueItem 
-                icon={Integration} 
+                icon={Home}  // Cambiado de `Integration` a `Home`
                 title="Integración" 
                 description="Unificamos todos tus sistemas para una visión empresarial completa." 
               />
@@ -402,7 +355,7 @@ const SuperAILandingPage: React.FC = () => {
                 Enlaces Rápidos
               </Typography>
               <Link component={RouterLink} to="/" sx={{ display: 'block', color: customColors.darkGray, mb: 1 }}>Inicio</Link>
-              <Link component={RouterLink} to="/pricing" sx={{ display: 'block', color: customColors.darkGray, mb: 1 }}>Pricing</Link>
+              <Link component={RouterLink} to="/Pricing" sx={{ display: 'block', color: customColors.darkGray, mb: 1 }}>Pricing</Link>
               <Link component={RouterLink} to="/app/chat" sx={{ display: 'block', color: customColors.darkGray, mb: 1 }}>Demo</Link>
             </Grid>
             <Grid item xs={12} md={4}>
