@@ -42,7 +42,7 @@ app.get('/get-responses', (req, res) => {
       console.error('Error al leer las respuestas:', err);
       return res.status(500).send('Error al leer las respuestas');
     }
-    res.status(200).json(JSON.parse(re));
+    res.status(200).json(JSON.parse(data));
   });
 });
 
