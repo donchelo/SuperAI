@@ -12,7 +12,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/data': {
-        target: 'http://localhost:5173/SuperAI/app/memoria',
+        target: '/SuperAI',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/data/, '/data')
       }
