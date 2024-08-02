@@ -1,0 +1,10 @@
+# !bin/bash
+
+# This script is used to deploy the application locally
+
+# Start the server
+echo "Starting the server..."
+cd be && npm run start &
+
+cd fe && npm run dev
+
