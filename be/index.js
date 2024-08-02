@@ -7,8 +7,13 @@ import cors from 'cors';
 
 const app = express();
 const port = 3001;
+ const corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200
+  }
 
-app.use(cors());
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 const respuestas = {
