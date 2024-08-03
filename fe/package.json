@@ -20,6 +20,7 @@
     "@mui/material": "^5.16.5",
     "dotenv": "^16.4.5",
     "file-saver": "^2.0.5",
+    "framer-motion": "^11.3.21",
     "lucide-react": "^0.407.0",
     "openai": "^4.53.2",
     "papaparse": "^5.4.1",
