@@ -65,8 +65,8 @@ const Header: React.FC = () => {
       <AppBar 
         position="fixed" 
         sx={{ 
-          bgcolor: isDarkMode ? theme.palette.background.paper : theme.palette.background.default,
-          color: isDarkMode ? theme.palette.text.primary : theme.palette.text.secondary,
+          bgcolor: isDarkMode ? theme.palette.background.default : theme.palette.background.paper,
+          color: theme.palette.text.primary,
         }} 
         elevation={1}
       >

@@ -1,9 +1,11 @@
 import React from 'react';
-import { Typography, Box, Container, Link, Button } from '@mui/material';
+import { Typography, Box, Container, Link, Button, useTheme } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const PoliticaPrivacidad: React.FC = () => {
+  const theme = useTheme();
+  
   const BotonVolver = () => (
     <Button
       component={RouterLink}

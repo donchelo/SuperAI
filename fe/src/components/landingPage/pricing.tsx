@@ -54,7 +54,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
   transition: 'all 0.3s ease-in-out',
   '&:hover': {
     transform: 'translateY(-10px)',
-    boxShadow: theme.shadows[10],
   },
 }));
 

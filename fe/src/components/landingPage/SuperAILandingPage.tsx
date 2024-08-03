@@ -26,18 +26,9 @@ import {
   EmojiNature
 } from '@mui/icons-material';
 import HeroSection from '../HeroSection/HeroSection';
-import PreguntasFrecuentes from './PreguntasFrecuentes'; // Asegúrate de que este sea el nombre correcto
+import PreguntasFrecuentes from './PreguntasFrecuentes';
 import Footer from './Footer';
-import KeyFeatures from './KeyFeatures'; // Importamos el nuevo componente
-
-export const customColors = {
-  darkGray: '#282728',
-  white: '#FFFFFF',
-  lightGray: '#94989B',
-  orange: '#FC8E46',
-  lightGreen: '#EAF4EB',
-  blue: '#20A6D2'
-};
+import KeyFeatures from './KeyFeatures';
 
 interface ValueItemProps {
   icon: React.ElementType;
@@ -50,10 +41,10 @@ const ValueItem: React.FC<ValueItemProps> = ({ icon: Icon, title, description })
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: theme.palette.background.paper }}>
       <CardContent sx={{ p: isMobile ? 2 : 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Icon sx={{ fontSize: isMobile ? 30 : 40, color: customColors.orange, mr: 2 }} />
+          <Icon sx={{ fontSize: isMobile ? 30 : 40, color: theme.palette.primary.main, mr: 2 }} />
           <Typography variant={isMobile ? "subtitle1" : "h6"} component="h3">{title}</Typography>
         </Box>
         <Typography variant="body2" color="text.secondary">{description}</Typography>
@@ -76,10 +67,10 @@ const SuperAILandingPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: customColors.white, minHeight: '100vh' }}>
+    <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh' }}>
       <AppBar position="fixed" color="transparent" elevation={0} sx={{ bgcolor: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(5px)' }}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', color: customColors.darkGray }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', color: theme.palette.text.primary }}>
             SuperAI
           </Typography>
           {isMobile ? (
@@ -131,7 +122,7 @@ const SuperAILandingPage: React.FC = () => {
           align="center" 
           sx={{ 
             fontWeight: 'bold', 
-            color: customColors.darkGray, 
+            color: theme.palette.text.primary, 
             mb: { xs: 3, sm: 4, md: 6 }
           }}
         >
@@ -143,7 +134,7 @@ const SuperAILandingPage: React.FC = () => {
           align="center" 
           sx={{ 
             fontSize: { xs: '1rem', sm: '1.1rem' }, 
-            color: customColors.darkGray, 
+            color: theme.palette.text.secondary, 
             maxWidth: '800px', 
             margin: '0 auto', 
             mb: { xs: 6, sm: 8, md: 12 }
@@ -161,7 +152,7 @@ const SuperAILandingPage: React.FC = () => {
             align="center" 
             sx={{ 
               fontWeight: 'bold', 
-              color: customColors.darkGray, 
+              color: theme.palette.text.primary, 
               mb: { xs: 3, sm: 4, md: 6 }
             }}
           >
@@ -187,8 +178,8 @@ const SuperAILandingPage: React.FC = () => {
           </Grid>
         </Box>
 
-        <KeyFeatures /> {/* Aquí llamamos al nuevo componente */}
-        <PreguntasFrecuentes /> {/* Aquí llamamos al componente corregido */}
+        <KeyFeatures />
+        <PreguntasFrecuentes />
       </Container>
 
       <Footer />

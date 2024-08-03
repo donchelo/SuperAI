@@ -11,11 +11,17 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Facebook, Twitter, LinkedIn, Instagram } from '@mui/icons-material';
-import { customColors } from './SuperAILandingPage';
 
 const Footer: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const customColors = {
+    darkGray: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[700],
+    white: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.common.white,
+    lightGray: theme.palette.grey[500],
+    orange: theme.palette.warning.main,
+    blue: theme.palette.primary.main,
+  };
 
   return (
     <Box component="footer" sx={{ 

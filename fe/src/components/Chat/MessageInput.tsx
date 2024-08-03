@@ -1,6 +1,7 @@
+// src/components/Chat/MessageInput.tsx
 import React from 'react';
-import { Box, TextField, Button, IconButton } from '@mui/material';
-import { Send, QuestionAnswer } from '@mui/icons-material';
+import { Box, TextField, IconButton } from '@mui/material';
+import { Send, Menu } from '@mui/icons-material'; // Asegúrate de importar los íconos
 
 interface MessageInputProps {
   newMessage: string;
@@ -9,46 +10,24 @@ interface MessageInputProps {
   toggleQuickPrompts: () => void;
 }
 
-export const MessageInput: React.FC<MessageInputProps> = ({ newMessage, setNewMessage, handleSendMessage, toggleQuickPrompts }) => (
-  <Box sx={{ display: 'flex', gap: 1 }}>
-    <IconButton
-      color="primary"
-      onClick={toggleQuickPrompts}
-    >
-      <QuestionAnswer />
-    </IconButton>
-    <TextField
-      variant="outlined"
-      fullWidth
-      value={newMessage}
-      onChange={(e) => setNewMessage(e.target.value)}
-      onKeyPress={(e) => {
-        if (e.key === 'Enter') {
-          handleSendMessage();
-          e.preventDefault();  // Prevenir el comportamiento por defecto del Enter
-        }
-      }}
-      placeholder="Escribe un mensaje..."
-      sx={{ 
-        bgcolor: 'background.paper',
-        '& .MuiOutlinedInput-root': {
-          borderRadius: 28,
-        },
-      }}
-    />
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={() => {
-        handleSendMessage();  // Asegurándonos de que la función se llama correctamente
-      }}
-      endIcon={<Send />}
-      sx={{ 
-        borderRadius: 28, 
-        px: 3,
-      }}
-    >
-      Enviar
-    </Button>
-  </Box>
-);
+export const MessageInput: React.FC<MessageInputProps> = ({ newMessage, setNewMessage, handleSendMessage, toggleQuickPrompts }) => {
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder="Escribe tu mensaje..."
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+        sx={{ mr: 1 }}
+      />
+      <IconButton color="primary" onClick={handleSendMessage}>
+        <Send />
+      </IconButton>
+      <IconButton color="secondary" onClick={toggleQuickPrompts}>
+        <Menu /> {/* Usa el ícono importado aquí */}
+      </IconButton>
+    </Box>
+  );
+};

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, Sector } from 'recharts';
 import { leerCSV, VentaData } from '../../services/csvService';
-import { Box, Typography, Select, MenuItem, FormControl, InputLabel, CircularProgress } from '@mui/material';
+import { Box, Typography, Select, MenuItem, FormControl, InputLabel, CircularProgress, useTheme } from '@mui/material';
 
 const COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56'];
 
@@ -11,6 +11,8 @@ const SalesByProductPieChart: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const theme = useTheme();
 
   useEffect(() => {
     const loadData = async () => {
@@ -74,7 +76,7 @@ const SalesByProductPieChart: React.FC = () => {
 
     return (
       <g>
-        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill} fontSize={20} fontWeight="bold">
+        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={theme.palette.text.primary} fontSize={20} fontWeight="bold">
           {payload.name}
         </text>
         <Sector
@@ -97,8 +99,8 @@ const SalesByProductPieChart: React.FC = () => {
         />
         <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
         <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333" fontSize={14}>{`${payload.name}`}</text>
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#666" fontSize={14}>
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill={theme.palette.text.primary} fontSize={14}>{`${payload.name}`}</text>
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill={theme.palette.text.secondary} fontSize={14}>
           {`${formatValue(value)} (${(percent * 100).toFixed(0)}%)`}
         </text>
       </g>
@@ -136,7 +138,7 @@ const SalesByProductPieChart: React.FC = () => {
               cy="50%"
               innerRadius={100}
               outerRadius={160}
-              fill="#8884d8"
+              fill={theme.palette.primary.main}
               dataKey="value"
               onMouseEnter={onPieEnter}
             >
@@ -144,8 +146,11 @@ const SalesByProductPieChart: React.FC = () => {
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip formatter={(value: number) => formatValue(value)} />
-            <Legend />
+            <Tooltip 
+              formatter={(value: number) => formatValue(value)}
+              contentStyle={{ backgroundColor: theme.palette.background.paper, color: theme.palette.text.primary }}
+            />
+            <Legend wrapperStyle={{ color: theme.palette.text.primary }} />
           </PieChart>
         </ResponsiveContainer>
       ) : (

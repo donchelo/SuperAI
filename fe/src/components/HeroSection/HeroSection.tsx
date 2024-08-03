@@ -4,12 +4,6 @@ import { ArrowForward } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import BackgroundImage from '../../../public/images/hero-background.png';
 
-const customColors = {
-  darkGray: '#1A202C',
-  white: '#FFFFFF',
-  orange: '#ED8936',
-};
-
 const HeroSection: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -22,7 +16,7 @@ const HeroSection: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         position: 'relative',
-        backgroundImage: `url(${BackgroundImage}), linear-gradient(to right, #4299E1, #48BB78)`,
+        backgroundImage: `url(${BackgroundImage}), linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -48,7 +42,7 @@ const HeroSection: React.FC = () => {
                   gutterBottom 
                   sx={{ 
                     fontWeight: 900, 
-                    color: customColors.white, 
+                    color: theme.palette.common.white, 
                     mb: { xs: 2, sm: 3, md: 4 }, 
                     textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                     fontSize: { xs: '2.5rem', sm: '3rem', md: '3.75rem', lg: '4.5rem' }
@@ -61,7 +55,7 @@ const HeroSection: React.FC = () => {
                   gutterBottom 
                   sx={{ 
                     mb: { xs: 3, sm: 4 }, 
-                    color: customColors.white, 
+                    color: theme.palette.common.white, 
                     fontWeight: 300, 
                     textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
                     fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem', lg: '1.75rem' }
@@ -76,10 +70,10 @@ const HeroSection: React.FC = () => {
                   component={RouterLink}
                   to="/app/chat"
                   sx={{ 
-                    bgcolor: customColors.orange, 
-                    color: customColors.white,
+                    bgcolor: theme.palette.warning.main, 
+                    color: theme.palette.common.white,
                     '&:hover': { 
-                      bgcolor: customColors.darkGray,
+                      bgcolor: theme.palette.background.default,
                       transform: 'scale(1.05)'
                     },
                     transition: 'all 0.3s ease-in-out',

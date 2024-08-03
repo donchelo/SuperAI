@@ -1,9 +1,11 @@
 import React from 'react';
-import { Typography, Box, Container, Link, Button } from '@mui/material';
+import { Typography, Box, Container, Link, Button, useTheme } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const TerminosYCondiciones: React.FC = () => {
+  const theme = useTheme();
+
   const BotonVolver = () => (
     <Button
       component={RouterLink}
@@ -18,7 +20,7 @@ const TerminosYCondiciones: React.FC = () => {
 
   return (
     <Container maxWidth="md">
-      <Box my={4}>
+      <Box my={4} sx={{ color: theme.palette.text.primary }}>
         <BotonVolver />
         
         <Typography variant="h4" component="h1" gutterBottom>
@@ -60,7 +62,7 @@ const TerminosYCondiciones: React.FC = () => {
           5. Privacidad
         </Typography>
         <Typography paragraph>
-          Su privacidad es importante para nosotros. Por favor, revise nuestra <Link href="/politica-de-privacidad">Política de Privacidad</Link> para entender cómo recopilamos, utilizamos y protegemos su información personal.
+          Su privacidad es importante para nosotros. Por favor, revise nuestra <Link href="/politica-de-privacidad" color="secondary">Política de Privacidad</Link> para entender cómo recopilamos, utilizamos y protegemos su información personal.
         </Typography>
 
         <Typography variant="h6" component="h2" gutterBottom>
@@ -117,7 +119,7 @@ const TerminosYCondiciones: React.FC = () => {
           12. Contacto
         </Typography>
         <Typography paragraph>
-          Para cualquier pregunta sobre estos términos, por favor contáctenos en <Link href="mailto:contacto@superai.com">contacto@superai.com</Link> o en nuestra dirección física: Calle Ejemplo 123, Ciudad Ejemplo, País Ejemplo.
+          Para cualquier pregunta sobre estos términos, por favor contáctenos en <Link href="mailto:contacto@superai.com" color="secondary">contacto@superai.com</Link> o en nuestra dirección física: Calle Ejemplo 123, Ciudad Ejemplo, País Ejemplo.
         </Typography>
 
         <Box mt={4}>

@@ -12,7 +12,6 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { frequentQuestionsSales } from '../Ayuda/frequentQuestionsSales';
-import { customColors } from     './SuperAILandingPage';
 
 const PreguntasFrecuentes: React.FC = () => {
   const [expandedPanel, setExpandedPanel] = useState<number | false>(false);
@@ -30,7 +29,7 @@ const PreguntasFrecuentes: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       sx={{ 
-        backgroundColor: customColors.lightGreen,
+        backgroundColor: theme.palette.background.paper,
         py: { xs: 6, md: 10 },
         borderRadius: 4,
         boxShadow: 3
@@ -43,7 +42,7 @@ const PreguntasFrecuentes: React.FC = () => {
           align="center" 
           sx={{ 
             fontWeight: 'bold', 
-            color: customColors.darkGray, 
+            color: theme.palette.text.primary, 
             mb: { xs: 4, sm: 5, md: 6 },
             textShadow: '1px 1px 2px rgba(0,0,0,0.1)'
           }}
@@ -62,18 +61,18 @@ const PreguntasFrecuentes: React.FC = () => {
                 '&:before': {
                   display: 'none',
                 },
-                backgroundColor: 'rgba(255,255,255,0.7)',
+                backgroundColor: theme.palette.background.paper,
                 borderRadius: 2,
                 transition: 'all 0.3s ease-in-out',
                 '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.9)',
+                  backgroundColor: theme.palette.background.default,
                   transform: 'translateY(-2px)',
                   boxShadow: 2
                 }
               }}
             >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon sx={{ color: customColors.blue }} />}
+                expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.primary.main }} />}
                 aria-controls={`panel${index}-content`}
                 id={`panel${index}-header`}
                 sx={{
@@ -85,7 +84,7 @@ const PreguntasFrecuentes: React.FC = () => {
                 <Typography 
                   sx={{ 
                     fontWeight: 600,
-                    color: customColors.darkGray
+                    color: theme.palette.text.primary
                   }}
                 >
                   {faq.question}
@@ -102,7 +101,7 @@ const PreguntasFrecuentes: React.FC = () => {
                     >
                       <Typography 
                         sx={{ 
-                          color: customColors.darkGray,
+                          color: theme.palette.text.secondary,
                           lineHeight: 1.6
                         }}
                       >

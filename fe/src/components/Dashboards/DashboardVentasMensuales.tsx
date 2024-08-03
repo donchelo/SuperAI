@@ -181,27 +181,28 @@ const DashboardVentasMensuales: React.FC = () => {
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid stroke={theme.palette.divider} />
           <XAxis 
             dataKey="name" 
             angle={isMobile ? -45 : 0}
             textAnchor={isMobile ? "end" : "middle"}
             height={isMobile ? 80 : 30}
-            tick={{ fontSize: isMobile ? 10 : 12 }}
+            tick={{ fontSize: isMobile ? 10 : 12, fill: theme.palette.text.primary }}
           />
           <YAxis 
             domain={yAxisDomain}
             tickFormatter={(value) => formatCOP(value).replace(/COP\s?/, '')}
             width={isMobile ? 60 : 80}
-            tick={{ fontSize: isMobile ? 10 : 12 }}
+            tick={{ fontSize: isMobile ? 10 : 12, fill: theme.palette.text.primary }}
           />
           <Tooltip
             formatter={(value: number, name: string) => [formatCOP(value), name === 'value' ? 'Ventas' : 'Tendencia']}
             labelFormatter={(label) => `Mes: ${label}`}
+            contentStyle={{ backgroundColor: theme.palette.background.paper, color: theme.palette.text.primary }}
           />
-          <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
-          <Line type="monotone" dataKey="value" name="Ventas" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="trendValue" name="Tendencia" data={trendLineData} stroke="#ff7300" dot={false} />
+          <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12, color: theme.palette.text.primary }} />
+          <Line type="monotone" dataKey="value" name="Ventas" stroke={theme.palette.primary.main} activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="trendValue" name="Tendencia" data={trendLineData} stroke={theme.palette.secondary.main} dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </Box>

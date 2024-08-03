@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, useTheme, useMediaQuery } from '@mui/material';
 import DashboardVentasMensuales from './DashboardVentasMensuales';
-import SalesByProductPieChart from './SalesByProductPieChart'; // Cambiado a SalesByProductPieChart
+import SalesByProductPieChart from './SalesByProductPieChart';
 
 const Dashboards: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [selectedDashboard, setSelectedDashboard] = useState<string>('ventas');
 
   const handleDashboardChange = (event: SelectChangeEvent) => {
@@ -14,8 +16,10 @@ const Dashboards: React.FC = () => {
     <Box sx={{ 
       padding: { xs: 1, sm: 2 }, 
       marginTop: { xs: '56px', sm: '64px' },
+      bgcolor: theme.palette.background.default,
+      color: theme.palette.text.primary,
     }}>
-      <Typography variant="h4" gutterBottom sx={{ marginBottom: 2 }}>
+      <Typography variant={isMobile ? "h5" : "h4"} gutterBottom sx={{ marginBottom: 2 }}>
         Dashboards
       </Typography>
       <FormControl fullWidth sx={{ marginBottom: 2 }}>
@@ -27,6 +31,10 @@ const Dashboards: React.FC = () => {
           label="Seleccionar Dashboard"
           onChange={handleDashboardChange}
           aria-label="Seleccionar tipo de dashboard"
+          sx={{
+            bgcolor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          }}
         >
           <MenuItem value="ventas">Dashboard Ventas Mensuales</MenuItem>
           <MenuItem value="productos">Ventas por Producto</MenuItem>

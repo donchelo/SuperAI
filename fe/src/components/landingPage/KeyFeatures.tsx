@@ -1,16 +1,6 @@
 import React from 'react';
-import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
+import { Grid, Card, CardContent, Typography, Box, useTheme, useMediaQuery } from '@mui/material';
 import { BarChart, Dashboard, Storage, Notifications } from '@mui/icons-material';
-import { useTheme, useMediaQuery } from '@mui/material';
-
-const customColors = {
-  darkGray: '#282728',
-  white: '#FFFFFF',
-  lightGray: '#94989B',
-  orange: '#FC8E46',
-  lightGreen: '#EAF4EB',
-  blue: '#20A6D2'
-};
 
 interface FeatureItemProps {
   icon: React.ElementType;
@@ -41,7 +31,7 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ icon: Icon, title, descriptio
         textAlign: 'center',
         p: isMobile ? 2 : 3
       }}>
-        <Icon sx={{ fontSize: isMobile ? 40 : 60, color: customColors.blue, mb: 2 }} />
+        <Icon sx={{ fontSize: isMobile ? 40 : 60, color: theme.palette.primary.main, mb: 2 }} />
         <Typography variant={isMobile ? "subtitle1" : "h6"} component="h3" gutterBottom>{title}</Typography>
         <Typography variant="body2" color="text.secondary">{description}</Typography>
       </CardContent>
@@ -68,7 +58,7 @@ const KeyFeatures: React.FC = () => {
         align="center" 
         sx={{ 
           fontWeight: 'bold', 
-          color: customColors.darkGray, 
+          color: theme.palette.text.primary, 
           mb: { xs: 3, sm: 4, md: 6 }
         }}
       >
