@@ -363,10 +363,10 @@ const SuperAILandingPage: React.FC = () => {
                 Contacto
               </Typography>
               <Typography variant="body2" sx={{ color: customColors.darkGray, mb: 1 }}>
-                Email: info@superai.com
+                Email: mariano@ai4u.com.co
               </Typography>
               <Typography variant="body2" sx={{ color: customColors.darkGray, mb: 1 }}>
-                Teléfono: +1 (123) 456-7890
+                Teléfono: +57 (321) 817-5744
               </Typography>
             </Grid>
           </Grid>
