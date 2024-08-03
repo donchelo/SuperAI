@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Container, Grid, Typography, Fade } from '@mui/material';
 import { ArrowForward } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
-import BackgroundImage from '../../../public/images/hero-background.jpg';
+import BackgroundImage from '../../../public/images/hero-background.png';
 
 const customColors = {
   darkGray: '#1A202C',

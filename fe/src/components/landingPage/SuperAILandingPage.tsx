@@ -7,31 +7,21 @@ import {
   Container,
   Grid,
   IconButton,
-  Link,
-  Card,
-  CardContent,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
   useTheme,
   useMediaQuery,
-  Fade,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Stack
+  Card,
+  CardContent,
 } from '@mui/material';
 import {
-  ArrowForward,
+  Menu as MenuIcon,
   BarChart,
   Dashboard,
   Storage,
   Notifications,
-  FlashOn,
-  CheckCircle,
-  Menu as MenuIcon,
-  ExpandMore,
   PrecisionManufacturing,
   Speed,
   Home,
@@ -39,10 +29,12 @@ import {
   Visibility,
   EmojiNature
 } from '@mui/icons-material';
-import HeroSection from '../HeroSection/HeroSection'; // Importa el nuevo componente HeroSection
+import HeroSection from '../HeroSection/HeroSection';
+import PreguntasFrecuentes from './PreguntasFrecuentes';
+import Footer from './Footer';
 
 // Definimos los colores como un objeto de tema personalizado
-const customColors = {
+export const customColors = {
   darkGray: '#282728',
   white: '#FFFFFF',
   lightGray: '#94989B',
@@ -51,6 +43,7 @@ const customColors = {
   blue: '#20A6D2'
 };
 
+// Definición de FeatureItem
 interface FeatureItemProps {
   icon: React.ElementType;
   title: string;
@@ -78,6 +71,7 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ icon: Icon, title, descriptio
   );
 };
 
+// Definición de ValueItem
 interface ValueItemProps {
   icon: React.ElementType;
   title: string;
@@ -156,10 +150,8 @@ const SuperAILandingPage: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Hero Section */}
-      <HeroSection /> {/* Llamada al nuevo componente HeroSection */}
+      <HeroSection />
 
-      {/* Main content */}
       <Container maxWidth="lg" sx={{ mt: 12, mb: 12 }}>
         <Typography variant="h3" gutterBottom align="center" sx={{ fontWeight: 'bold', color: customColors.darkGray, mb: 6 }}>
           Decisiones Infalibles. Resultados Imprescindibles.
@@ -170,7 +162,6 @@ const SuperAILandingPage: React.FC = () => {
           decisiones informadas y estratégicas con confianza y precisión.
         </Typography>
 
-        {/* Valores */}
         <Box sx={{ mb: 12 }}>
           <Typography variant="h3" gutterBottom align="center" sx={{ fontWeight: 'bold', color: customColors.darkGray, mb: 6 }}>
             Nuestros Valores
@@ -192,7 +183,7 @@ const SuperAILandingPage: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <ValueItem 
-                icon={Home}  // Cambiado de `Integration` a `Home`
+                icon={Home}
                 title="Integración" 
                 description="Unificamos todos tus sistemas para una visión empresarial completa." 
               />
@@ -221,7 +212,6 @@ const SuperAILandingPage: React.FC = () => {
           </Grid>
         </Box>
 
-        {/* Funcionalidades Clave */}
         <Box sx={{ mb: 12 }}>
           <Typography variant="h3" gutterBottom align="center" sx={{ fontWeight: 'bold', color: customColors.darkGray, mb: 6 }}>
             Funcionalidades Clave
@@ -258,134 +248,10 @@ const SuperAILandingPage: React.FC = () => {
           </Grid>
         </Box>
 
-        {/* Cómo Funciona */}
-        <Box sx={{ mb: 12 }}>
-          <Typography variant="h3" gutterBottom align="center" sx={{ fontWeight: 'bold', color: customColors.darkGray, mb: 6 }}>
-            Cómo Funciona
-          </Typography>
-          <Stack spacing={4}>
-            {[
-              { title: "Integración de Datos", description: "Conectamos SuperAI con sus sistemas existentes para recopilar y unificar todos sus datos empresariales." },
-              { title: "Análisis y Aprendizaje", description: "Nuestros algoritmos analizan sus datos y aprenden los patrones únicos de su negocio." },
-              { title: "Generación de Insights", description: "SuperAI genera predicciones, recomendaciones y alertas basadas en el análisis continuo de sus datos." },
-              { title: "Toma de Decisiones Informada", description: "Utilice los insights proporcionados para tomar decisiones estratégicas con confianza y precisión." }
-            ].map((step, index) => (
-              <Box key={index} sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                <Box sx={{ 
-                  width: 40, 
-                  height: 40, 
-                  borderRadius: '50%', 
-                  bgcolor: customColors.blue, 
-                  color: 'white', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  mr: 2,
-                  flexShrink: 0
-                }}>
-                  {index + 1}
-                </Box>
-                <Box>
-                  <Typography variant="h6" gutterBottom>{step.title}</Typography>
-                  <Typography variant="body2">{step.description}</Typography>
-                </Box>
-              </Box>
-            ))}
-          </Stack>
-        </Box>
-
-        {/* Preguntas Frecuentes */}
-        <Box sx={{ mb: 12 }}>
-          <Typography variant="h3" gutterBottom align="center" sx={{ fontWeight: 'bold', color: customColors.darkGray, mb: 6 }}>
-            Preguntas Frecuentes
-          </Typography>
-          {[
-            {
-              question: "¿Cómo se integra SuperAI con mis sistemas existentes?",
-              answer: "SuperAI se diseña para integrarse sin problemas con la mayoría de los sistemas empresariales existentes. Nuestro equipo de expertos trabajará con usted para garantizar una integración fluida y eficiente."
-            },
-            {
-              question: "¿Qué medidas de seguridad implementa SuperAI?",
-              answer: "SuperAI utiliza encriptación de grado militar y cumple con todas las regulaciones de protección de datos relevantes. Ofrecemos opciones de almacenamiento de datos on-premise para requisitos de seguridad más estrictos."
-            },
-            {
-              question: "¿Cuánto tiempo se necesita para ver resultados?",
-              answer: "La mayoría de nuestros clientes comienzan a ver mejoras significativas en sus procesos de toma de decisiones y eficiencia operativa dentro de los primeros 3 meses de implementación. Algunos beneficios, como las alertas proactivas, son inmediatos."
-            }
-          ].map((faq, index) => (
-            <Accordion key={index} sx={{ 
-              '&:before': { display: 'none' }, 
-              boxShadow: 'none', 
-              borderBottom: `1px solid ${customColors.lightGray}`,
-              '&:last-child': { borderBottom: 'none' }
-            }}>
-              <AccordionSummary
-                expandIcon={<ExpandMore sx={{ color: customColors.blue }} />}
-                sx={{ 
-                  '&.Mui-expanded': { 
-                    minHeight: 48,
-                    '& .MuiAccordionSummary-content': { marginY: '12px' }
-                  }
-                }}
-              >
-                <Typography sx={{ fontWeight: 'bold', color: customColors.darkGray }}>{faq.question}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography sx={{ color: customColors.darkGray }}>{faq.answer}</Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Box>
+        <PreguntasFrecuentes />
       </Container>
 
-      {/* Footer */}
-      <Box component="footer" sx={{ bgcolor: customColors.lightGray, py: 6 }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ color: customColors.darkGray, fontWeight: 'bold', mb: 2 }}>
-                SuperAI Empresarial
-              </Typography>
-              <Typography variant="body2" sx={{ color: customColors.darkGray }}>
-                Transformando el liderazgo empresarial mediante la inteligencia artificial.
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ color: customColors.darkGray, fontWeight: 'bold', mb: 2 }}>
-                Enlaces Rápidos
-              </Typography>
-              <Link component={RouterLink} to="/" sx={{ display: 'block', color: customColors.darkGray, mb: 1 }}>Inicio</Link>
-              <Link component={RouterLink} to="/Pricing" sx={{ display: 'block', color: customColors.darkGray, mb: 1 }}>Pricing</Link>
-              <Link component={RouterLink} to="/app/chat" sx={{ display: 'block', color: customColors.darkGray, mb: 1 }}>Demo</Link>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ color: customColors.darkGray, fontWeight: 'bold', mb: 2 }}>
-                Contacto
-              </Typography>
-              <Typography variant="body2" sx={{ color: customColors.darkGray, mb: 1 }}>
-                Email: mariano@ai4u.com.co
-              </Typography>
-              <Typography variant="body2" sx={{ color: customColors.darkGray, mb: 1 }}>
-                Teléfono: +57 (321) 817-5744
-              </Typography>
-            </Grid>
-          </Grid>
-          <Box sx={{ mt: 4, pt: 2, borderTop: `1px solid ${customColors.darkGray}` }}>
-            <Typography variant="body2" align="center" sx={{ color: customColors.darkGray }}>
-              © 2024 SuperAI Empresarial. Todos los derechos reservados.
-            </Typography>
-            <Typography variant="body2" align="center" sx={{ mt: 1, color: customColors.darkGray }}>
-              <Link component={RouterLink} to="/politica-de-privacidad" sx={{ color: customColors.darkGray, '&:hover': { color: customColors.blue } }}>
-                Política de Privacidad
-              </Link>
-              {' | '}
-              <Link component={RouterLink} to="/terms" sx={{ color: customColors.darkGray, '&:hover': { color: customColors.blue } }}>
-                Términos y Condiciones
-              </Link>
-            </Typography>
-          </Box>
-        </Container>
-      </Box>
+      <Footer />
     </Box>
   );
 };
