@@ -7,7 +7,7 @@ export default defineConfig({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
-  base: '/SuperAI/',  // Ajusta la base URL aquí
+  base: '/',  // Ajusta la base URL aquí
   build: {
     outDir: 'dist',
     rollupOptions: {
