@@ -10,15 +10,16 @@ import {
   Paper,
   Switch,
   Typography,
+  TextField,
   useTheme,
   ThemeProvider,
-  createTheme,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
+import { darkTheme, lightTheme } from '../../styles/Theme'; // Ajusta la ruta según sea necesario
 
-// Definir interfaces
 interface Feature {
   name: string;
   included: boolean;
@@ -27,39 +28,33 @@ interface Feature {
 interface Plan {
   name: string;
   basePrice: number;
-  maxEmployees: number;
   features: Feature[];
 }
 
-// Crear un tema personalizado
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#3f51b5',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-  },
-  typography: {
-    fontFamily: 'Roboto, "Helvetica Neue", Arial, sans-serif',
-  },
-});
+interface StyledCardProps {
+  isRecommended: boolean;
+  theme: any;
+}
 
-// Estilos personalizados
-const StyledCard = styled(Card)(({ theme }) => ({
+const StyledCard = styled(Card)<StyledCardProps>(({ theme, isRecommended }) => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
   transition: 'all 0.3s ease-in-out',
+  backgroundColor: isRecommended ? theme.palette.secondary.light : theme.palette.background.paper,
   '&:hover': {
     transform: 'translateY(-10px)',
   },
 }));
 
-const PriceTypography = styled(Typography)(({ theme }) => ({
+interface PriceTypographyProps {
+  isRecommended: boolean;
+  theme: any;
+}
+
+const PriceTypography = styled(Typography)<PriceTypographyProps>(({ theme, isRecommended }) => ({
   fontWeight: 700,
-  color: theme.palette.primary.main,
+  color: isRecommended ? theme.palette.secondary.main : theme.palette.primary.main,
 }));
 
 const FeatureItem = styled(Box)(({ theme }) => ({
@@ -78,7 +73,7 @@ const PlanCard: React.FC<{
   const theme = useTheme();
 
   return (
-    <StyledCard elevation={isRecommended ? 8 : 2}>
+    <StyledCard elevation={isRecommended ? 8 : 2} isRecommended={isRecommended} theme={theme}>
       {isRecommended && (
         <Chip
           label="Recomendado"
@@ -92,10 +87,10 @@ const PlanCard: React.FC<{
         />
       )}
       <CardContent>
-        <Typography variant="h5" component="h2" gutterBottom>
+        <Typography variant="h5" component="div" gutterBottom>
           {plan.name}
         </Typography>
-        <PriceTypography variant="h3" gutterBottom>
+        <PriceTypography variant="h3" gutterBottom isRecommended={isRecommended} theme={theme}>
           ${price.toLocaleString()}
         </PriceTypography>
         <Typography variant="subtitle1" color="textSecondary" gutterBottom>
@@ -103,7 +98,7 @@ const PlanCard: React.FC<{
         </Typography>
         <Box mt={2}>
           {plan.features.map((feature, index) => (
-            <FeatureItem key={index}>
+            <FeatureItem key={index} theme={theme}>
               {feature.included ? (
                 <CheckIcon color="primary" sx={{ mr: 1 }} />
               ) : (
@@ -130,7 +125,9 @@ const PlanCard: React.FC<{
 };
 
 const Pricing: React.FC = () => {
-  const [numEmployees, setNumEmployees] = useState<number>(10);
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const [numEmployees, setNumEmployees] = useState<number>(1); // Empezar con 1 empleado
   const [isAnnual, setIsAnnual] = useState<boolean>(false);
   const [animatedPrice, setAnimatedPrice] = useState<Record<string, number>>({});
 
@@ -138,7 +135,6 @@ const Pricing: React.FC = () => {
     {
       name: "Plan Básico",
       basePrice: 350000,
-      maxEmployees: 10,
       features: [
         { name: "Acceso básico a SuperAI Empresarial", included: true },
         { name: "Análisis predictivo básico", included: true },
@@ -152,7 +148,6 @@ const Pricing: React.FC = () => {
     {
       name: "Plan Estándar",
       basePrice: 650000,
-      maxEmployees: 50,
       features: [
         { name: "Acceso completo a SuperAI Empresarial", included: true },
         { name: "Análisis predictivo en tiempo real", included: true },
@@ -169,7 +164,6 @@ const Pricing: React.FC = () => {
     {
       name: "Plan Premium",
       basePrice: 1200000,
-      maxEmployees: Infinity,
       features: [
         { name: "Todas las características del plan Estándar", included: true },
         { name: "Consultor de IA dedicado", included: true },
@@ -182,18 +176,17 @@ const Pricing: React.FC = () => {
     }
   ];
 
-  const employeeCost = 2000;
+  const employeeCost = 4000;
 
-  const calculatePrice = (basePrice: number, numEmployees: number, maxEmployees: number): number => {
-    const additionalEmployees = Math.max(0, numEmployees - maxEmployees);
-    const totalPrice = basePrice + (additionalEmployees * employeeCost);
-    return isAnnual ? totalPrice * 12 * 0.9 : totalPrice;
+  const calculatePrice = (basePrice: number, numEmployees: number): number => {
+    const totalPrice = basePrice + (numEmployees * employeeCost);
+    return isAnnual ? totalPrice * 12 * 0.66 : totalPrice; // Descuento del 34% para el plan anual
   };
 
   useEffect(() => {
     const newAnimatedPrice: Record<string, number> = {};
     plans.forEach(plan => {
-      const targetPrice = calculatePrice(plan.basePrice, numEmployees, plan.maxEmployees);
+      const targetPrice = calculatePrice(plan.basePrice, numEmployees);
       const startPrice = animatedPrice[plan.name] || targetPrice;
       let currentPrice = startPrice;
       const animatePrice = () => {
@@ -204,7 +197,7 @@ const Pricing: React.FC = () => {
         } else {
           newAnimatedPrice[plan.name] = targetPrice;
         }
-        setAnimatedPrice({...newAnimatedPrice});
+        setAnimatedPrice({ ...newAnimatedPrice });
       };
       animatePrice();
     });
@@ -215,17 +208,22 @@ const Pricing: React.FC = () => {
     // Aquí puedes agregar la lógica para procesar la selección del plan
   };
 
+  const handleNumEmployeesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    setNumEmployees(Math.max(value, 1)); // Asegura que el número mínimo de empleados sea 1
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 8 }}>
-        <Box maxWidth="lg" margin="auto">
-          <Typography variant="h2" component="h1" align="center" gutterBottom>
+      <Box sx={{ bgcolor: 'background.default', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', py: 4 }}>
+        <Box maxWidth="lg" margin="auto" sx={{ flex: '1 0 auto' }}>
+          <Typography variant="h2" component="div" align="center" gutterBottom>
             Planes y Precios
           </Typography>
           <Typography variant="h5" align="center" color="textSecondary" paragraph>
             Elige el plan perfecto para tu empresa
           </Typography>
-          <Box display="flex" justifyContent="center" alignItems="center" my={4}>
+          <Box display="flex" justifyContent="center" alignItems="center" my={2}>
             <Typography variant="body1">Mensual</Typography>
             <Switch
               checked={isAnnual}
@@ -234,15 +232,25 @@ const Pricing: React.FC = () => {
               inputProps={{ 'aria-label': 'toggle annual billing' }}
             />
             <Typography variant="body1">
-              Anual <Chip label="Ahorra 10%" size="small" color="secondary" />
+              Anual <Chip label="Ahorra 34%" size="small" color="secondary" />
             </Typography>
+          </Box>
+          <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
+            <TextField
+              label="Número de empleados"
+              type="number"
+              variant="outlined"
+              value={numEmployees}
+              onChange={handleNumEmployeesChange}
+              sx={{ width: 200, mr: 2 }}
+            />
           </Box>
           <Grid container spacing={4} justifyContent="center">
             {plans.map((plan, index) => (
               <Grid item key={plan.name} xs={12} sm={6} md={4}>
                 <PlanCard
                   plan={plan}
-                  price={animatedPrice[plan.name] || calculatePrice(plan.basePrice, numEmployees, plan.maxEmployees)}
+                  price={animatedPrice[plan.name] || calculatePrice(plan.basePrice, numEmployees)}
                   period={isAnnual ? 'año' : 'mes'}
                   isRecommended={index === 1}
                   onSelect={handleSelectPlan}
@@ -250,14 +258,19 @@ const Pricing: React.FC = () => {
               </Grid>
             ))}
           </Grid>
-          <Box mt={8} textAlign="center">
-            <Typography variant="h6" gutterBottom>
-              ¿Necesitas un plan personalizado?
-            </Typography>
-            <Button variant="outlined" color="primary" size="large">
-              Contáctanos
+          <Box mt={4} textAlign="center">
+            <Button variant="contained" color="primary" onClick={() => navigate('/')}>
+              Ir a Inicio
             </Button>
           </Box>
+        </Box>
+        <Box mt={2} textAlign="center" sx={{ flexShrink: 0 }}>
+          <Typography variant="h6" gutterBottom>
+            ¿Necesitas un plan personalizado?
+          </Typography>
+          <Button variant="outlined" color="primary" size="large">
+            Contáctanos
+          </Button>
         </Box>
       </Box>
     </ThemeProvider>
