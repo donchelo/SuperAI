@@ -10,23 +10,17 @@ export interface VentaData {
 
 export const leerCSV = async (file: string): Promise<VentaData[]> => {
   try {
-    console.log("Intentando leer el archivo:", file);
     const response = await fetch(`${import.meta.env.VITE_API_URL}/${file}`);
     if (!response.ok) {
       throw new Error(`Error al buscar el archivo: ${response.statusText}`);
     }
     const text = await response.text();
-    console.log("Contenido del CSV leído:", text.substring(0, 500) + "...");
 
     return new Promise((resolve, reject) => {
       Papa.parse<VentaData>(text, {
         header: true,
         dynamicTyping: true,
         complete: (results) => {
-          console.log("Resultados del parsing:", results.data.length, "filas");
-          console.log("Muestra de datos parseados:", results.data.slice(0, 2));
-          console.log("Encabezados:", results.meta.fields);
-
           const processedData = results.data
             .filter(item => item.fecha && item.producto && item.precio !== undefined)
             .map(item => {
@@ -43,9 +37,6 @@ export const leerCSV = async (file: string): Promise<VentaData[]> => {
                 precio
               };
             });
-
-          console.log("Datos procesados:", processedData.length, "filas válidas");
-          console.log("Muestra de datos procesados:", processedData.slice(0, 2));
           resolve(processedData);
         },
         error: (error: Error) => {
