@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Avatar, Box, Button, useMediaQuery, useTheme, IconButton, Menu, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Typography, Avatar, Box, Button, useMediaQuery, useTheme, IconButton, Menu, MenuItem, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Brightness4, Brightness7, Menu as MenuIcon } from '@mui/icons-material';
 import Icon from '@mdi/react';
 import { mdiChat, mdiMemory, mdiHelpCircle, mdiViewDashboard } from '@mdi/js';
@@ -26,17 +26,17 @@ const Header: React.FC = () => {
   const theme = useTheme();
   const { toggleTheme, isDarkMode } = useThemeContext();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [profileAnchorEl, setProfileAnchorEl] = useState<null | HTMLElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
   };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -77,29 +77,40 @@ const Header: React.FC = () => {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                onClick={handleMenuOpen}
+                onClick={handleDrawerOpen}
                 sx={{ mr: 2 }}
               >
                 <MenuIcon />
               </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
+              <Drawer
+                anchor="left"
+                open={drawerOpen}
+                onClose={handleDrawerClose}
               >
-                {menuItems.map((item) => (
-                  <MenuItem 
-                    key={item.route} 
-                    onClick={handleMenuClose}
-                    selected={location.pathname === item.route}
-                    component={Link}
-                    to={item.route}
-                  >
-                    <Icon path={item.icon} size={1} />
-                    <Typography sx={{ ml: 1 }}>{item.label}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+                <Box
+                  sx={{ width: 250 }}
+                  role="presentation"
+                  onClick={handleDrawerClose}
+                  onKeyDown={handleDrawerClose}
+                >
+                  <List>
+                    {menuItems.map((item) => (
+                      <ListItem 
+                        button 
+                        key={item.route} 
+                        selected={location.pathname === item.route}
+                        component={Link}
+                        to={item.route}
+                      >
+                        <ListItemIcon>
+                          <Icon path={item.icon} size={1} />
+                        </ListItemIcon>
+                        <ListItemText primary={item.label} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+              </Drawer>
             </>
           ) : null}
 
@@ -155,7 +166,7 @@ const Header: React.FC = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <Toolbar />
+      <Toolbar /> {/* Espaciador para empujar el contenido principal */}
       <Box sx={{ mt: 2, px: 2 }}>
         <Outlet />
       </Box>

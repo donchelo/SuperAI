@@ -1,9 +1,28 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { leerCSV, VentaData } from '../../services/csvService';
-import { Select, MenuItem, FormControl, InputLabel, Box, Typography, CircularProgress, useMediaQuery, useTheme } from '@mui/material';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Box,
+  Typography,
+  CircularProgress,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import regression from 'regression';
+import { leerCSV, VentaData } from '../../services/csvService';
 
 const DashboardVentasMensuales: React.FC = () => {
   const [data, setData] = useState<VentaData[]>([]);
@@ -45,20 +64,23 @@ const DashboardVentasMensuales: React.FC = () => {
     return ['todos', ...new Set(data.map((venta) => venta.producto))];
   }, [data]);
 
-  const handleFilterChange = useCallback((filterType: 'year' | 'month' | 'product') => (event: SelectChangeEvent<string>) => {
-    const value = event.target.value as string;
-    switch (filterType) {
-      case 'year':
-        setYearFilter(value);
-        break;
-      case 'month':
-        setMonthFilter(value);
-        break;
-      case 'product':
-        setProductFilter(value);
-        break;
-    }
-  }, []);
+  const handleFilterChange = useCallback(
+    (filterType: 'year' | 'month' | 'product') => (event: SelectChangeEvent<string>) => {
+      const value = event.target.value as string;
+      switch (filterType) {
+        case 'year':
+          setYearFilter(value);
+          break;
+        case 'month':
+          setMonthFilter(value);
+          break;
+        case 'product':
+          setProductFilter(value);
+          break;
+      }
+    },
+    []
+  );
 
   const filteredData = useMemo(() => {
     return data.filter((venta) => {
@@ -82,7 +104,12 @@ const DashboardVentasMensuales: React.FC = () => {
       acc.totalCount += 1;
       acc.maxSale = Math.max(acc.maxSale, acc.months[month].total);
       return acc;
-    }, { months: {} as Record<string, { month: string, total: number, count: number }>, totalSales: 0, totalCount: 0, maxSale: 0 });
+    }, {
+      months: {} as Record<string, { month: string; total: number; count: number }>,
+      totalSales: 0,
+      totalCount: 0,
+      maxSale: 0
+    });
 
     const chartData = Object.values(processedData.months)
       .sort((a, b) => a.month.localeCompare(b.month))
@@ -95,7 +122,7 @@ const DashboardVentasMensuales: React.FC = () => {
       chartData,
       totalSales: processedData.totalSales,
       averageSale: processedData.totalSales / processedData.totalCount || 0,
-      yAxisDomain,
+      yAxisDomain
     };
   }, [filteredData]);
 
@@ -104,7 +131,7 @@ const DashboardVentasMensuales: React.FC = () => {
     const result = regression.linear(dataPoints);
     return result.points.map((point, index) => ({
       name: chartData[index].name,
-      trendValue: point[1],
+      trendValue: point[1]
     }));
   }, [chartData]);
 
@@ -112,7 +139,7 @@ const DashboardVentasMensuales: React.FC = () => {
     return new Intl.NumberFormat('es-CO', {
       style: 'currency',
       currency: 'COP',
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 0
     }).format(value);
   }, []);
 
@@ -134,7 +161,7 @@ const DashboardVentasMensuales: React.FC = () => {
 
   return (
     <Box sx={{ padding: isMobile ? 2 : 4 }}>
-      <Typography variant={isMobile ? "h5" : "h4"} gutterBottom>
+      <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom>
         Dashboard de Ventas Mensuales
       </Typography>
       <Box
@@ -189,14 +216,14 @@ const DashboardVentasMensuales: React.FC = () => {
             top: 5,
             right: isMobile ? 10 : 30,
             left: isMobile ? 10 : 100,
-            bottom: 5,
+            bottom: 5
           }}
         >
           <CartesianGrid stroke={theme.palette.divider} />
           <XAxis
             dataKey="name"
             angle={isMobile ? -45 : 0}
-            textAnchor={isMobile ? "end" : "middle"}
+            textAnchor={isMobile ? 'end' : 'middle'}
             height={isMobile ? 80 : 30}
             tick={{ fontSize: isMobile ? 10 : 12, fill: theme.palette.text.primary }}
           />
@@ -212,12 +239,25 @@ const DashboardVentasMensuales: React.FC = () => {
             contentStyle={{ backgroundColor: theme.palette.background.paper, color: theme.palette.text.primary }}
           />
           <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12, color: theme.palette.text.primary }} />
-          <Line type="monotone" dataKey="value" name="Ventas" stroke={theme.palette.primary.main} activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="trendValue" name="Tendencia" data={trendLineData} stroke={theme.palette.secondary.main} dot={false} />
+          <Line
+            type="monotone"
+            dataKey="value"
+            name="Ventas"
+            stroke={theme.palette.primary.main}
+            activeDot={{ r: 8 }}
+          />
+          <Line
+            type="monotone"
+            dataKey="trendValue"
+            name="Tendencia"
+            data={trendLineData}
+            stroke={theme.palette.secondary.main}
+            dot={false}
+          />
         </LineChart>
       </ResponsiveContainer>
     </Box>
   );
-}
+};
 
 export default DashboardVentasMensuales;
