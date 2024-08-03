@@ -18,7 +18,7 @@ import { styled } from '@mui/system';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
-import { darkTheme, lightTheme } from '../../styles/Theme'; // Ajusta la ruta según sea necesario
+import { darkTheme, lightTheme } from '/Theme/index'; // Ajusta la ruta según sea necesario
 
 interface Feature {
   name: string;
