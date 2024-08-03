@@ -1,6 +1,7 @@
 import React from 'react';
-import { Grid, Card, CardContent, Typography, Box, useTheme, useMediaQuery } from '@mui/material';
-import { BarChart, Dashboard, Storage, Notifications } from '@mui/icons-material';
+import { Grid, Typography, Box, useTheme, useMediaQuery, Paper } from '@mui/material';
+import { Rocket, Dashboard, Layers, Visibility, TrendingUp, Notifications } from '@mui/icons-material';
+import { generateColorPalette } from '../../services/colorPalette';
 
 interface FeatureItemProps {
   icon: React.ElementType;
@@ -10,63 +11,84 @@ interface FeatureItemProps {
 
 const FeatureItem: React.FC<FeatureItemProps> = ({ icon: Icon, title, description }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const colors = generateColorPalette(theme.palette.primary.main, theme.palette.secondary.main);
 
   return (
-    <Card sx={{ 
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      transition: 'all 0.3s ease-in-out',
-      '&:hover': { 
-        transform: isMobile ? 'none' : 'translateY(-10px)',
-        boxShadow: isMobile ? 1 : 6
-      }
-    }}>
-      <CardContent sx={{ 
-        flexGrow: 1, 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        textAlign: 'center',
-        p: isMobile ? 2 : 3
-      }}>
-        <Icon sx={{ fontSize: isMobile ? 40 : 60, color: theme.palette.primary.main, mb: 2 }} />
-        <Typography variant={isMobile ? "subtitle1" : "h6"} component="h3" gutterBottom>{title}</Typography>
-        <Typography variant="body2" color="text.secondary">{description}</Typography>
-      </CardContent>
-    </Card>
+    <Paper
+      elevation={0}
+      sx={{
+        p: 3,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        transition: 'all 0.3s ease-in-out',
+        '&:hover': {
+          transform: 'translateY(-8px)',
+          boxShadow: theme.shadows[4],
+        },
+      }}
+    >
+      <Icon sx={{ fontSize: 40, color: colors[2], mb: 2 }} />
+      <Typography variant="h6" component="h3" gutterBottom fontWeight="bold" color="text.primary">
+        {title}
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        {description}
+      </Typography>
+    </Paper>
   );
 };
+
+const features = [
+  { icon: Rocket, title: "IA Predictiva", description: "Anticípese al mercado con insights en tiempo real." },
+  { icon: Dashboard, title: "Dashboards", description: "Visualice KPIs clave de forma intuitiva." },
+  { icon: Layers, title: "Integración", description: "Unifique datos para una visión holística." },
+  { icon: Visibility, title: "Monitoreo", description: "Detecte anomalías y oportunidades con IA." },
+  { icon: TrendingUp, title: "Optimización", description: "Mejore operaciones con machine learning." },
+  { icon: Notifications, title: "Alertas", description: "Reciba notificaciones inteligentes." },
+];
 
 const KeyFeatures: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const features = [
-    { icon: BarChart, title: "Análisis Predictivo en Tiempo Real", description: "Anticípese a las tendencias del mercado y tome decisiones informadas con datos actualizados constantemente." },
-    { icon: Dashboard, title: "Paneles de Control Personalizables", description: "Visualice sus KPIs clave en dashboards intuitivos, obteniendo una visión clara del rendimiento de su negocio." },
-    { icon: Storage, title: "Integración de Datos", description: "Unifique todas sus fuentes de datos, eliminando silos de información para una visión holística del negocio." },
-    { icon: Notifications, title: "Alertas y Notificaciones Proactivas", description: "Reciba alertas sobre eventos críticos, desviaciones de rendimiento y nuevas oportunidades de negocio." }
-  ];
+  const colors = generateColorPalette(theme.palette.primary.main, theme.palette.secondary.main);
 
   return (
-    <Box sx={{ mb: { xs: 6, sm: 8, md: 12 } }}>
-      <Typography 
-        variant={isMobile ? "h4" : "h3"} 
-        gutterBottom 
-        align="center" 
-        sx={{ 
-          fontWeight: 'bold', 
-          color: theme.palette.text.primary, 
-          mb: { xs: 3, sm: 4, md: 6 }
+    <Box
+      sx={{
+        py: { xs: 8, md: 12 },
+        px: { xs: 2, sm: 4, md: 6 },
+        backgroundColor: theme.palette.background.default,
+      }}
+    >
+      <Typography
+        variant={isMobile ? "h4" : "h3"}
+        component="h2"
+        align="center"
+        gutterBottom
+        fontWeight="bold"
+        sx={{
+          mb: { xs: 6, md: 8 },
+          color: 'text.primary',
+          position: 'relative',
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            bottom: '-16px',
+            left: '50%',
+            width: '60px',
+            height: '4px',
+            backgroundColor: colors[2],
+            transform: 'translateX(-50%)',
+          },
         }}
       >
         Funcionalidades Clave
       </Typography>
-      <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+      <Grid container spacing={4}>
         {features.map((item, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+          <Grid item xs={12} sm={6} md={4} key={index}>
             <FeatureItem
               icon={item.icon}
               title={item.title}

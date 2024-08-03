@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { leerCSV, VentaData } from '../../services/csvService';
-import { Select, MenuItem, FormControl, InputLabel, Box, Typography, SelectChangeEvent, CircularProgress, useMediaQuery, useTheme } from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel, Box, Typography, CircularProgress, useMediaQuery, useTheme } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 import regression from 'regression';
 
 const DashboardVentasMensuales: React.FC = () => {
@@ -86,7 +87,7 @@ const DashboardVentasMensuales: React.FC = () => {
     const chartData = Object.values(processedData.months)
       .sort((a, b) => a.month.localeCompare(b.month))
       .map(({ month, total }) => ({ name: month, value: total }));
-    
+
     const maxY = processedData.maxSale * 1.1;
     const yAxisDomain = [0, Math.ceil(maxY / 1000000) * 1000000];
 
@@ -133,35 +134,45 @@ const DashboardVentasMensuales: React.FC = () => {
 
   return (
     <Box sx={{ padding: isMobile ? 2 : 4 }}>
-      <Typography variant={isMobile ? "h5" : "h4"} gutterBottom>Dashboard de Ventas Mensuales</Typography>
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: isMobile ? 'column' : 'row', 
-        justifyContent: 'space-between', 
-        marginBottom: 4,
-        gap: 2
-      }}>
-        <FormControl fullWidth={isMobile} style={{ minWidth: isMobile ? 'auto' : 120 }}>
+      <Typography variant={isMobile ? "h5" : "h4"} gutterBottom>
+        Dashboard de Ventas Mensuales
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          justifyContent: 'space-between',
+          marginBottom: 4,
+          gap: 2
+        }}
+      >
+        <FormControl fullWidth={isMobile} sx={{ minWidth: isMobile ? 'auto' : 120 }}>
           <InputLabel>Año</InputLabel>
           <Select value={yearFilter} onChange={handleFilterChange('year')}>
             {yearOptions.map((year) => (
-              <MenuItem key={year} value={year}>{year === 'todos' ? 'Todos' : year}</MenuItem>
+              <MenuItem key={year} value={year}>
+                {year === 'todos' ? 'Todos' : year}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth={isMobile} style={{ minWidth: isMobile ? 'auto' : 120 }}>
+        <FormControl fullWidth={isMobile} sx={{ minWidth: isMobile ? 'auto' : 120 }}>
           <InputLabel>Mes</InputLabel>
           <Select value={monthFilter} onChange={handleFilterChange('month')}>
             {monthOptions.map((month) => (
-              <MenuItem key={month} value={month}>{month === 'todos' ? 'Todos' : month}</MenuItem>
+              <MenuItem key={month} value={month}>
+                {month === 'todos' ? 'Todos' : month}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth={isMobile} style={{ minWidth: isMobile ? 'auto' : 120 }}>
+        <FormControl fullWidth={isMobile} sx={{ minWidth: isMobile ? 'auto' : 120 }}>
           <InputLabel>Producto</InputLabel>
           <Select value={productFilter} onChange={handleFilterChange('product')}>
             {productOptions.map((product) => (
-              <MenuItem key={product} value={product}>{product === 'todos' ? 'Todos' : product}</MenuItem>
+              <MenuItem key={product} value={product}>
+                {product === 'todos' ? 'Todos' : product}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -182,14 +193,14 @@ const DashboardVentasMensuales: React.FC = () => {
           }}
         >
           <CartesianGrid stroke={theme.palette.divider} />
-          <XAxis 
-            dataKey="name" 
+          <XAxis
+            dataKey="name"
             angle={isMobile ? -45 : 0}
             textAnchor={isMobile ? "end" : "middle"}
             height={isMobile ? 80 : 30}
             tick={{ fontSize: isMobile ? 10 : 12, fill: theme.palette.text.primary }}
           />
-          <YAxis 
+          <YAxis
             domain={yAxisDomain}
             tickFormatter={(value) => formatCOP(value).replace(/COP\s?/, '')}
             width={isMobile ? 60 : 80}
