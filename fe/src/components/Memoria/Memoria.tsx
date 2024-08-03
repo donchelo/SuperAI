@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Box, Tabs, Tab, Typography, Paper } from "@mui/material";
-import ADN from "./ADN/ADN";
-import DatosInternos from "./datosInternos";
+import React, { useState } from 'react';
+import { Box, Tabs, Tab, Typography, Paper } from '@mui/material';
+import ADN from './ADN/ADN';
+import DatosInternos from './DatosInternos/DatosInternos';
 
 const Memoria: React.FC = () => {
   const [tabIndex, setTabIndex] = useState(0);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Tabs, Tab, useTheme, useMediaQuery } from '@mui/material';
-import ADN from './Memoria/ADN/ADN';
-import DatosInternos from './Memoria/datosInternos';
+import ADN from './ADN/ADN';
+import DatosInternos from './DatosInternos/DatosInternos';
 
 const TabSwitcher: React.FC = () => {
   const [value, setValue] = useState(0);
