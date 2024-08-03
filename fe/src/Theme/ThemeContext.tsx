@@ -1,48 +1,37 @@
 // src/Theme/ThemeContext.tsx
+import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { lightTheme, darkTheme } from './index';
 
-import React, { createContext, useState, useMemo, useContext } from 'react';
-import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { lightTheme, darkTheme } from './index';  // Ajuste de la ruta
-
-interface ThemeContextType {
+interface ThemeContextProps {
   toggleTheme: () => void;
   isDarkMode: boolean;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
-export const CustomThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDarkMode((prevMode) => !prevMode);
-  };
-
-  const value = useMemo(() => ({
-    toggleTheme,
-    isDarkMode,
-  }), [isDarkMode]);
-
-  const theme = useMemo(() => createTheme(isDarkMode ? darkTheme : lightTheme), [isDarkMode]);
-
-  return (
-    <ThemeContext.Provider value={value}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </MuiThemeProvider>
-    </ThemeContext.Provider>
-  );
-};
+const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export const useThemeContext = () => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useThemeContext must be used within a CustomThemeProvider');
+    throw new Error('useThemeContext must be used within a ThemeProvider');
   }
   return context;
 };
 
-// Asegúrate de exportar `CustomThemeProvider` como `ThemeProvider` para que coincida con las importaciones en `App.tsx`
-export { CustomThemeProvider as ThemeProvider };
+export const CustomThemeProvider = ({ children }: { children: ReactNode }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const theme = createTheme(isDarkMode ? darkTheme : lightTheme);
+
+  return (
+    <ThemeContext.Provider value={{ toggleTheme, isDarkMode }}>
+      <ThemeProvider theme={theme}>
+        {children}
+      </ThemeProvider>
+    </ThemeContext.Provider>
+  );
+};

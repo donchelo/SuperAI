@@ -1,9 +1,9 @@
+// src/App.tsx
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
-import { ThemeProvider } from './Theme/ThemeContext';
+import { CustomThemeProvider } from './Theme/ThemeContext';
 
-// Importaciones lazy para mejorar el rendimiento
 const SuperAILandingPage = React.lazy(() => import('./components/landingPage/SuperAILandingPage'));
 const Header = React.lazy(() => import('./components/Header/Header'));
 const Chat = React.lazy(() => import('./components/Chat/Chat'));
@@ -17,7 +17,7 @@ const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/P
 const App: React.FC = () => {
   return (
     <Router basename="/SuperAI">
-      <ThemeProvider>
+      <CustomThemeProvider>
         <Suspense fallback={
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <CircularProgress />
@@ -36,7 +36,7 @@ const App: React.FC = () => {
             </Route>
           </Routes>
         </Suspense>
-      </ThemeProvider>
+      </CustomThemeProvider>
     </Router>
   );
 };
