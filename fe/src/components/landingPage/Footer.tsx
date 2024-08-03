@@ -20,8 +20,8 @@ const Footer: React.FC = () => {
     darkGray: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[800],
     white: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.common.white,
     lightGray: theme.palette.grey[500],
-    orange: theme.palette.warning.main,
-    blue: theme.palette.primary.main,
+    primary: theme.palette.primary.main,
+    secondary: theme.palette.secondary.main,
   };
 
   const socialLinks = [
@@ -34,26 +34,29 @@ const Footer: React.FC = () => {
   const quickLinks = ['Inicio', 'Pricing', 'Demo'];
 
   return (
-    <Box component="footer" sx={{ 
-      bgcolor: customColors.darkGray, 
-      color: customColors.white,
-      py: { xs: 4, md: 6 },
-      position: 'relative',
-      overflow: 'hidden',
-      '&::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '4px',
-        background: `linear-gradient(90deg, ${customColors.blue}, ${customColors.orange})`,
-      }
-    }}>
+    <Box
+      component="footer"
+      sx={{
+        bgcolor: customColors.darkGray,
+        color: customColors.white,
+        py: { xs: 4, md: 6 },
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '4px',
+          background: `linear-gradient(90deg, ${customColors.primary}, ${customColors.secondary})`,
+        },
+      }}
+    >
       <Container maxWidth="lg">
         <Grid container spacing={4} justifyContent="space-between">
           <Grid item xs={12} md={4}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2, color: customColors.orange }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2, color: customColors.secondary }}>
               SuperAI Empresarial
             </Typography>
             <Typography variant="body2" sx={{ mb: 2 }}>
@@ -61,17 +64,17 @@ const Footer: React.FC = () => {
             </Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
               {socialLinks.map((link) => (
-                <IconButton 
+                <IconButton
                   key={link.label}
-                  aria-label={link.label} 
-                  component="a" 
+                  aria-label={link.label}
+                  component="a"
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  sx={{ 
+                  sx={{
                     color: customColors.white,
-                    '&:hover': { color: customColors.orange },
-                    transition: 'color 0.3s'
+                    '&:hover': { color: customColors.secondary },
+                    transition: 'color 0.3s',
                   }}
                 >
                   {link.icon}
@@ -80,23 +83,23 @@ const Footer: React.FC = () => {
             </Box>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: customColors.blue }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: customColors.primary }}>
               Enlaces Rápidos
             </Typography>
             {quickLinks.map((text, index) => (
-              <Link 
+              <Link
                 key={text}
-                component={RouterLink} 
+                component={RouterLink}
                 to={index === 0 ? "/" : `/${text.toLowerCase()}`}
-                sx={{ 
-                  display: 'block', 
-                  color: customColors.white, 
+                sx={{
+                  display: 'block',
+                  color: customColors.white,
                   mb: 1,
                   transition: 'color 0.3s',
-                  '&:hover': { 
-                    color: customColors.orange,
+                  '&:hover': {
+                    color: customColors.secondary,
                     textDecoration: 'none',
-                  }
+                  },
                 }}
               >
                 {text}
@@ -104,17 +107,17 @@ const Footer: React.FC = () => {
             ))}
           </Grid>
           <Grid item xs={12} md={4}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: customColors.blue }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: customColors.primary }}>
               Contacto
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <Email sx={{ mr: 1, color: customColors.orange }} />
+              <Email sx={{ mr: 1, color: customColors.secondary }} />
               <Typography variant="body2">
                 mariano@ai4u.com.co
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <Phone sx={{ mr: 1, color: customColors.orange }} />
+              <Phone sx={{ mr: 1, color: customColors.secondary }} />
               <Typography variant="body2">
                 +57 (321) 817-5744
               </Typography>
@@ -122,26 +125,28 @@ const Footer: React.FC = () => {
           </Grid>
         </Grid>
         <Divider sx={{ my: 4, borderColor: customColors.lightGray }} />
-        <Box sx={{ 
-          display: 'flex', 
-          flexDirection: { xs: 'column', sm: 'row' }, 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          textAlign: { xs: 'center', sm: 'left' }
-        }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            textAlign: { xs: 'center', sm: 'left' },
+          }}
+        >
           <Typography variant="body2" sx={{ mb: { xs: 2, sm: 0 } }}>
             © 2024 SuperAI Empresarial. Todos los derechos reservados.
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
-            <Link component={RouterLink} to="/politica-de-privacidad" sx={{ color: customColors.lightGray, '&:hover': { color: customColors.orange } }}>
+            <Link component={RouterLink} to="/politica-de-privacidad" sx={{ color: customColors.lightGray, '&:hover': { color: customColors.secondary } }}>
               Política de Privacidad
             </Link>
-            <Link component={RouterLink} to="/terms" sx={{ color: customColors.lightGray, '&:hover': { color: customColors.orange } }}>
+            <Link component={RouterLink} to="/terms" sx={{ color: customColors.lightGray, '&:hover': { color: customColors.secondary } }}>
               Términos y Condiciones
             </Link>
           </Box>
         </Box>
-        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center', fontStyle: 'italic', color: customColors.orange }}>
+        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center', fontStyle: 'italic', color: customColors.secondary }}>
           Mariano - 마리아노
         </Typography>
       </Container>
