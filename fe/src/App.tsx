@@ -1,8 +1,7 @@
-// src/App.tsx
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
-import { CustomThemeProvider } from './Theme/ThemeContext';
+import { CustomThemeProvider } from './components/Context/ThemeContext';
 
 const SuperAILandingPage = React.lazy(() => import('./components/landingPage/SuperAILandingPage'));
 const Header = React.lazy(() => import('./components/Header/Header'));

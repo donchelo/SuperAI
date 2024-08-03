@@ -9,25 +9,35 @@ import {
   IconButton,
   useTheme,
   useMediaQuery,
+  Divider,
 } from '@mui/material';
-import { Facebook, Twitter, LinkedIn, Instagram } from '@mui/icons-material';
+import { Facebook, Twitter, LinkedIn, Instagram, Email, Phone } from '@mui/icons-material';
 
 const Footer: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const customColors = {
-    darkGray: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[700],
+    darkGray: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[800],
     white: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.common.white,
     lightGray: theme.palette.grey[500],
     orange: theme.palette.warning.main,
     blue: theme.palette.primary.main,
   };
 
+  const socialLinks = [
+    { icon: <Facebook />, label: 'Facebook', url: 'https://facebook.com' },
+    { icon: <Twitter />, label: 'Twitter', url: 'https://twitter.com' },
+    { icon: <LinkedIn />, label: 'LinkedIn', url: 'https://www.linkedin.com/company/ai4u-artificial-intelligence-for-you' },
+    { icon: <Instagram />, label: 'Instagram', url: 'https://www.instagram.com/a.i.4.u/' },
+  ];
+
+  const quickLinks = ['Inicio', 'Pricing', 'Demo'];
+
   return (
     <Box component="footer" sx={{ 
       bgcolor: customColors.darkGray, 
       color: customColors.white,
-      py: 6,
+      py: { xs: 4, md: 6 },
       position: 'relative',
       overflow: 'hidden',
       '&::before': {
@@ -41,7 +51,7 @@ const Footer: React.FC = () => {
       }
     }}>
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
+        <Grid container spacing={4} justifyContent="space-between">
           <Grid item xs={12} md={4}>
             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2, color: customColors.orange }}>
               SuperAI Empresarial
@@ -50,25 +60,30 @@ const Footer: React.FC = () => {
               Transformando el liderazgo empresarial mediante la inteligencia artificial.
             </Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <IconButton aria-label="facebook" sx={{ color: customColors.white }}>
-                <Facebook />
-              </IconButton>
-              <IconButton aria-label="twitter" sx={{ color: customColors.white }}>
-                <Twitter />
-              </IconButton>
-              <IconButton aria-label="linkedin" sx={{ color: customColors.white }}>
-                <LinkedIn />
-              </IconButton>
-              <IconButton aria-label="instagram" sx={{ color: customColors.white }}>
-                <Instagram />
-              </IconButton>
+              {socialLinks.map((link) => (
+                <IconButton 
+                  key={link.label}
+                  aria-label={link.label} 
+                  component="a" 
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ 
+                    color: customColors.white,
+                    '&:hover': { color: customColors.orange },
+                    transition: 'color 0.3s'
+                  }}
+                >
+                  {link.icon}
+                </IconButton>
+              ))}
             </Box>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: customColors.blue }}>
               Enlaces Rápidos
             </Typography>
-            {['Inicio', 'Pricing', 'Demo'].map((text, index) => (
+            {quickLinks.map((text, index) => (
               <Link 
                 key={text}
                 component={RouterLink} 
@@ -92,19 +107,32 @@ const Footer: React.FC = () => {
             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: customColors.blue }}>
               Contacto
             </Typography>
-            <Typography variant="body2" sx={{ mb: 1 }}>
-              Email: mariano@ai4u.com.co
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 1 }}>
-              Teléfono: +57 (321) 817-5744
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <Email sx={{ mr: 1, color: customColors.orange }} />
+              <Typography variant="body2">
+                mariano@ai4u.com.co
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <Phone sx={{ mr: 1, color: customColors.orange }} />
+              <Typography variant="body2">
+                +57 (321) 817-5744
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
-        <Box sx={{ mt: 4, pt: 2, borderTop: `1px solid ${customColors.lightGray}`, textAlign: 'center' }}>
-          <Typography variant="body2" sx={{ mb: 1 }}>
+        <Divider sx={{ my: 4, borderColor: customColors.lightGray }} />
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: { xs: 'column', sm: 'row' }, 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          textAlign: { xs: 'center', sm: 'left' }
+        }}>
+          <Typography variant="body2" sx={{ mb: { xs: 2, sm: 0 } }}>
             © 2024 SuperAI Empresarial. Todos los derechos reservados.
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
             <Link component={RouterLink} to="/politica-de-privacidad" sx={{ color: customColors.lightGray, '&:hover': { color: customColors.orange } }}>
               Política de Privacidad
             </Link>
@@ -112,10 +140,10 @@ const Footer: React.FC = () => {
               Términos y Condiciones
             </Link>
           </Box>
-          <Typography variant="body2" sx={{ mt: 2, fontStyle: 'italic', color: customColors.orange }}>
-            by Mariano - 마리아노
-          </Typography>
         </Box>
+        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center', fontStyle: 'italic', color: customColors.orange }}>
+          Mariano - 마리아노
+        </Typography>
       </Container>
     </Box>
   );
