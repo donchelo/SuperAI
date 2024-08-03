@@ -1,7 +1,7 @@
-// src/components/Chat/MessageInput.tsx
-import React from 'react';
-import { Box, TextField, IconButton } from '@mui/material';
-import { Send, Menu } from '@mui/icons-material'; // Asegúrate de importar los íconos
+import React, { useState, KeyboardEvent } from 'react';
+import { Box, Button, TextField, InputAdornment, IconButton } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import QuickReplyIcon from '@mui/icons-material/QuickReply'; // Asegúrate de que este icono existe
 
 interface MessageInputProps {
   newMessage: string;
@@ -10,24 +10,35 @@ interface MessageInputProps {
   toggleQuickPrompts: () => void;
 }
 
-export const MessageInput: React.FC<MessageInputProps> = ({ newMessage, setNewMessage, handleSendMessage, toggleQuickPrompts }) => {
+const MessageInput: React.FC<MessageInputProps> = ({ newMessage, setNewMessage, handleSendMessage, toggleQuickPrompts }) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box display="flex" alignItems="center">
       <TextField
-        fullWidth
-        variant="outlined"
-        placeholder="Escribe tu mensaje..."
         value={newMessage}
         onChange={(e) => setNewMessage(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-        sx={{ mr: 1 }}
+        onKeyDown={handleKeyDown}
+        fullWidth
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={toggleQuickPrompts} edge="end">
+                <QuickReplyIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
-      <IconButton color="primary" onClick={handleSendMessage}>
-        <Send />
-      </IconButton>
-      <IconButton color="secondary" onClick={toggleQuickPrompts}>
-        <Menu /> {/* Usa el ícono importado aquí */}
-      </IconButton>
+      <Button onClick={() => handleSendMessage()} variant="contained" color="primary">
+        Enviar
+      </Button>
     </Box>
   );
 };
+
+export default MessageInput;

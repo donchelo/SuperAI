@@ -4,7 +4,7 @@ import { Close } from '@mui/icons-material';
 import QuickPrompts from './QuickPrompts';
 import { Message } from './types';
 import { MessageItem } from './MessageItem';
-import { MessageInput } from './MessageInput';
+import MessageInput from './MessageInput';
 import ReactMarkdown from 'react-markdown';
 
 const Chat: React.FC = () => {
@@ -23,7 +23,6 @@ const Chat: React.FC = () => {
   const [defaultPrompt, setDefaultPrompt] = useState('');
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     const fetchData = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/get-responses`);
@@ -49,13 +48,17 @@ Instrucciones adicionales:
       }
     };
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSendMessage = async (text = newMessage) => {
-    if (text.trim() !== '') {
-      addMessage(text, 'user');
+    if (typeof text === 'string' && text.trim() !== '') {
+      addMessage(text.trim(), 'user');
       setNewMessage('');
-      await getBotResponse(text);
+      await getBotResponse(text.trim());
     }
     setQuickPromptsOpen(false);
   };
@@ -77,7 +80,7 @@ Instrucciones adicionales:
         body: JSON.stringify({
           model: "gpt-4",
           messages: [
-            {role: "system" , content: defaultPrompt},
+            { role: "system", content: defaultPrompt },
             { role: "user", content: text }
           ],
           temperature: 0.7,
@@ -118,7 +121,7 @@ Instrucciones adicionales:
         pb: '70px',
       }}>
         {messages.map((message) => (
-          <MessageItem key={message.id} message={message} renderMarkdown={(text: string) => <ReactMarkdown>{text}</ReactMarkdown>} />
+          <MessageItem key={message.id} message={message} />
         ))}
         <div ref={messagesEndRef} />
       </Box>
