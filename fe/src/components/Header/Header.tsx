@@ -48,7 +48,6 @@ const Header: React.FC = () => {
   };
 
   const handleSignOut = () => {
-    // Aquí puedes añadir lógica para cerrar sesión si es necesario
     handleProfileMenuClose();
     navigate('/');
   };

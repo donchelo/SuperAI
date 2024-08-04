@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Box, Typography, CircularProgress, IconButton, Fade } from '@mui/material';
+import { Paper, Box, Typography, CircularProgress, IconButton, Fade, useTheme, useMediaQuery } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import QuestionComponent from './QuestionComponent';
 
@@ -26,11 +26,13 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
   handleEditField,
   handleSaveField,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isExpanded = expandedSections[section.key];
   const sectionProgress = section.fields.filter(([field]) => formData[section.key]?.[field]).length / section.fields.length * 100;
 
   return (
-    <Paper key={section.key} sx={{ mb: 2, overflow: 'hidden' }}>
+    <Paper key={section.key} sx={{ mb: 2, overflow: 'hidden', width: '100%' }}>
       <Box
         sx={{
           p: 2,
@@ -39,11 +41,12 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
           cursor: 'pointer',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          width: '100%'
         }}
         onClick={() => toggleSection(section.key)}
       >
-        <Typography variant="h6">{section.title}</Typography>
+        <Typography variant={isMobile ? 'subtitle1' : 'h6'}>{section.title}</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <CircularProgress
             variant="determinate"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Box, IconButton, Typography } from '@mui/material';
+import { TextField, Box, IconButton, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { Edit, Check } from '@mui/icons-material';
 
 interface FieldComponentProps {
@@ -25,14 +25,20 @@ const FieldComponent: React.FC<FieldComponentProps> = ({
   handleEditField,
   handleSaveField,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isEditing = editingField === `${category}-${field}`;
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <Typography component="label" htmlFor={field} sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: 'text.primary' }}>
+    <Box sx={{ mb: 2, width: '100%' }}>
+      <Typography
+        component="label"
+        htmlFor={field}
+        sx={{ display: 'block', mb: 1, fontWeight: 'bold', color: 'text.primary', fontSize: isMobile ? '1rem' : '1.25rem' }}
+      >
         {label}
       </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', width: '100%' }}>
         <TextField
           id={field}
           name={field}
@@ -46,12 +52,13 @@ const FieldComponent: React.FC<FieldComponentProps> = ({
           helperText={error}
           disabled={!isEditing}
           InputProps={{
-            style: { color: 'text.primary' },
+            style: { color: theme.palette.text.primary },
           }}
+          sx={{ mr: 1 }}
         />
         <IconButton 
           onClick={() => isEditing ? handleSaveField(category, field) : handleEditField(category, field)}
-          sx={{ ml: 1 }}
+          sx={{ ml: 1, color: theme.palette.primary.main }}
         >
           {isEditing ? <Check /> : <Edit />}
         </IconButton>

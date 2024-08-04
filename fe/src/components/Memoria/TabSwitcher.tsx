@@ -25,13 +25,14 @@ const TabSwitcher: React.FC = () => {
         top: isMobile ? 56 : 64,
         backgroundColor: theme.palette.background.default,
         zIndex: 1,
+        width: '100%',
       }}>
-        <Tabs value={value} onChange={handleChange} aria-label="memoria tabs">
+        <Tabs value={value} onChange={handleChange} aria-label="memoria tabs" variant="fullWidth">
           <Tab label="ADN" />
           <Tab label="Datos Internos" />
         </Tabs>
       </Box>
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 3, width: isMobile ? '100%' : 'auto' }}>
         {value === 0 && <ADN />}
         {value === 1 && <DatosInternos />}
       </Box>

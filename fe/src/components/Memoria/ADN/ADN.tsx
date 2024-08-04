@@ -6,21 +6,20 @@ import {
   Typography,
   IconButton,
   Snackbar,
-  useTheme,
-  useMediaQuery,
   Tooltip,
   CircularProgress,
   Grid,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { Save, Info } from '@mui/icons-material';
 import CategoryComponent from './CategoryComponent';
 import { sections } from './questionsData';
 
-// Asegúrate de que esta interfaz coincida con la definición en CategoryComponent
 interface Section {
   title: string;
   key: string;
