@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Box, Tabs, Tab, useTheme, useMediaQuery } from '@mui/material';
 import ADN from './ADN/ADN';
 import DatosInternos from './DatosInternos/DatosInternos';
+import EmployeeManagement from '../Pages/Empleados/EmployeeManagement';
 
 const TabSwitcher: React.FC = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState<number>(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -30,11 +31,13 @@ const TabSwitcher: React.FC = () => {
         <Tabs value={value} onChange={handleChange} aria-label="memoria tabs" variant="fullWidth">
           <Tab label="ADN" />
           <Tab label="Datos Internos" />
+          <Tab label="Empleados" />
         </Tabs>
       </Box>
       <Box sx={{ p: 3, width: isMobile ? '100%' : 'auto' }}>
         {value === 0 && <ADN />}
         {value === 1 && <DatosInternos />}
+        {value === 2 && <EmployeeManagement />}
       </Box>
     </Box>
   );
