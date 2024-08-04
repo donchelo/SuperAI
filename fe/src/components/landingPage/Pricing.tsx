@@ -12,7 +12,7 @@ import {
   Tooltip,
   IconButton,
   Fade,
-  useTheme, // Importar useTheme
+  useTheme,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import CheckIcon from '@mui/icons-material/Check';
@@ -33,18 +33,19 @@ const StyledCard = styled(motion.div)(({ theme }) => ({
   transition: 'all 0.3s ease-in-out',
   backgroundColor: theme.palette.background.paper,
   borderRadius: theme.shape.borderRadius,
-  boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.2)', // Reemplazar customShadows
+  boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.2)',
   overflow: 'hidden',
+  border: 'none',
 }));
 
 const HighlightedCard = styled(StyledCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.light,
-  boxShadow: '0px 1px 10px rgba(0, 0, 0, 0.2)', // Reemplazar customShadows
+  boxShadow: '0px 1px 10px rgba(0, 0, 0, 0.2)',
 }));
 
 const PriceTypography = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
-  color: theme.palette.primary.light, // Asegurarse de que el texto sea claro en modo oscuro
+  color: theme.palette.primary.light,
 }));
 
 const FeatureItem = styled(Box)(({ theme }) => ({
@@ -59,10 +60,7 @@ const FeatureItem = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.action.hover,
   },
   '& .MuiTypography-body2': {
-    color: theme.palette.text.primary, // Texto principal claro en modo oscuro
-  },
-  '& .MuiIconButton-root': {
-    color: theme.palette.text.secondary, // Color secundario para iconos
+    color: theme.palette.text.primary,
   },
 }));
 
@@ -73,7 +71,7 @@ const PlanCard: React.FC<{
   isHighlighted: boolean;
   onSelect: () => void;
 }> = ({ price, monthlyPrice, period, isHighlighted, onSelect }) => {
-  const theme = useTheme(); // Usar useTheme para obtener el tema actual
+  const theme = useTheme();
   const CardComponent = isHighlighted ? HighlightedCard : StyledCard;
 
   return (
@@ -82,8 +80,8 @@ const PlanCard: React.FC<{
       whileTap={{ scale: 0.95 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
     >
-      <Card elevation={0} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <CardContent>
+      <Card elevation={0} sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 'inherit' }}>
+        <CardContent sx={{ borderRadius: 'inherit' }}>
           <Typography variant="h5" component="div" gutterBottom fontWeight="bold" color="text.primary">
             {period === 'año' ? 'Plan Anual' : 'Plan Mensual'}
           </Typography>
@@ -103,7 +101,7 @@ const PlanCard: React.FC<{
           )}
           {period === 'año' && <Chip label="Ahorra 34%" color="secondary" sx={{ mt: 2 }} />}
         </CardContent>
-        <CardActions sx={{ mt: 'auto', justifyContent: 'center', pb: 2 }}>
+        <CardActions sx={{ mt: 'auto', justifyContent: 'center', pb: 2, borderRadius: 'inherit' }}>
           <Button variant={isHighlighted ? 'contained' : 'outlined'} color="primary" onClick={onSelect} size="large" fullWidth>
             Seleccionar Plan
           </Button>
@@ -116,7 +114,7 @@ const PlanCard: React.FC<{
 const Pricing: React.FC = () => {
   const navigate = useNavigate();
   const { toggleTheme, currentTheme, isDarkMode } = useThemeContext();
-  const theme = useTheme(); // Usar useTheme para obtener el tema actual
+  const theme = useTheme();
   const [numEmployees, setNumEmployees] = useState<number>(1);
   const [animatedPrice, setAnimatedPrice] = useState<Record<string, number>>({});
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
@@ -158,7 +156,6 @@ const Pricing: React.FC = () => {
 
   const handleSelectPlan = (period: string) => {
     console.log(`Plan seleccionado: SuperAI Empresarial - ${period}`);
-    // Aquí puedes agregar la lógica para procesar la selección del plan
   };
 
   const handleNumEmployeesChange = (event: Event, newValue: number | number[]) => {
@@ -222,17 +219,9 @@ const Pricing: React.FC = () => {
           <Grid container spacing={2} justifyContent="center">
             {planFeatures.map((feature, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
-                <FeatureItem
-                  onMouseEnter={() => setHoveredFeature(feature.name)}
-                  onMouseLeave={() => setHoveredFeature(null)}
-                >
+                <FeatureItem>
                   <CheckIcon color="primary" sx={{ mr: 1 }} />
                   <Typography variant="body2" color="text.primary">{feature.name}</Typography>
-                  <Tooltip title={feature.description} placement="top">
-                    <IconButton size="small" sx={{ ml: 'auto' }}>
-                      <InfoOutlinedIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
                 </FeatureItem>
               </Grid>
             ))}
@@ -244,25 +233,6 @@ const Pricing: React.FC = () => {
           </Button>
         </Box>
       </Box>
-      <Fade in={hoveredFeature !== null}>
-        <Box
-          sx={{
-            position: 'fixed',
-            bottom: 16,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: theme.palette.background.paper,
-            padding: 2,
-            borderRadius: 2,
-            boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.2)', // Reemplazar customShadows
-            maxWidth: 300,
-          }}
-        >
-          <Typography variant="body2" color="text.primary">
-            {planFeatures.find(f => f.name === hoveredFeature)?.description}
-          </Typography>
-        </Box>
-      </Fade>
       <Box mt={2} textAlign="center" sx={{ flexShrink: 0 }}>
         <Typography variant="h6" gutterBottom color="text.primary">
           ¿Necesitas un plan personalizado?
