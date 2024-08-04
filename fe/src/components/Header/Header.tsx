@@ -1,78 +1,42 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   AppBar,
   Toolbar,
   Typography,
   Box,
   Button,
-  useMediaQuery,
-  useTheme,
   IconButton,
   Drawer,
   List,
-  ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
-  Divider,
-  styled,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
-import {
-  Menu as MenuIcon,
-  Close as CloseIcon,
-  ExitToApp as ExitToAppIcon,
-} from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Icon from '@mdi/react';
 import { mdiChat, mdiMemory, mdiHelpCircle, mdiViewDashboard, mdiRobotExcited } from '@mdi/js';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import ProfilePicture from './ProfilePicture';
 import ThemeToggle from './ThemeToggle';
 
-// Styled components
-const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  color: theme.palette.text.primary,
-}));
-
-const StyledToolbar = styled(Toolbar)({
-  justifyContent: 'space-between',
-});
-
-const LogoContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  [theme.breakpoints.down('sm')]: {
-    display: 'none',
-  },
-}));
-
-const NavButton = styled(Button)(({ theme }) => ({
-  color: 'inherit',
-  '&:hover': { backgroundColor: theme.palette.action.hover },
-  transition: 'all 0.3s',
-  justifyContent: 'flex-start',
-  width: '100%',
-  textAlign: 'left',
-}));
-
-const DrawerContent = styled(Box)({
-  width: 250,
-});
-
-const NavIcon = styled(Icon)({
-  marginRight: '16px',
-  width: '24px', // Ancho fijo para alinear todos los iconos
-});
+const menuItems = [
+  { icon: mdiChat, label: 'Chat', route: '/app/chat' },
+  { icon: mdiMemory, label: 'Memoria', route: '/app/memoria' },
+  { icon: mdiViewDashboard, label: 'Dashboards', route: '/app/dashboards' },
+  { icon: mdiHelpCircle, label: 'Ayuda', route: '/app/ayuda' },
+];
 
 const Header: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [location.pathname]);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const toggleDrawer = useCallback(() => {
     setDrawerOpen(prev => !prev);
@@ -87,113 +51,118 @@ const Header: React.FC = () => {
     setDrawerOpen(false);
   }, [navigate]);
 
-  const menuItems = useMemo(() => [
-    { icon: mdiChat, label: 'Chat', route: '/app/chat' },
-    { icon: mdiMemory, label: 'Memoria', route: '/app/memoria' },
-    { icon: mdiViewDashboard, label: 'Dashboards', route: '/app/dashboards' },
-    { icon: mdiHelpCircle, label: 'Ayuda', route: '/app/ayuda' }
-  ], []);
-
-  const renderDrawerContent = () => (
-    <DrawerContent>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-        <IconButton onClick={toggleDrawer}>
+  const DrawerContent = useMemo(() => (
+    <Box sx={{ width: 280, height: '100%', display: 'flex', flexDirection: 'column' }} role="presentation">
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, borderBottom: `1px solid ${theme.palette.divider}` }}>
+        <Typography variant="h6">Menú</Typography>
+        <IconButton onClick={toggleDrawer} edge="end" aria-label="cerrar menú">
           <CloseIcon />
         </IconButton>
       </Box>
-      <List>
-        {menuItems.map((item) => (
-          <ListItem
-            button
+      <List sx={{ flexGrow: 1, overflowY: 'auto', py: 0 }}>
+        {menuItems.map(item => (
+          <ListItemButton
             key={item.route}
             selected={location.pathname === item.route}
             onClick={() => handleNavigation(item.route)}
+            sx={{
+              py: 2,
+              '&.Mui-selected': {
+                backgroundColor: theme.palette.action.selected,
+                '&:hover': {
+                  backgroundColor: theme.palette.action.hover,
+                },
+              },
+            }}
           >
             <ListItemIcon>
-              <NavIcon path={item.icon} size={1} />
+              <Icon path={item.icon} size={1} color={location.pathname === item.route ? theme.palette.primary.main : theme.palette.text.primary} />
             </ListItemIcon>
-            <ListItemText primary={item.label} />
-          </ListItem>
+            <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: location.pathname === item.route ? 'bold' : 'normal' }} />
+          </ListItemButton>
         ))}
       </List>
-      <Divider />
-      <List>
-        <ListItem>
-          <ThemeToggle />
-        </ListItem>
-        <ListItem button onClick={handleSignOut}>
+      <Box sx={{ p: 2, borderTop: `1px solid ${theme.palette.divider}` }}>
+        <ListItemButton onClick={handleSignOut} sx={{ py: 2 }}>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
           <ListItemText primary="Cerrar Sesión" />
-        </ListItem>
-      </List>
-    </DrawerContent>
-  );
+        </ListItemButton>
+        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+          <ThemeToggle />
+        </Box>
+      </Box>
+    </Box>
+  ), [location.pathname, handleNavigation, handleSignOut, theme, toggleDrawer]);
 
   return (
     <>
-      <StyledAppBar position="fixed" elevation={1}>
-        <StyledToolbar>
-          {isMobile && (
-            <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
-              <MenuIcon />
-            </IconButton>
-          )}
-
-          <LogoContainer>
-            <NavIcon path={mdiRobotExcited} size={1.5} color={theme.palette.primary.main} />
+      <AppBar position="fixed" color="default" elevation={1}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {isMobile && (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer}
+                sx={{ mr: 1 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+            <Icon path={mdiRobotExcited} size={1} color={theme.palette.primary.main} />
             <Typography
-              variant="h5"
+              variant="h6"
               component="h1"
-              fontWeight="bold"
-              sx={{ ml: 1, fontFamily: "'Roboto Slab', serif" }}
+              sx={{ ml: 1, fontWeight: 'bold', display: { xs: 'none', sm: 'block' } }}
             >
               Super AI Empresarial
             </Typography>
-          </LogoContainer>
-
+          </Box>
           {!isMobile && (
-            <Box sx={{ display: 'flex', gap: 2, flexGrow: 1, justifyContent: 'center' }}>
-              {menuItems.map((item) => (
-                <NavButton
+            <Box sx={{ display: 'flex' }}>
+              {menuItems.map(item => (
+                <Button
                   key={item.route}
                   component={Link}
                   to={item.route}
-                  sx={{
-                    color: location.pathname === item.route ? 'primary.main' : 'inherit',
-                    width: 'auto', // Anular el ancho 100% para los botones de navegación en el header
+                  color={location.pathname === item.route ? 'primary' : 'inherit'}
+                  sx={{ 
+                    mx: 0.5,
+                    fontWeight: location.pathname === item.route ? 'bold' : 'normal',
+                    '&:hover': { backgroundColor: theme.palette.action.hover },
                   }}
+                  startIcon={<Icon path={item.icon} size={1} />}
                 >
-                  <NavIcon path={item.icon} size={1} />
-                  <Typography>{item.label}</Typography>
-                </NavButton>
+                  {item.label}
+                </Button>
               ))}
             </Box>
           )}
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <ProfilePicture onSignOut={handleSignOut} />
-          </Box>
-        </StyledToolbar>
-      </StyledAppBar>
-
-      <Toolbar /> {/* Espaciador para empujar el contenido principal */}
-      
+          <ProfilePicture onSignOut={handleSignOut} />
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
       <Drawer
         anchor="left"
         open={drawerOpen}
         onClose={toggleDrawer}
-        ModalProps={{ keepMounted: true }}
+        PaperProps={{
+          sx: {
+            width: 280,
+            boxShadow: theme.shadows[5],
+          },
+        }}
       >
-        {renderDrawerContent()}
+        {DrawerContent}
       </Drawer>
-
-      <Box sx={{ mt: 2, px: 2, pb: isMobile ? 7 : 2 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Outlet />
       </Box>
     </>
   );
 };
 
-export default Header;
+export default React.memo(Header);
