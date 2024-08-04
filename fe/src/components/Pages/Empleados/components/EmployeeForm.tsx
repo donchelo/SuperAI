@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, Grid, Typography } from '@mui/material';
 import { useEmployeeContext } from '../context/EmployeeContext';
 import { Employee } from '../context/types';
 
@@ -44,16 +44,98 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave, onCancel 
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
-      <TextField label="Full Name" name="fullName" value={formState.fullName} onChange={handleChange} fullWidth />
-      <TextField label="Position" name="position" value={formState.position} onChange={handleChange} fullWidth />
-      <TextField label="Responsibility" name="responsibility" value={formState.responsibility} onChange={handleChange} fullWidth />
-      <TextField label="Reports To" name="reportsTo" value={formState.reportsTo} onChange={handleChange} fullWidth />
-      <TextField label="Start Date" name="startDate" value={formState.startDate} onChange={handleChange} fullWidth />
-      <TextField label="End Date" name="endDate" value={formState.endDate} onChange={handleChange} fullWidth />
-      <TextField label="Area" name="area" value={formState.area} onChange={handleChange} fullWidth />
-      <Button type="submit" variant="contained" color="primary">Save</Button>
-      <Button type="button" variant="outlined" color="secondary" onClick={onCancel}>Cancel</Button>
+    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Typography variant="h6" gutterBottom>
+        {employee ? 'Edit Employee' : 'Add New Employee'}
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Full Name"
+            name="fullName"
+            value={formState.fullName}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Position"
+            name="position"
+            value={formState.position}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Responsibility"
+            name="responsibility"
+            value={formState.responsibility}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            rows={3}
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Reports To"
+            name="reportsTo"
+            value={formState.reportsTo}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Area"
+            name="area"
+            value={formState.area}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Start Date"
+            name="startDate"
+            type="date"
+            value={formState.startDate}
+            onChange={handleChange}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="End Date"
+            name="endDate"
+            type="date"
+            value={formState.endDate}
+            onChange={handleChange}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+        <Button type="button" onClick={onCancel} sx={{ mr: 1 }}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained" color="primary">
+          {employee ? 'Update' : 'Save'}
+        </Button>
+      </Box>
     </Box>
   );
 };
