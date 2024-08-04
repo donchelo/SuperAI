@@ -8,19 +8,18 @@ import {
   Chip,
   Grid,
   Typography,
-  TextField,
-  useTheme,
-  ThemeProvider,
   Slider,
   Tooltip,
   IconButton,
   Fade,
+  useTheme, // Importar useTheme
 } from '@mui/material';
 import { styled } from '@mui/system';
 import CheckIcon from '@mui/icons-material/Check';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useThemeContext } from '../Context/ThemeContext';
 
 interface Feature {
   name: string;
@@ -34,13 +33,13 @@ const StyledCard = styled(motion.div)(({ theme }) => ({
   transition: 'all 0.3s ease-in-out',
   backgroundColor: theme.palette.background.paper,
   borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[3] as string,
+  boxShadow: theme.customShadows[3],
   overflow: 'hidden',
 }));
 
 const HighlightedCard = styled(StyledCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.light,
-  boxShadow: theme.shadows[5] as string,
+  boxShadow: theme.customShadows[5],
 }));
 
 const PriceTypography = styled(Typography)(({ theme }) => ({
@@ -68,7 +67,7 @@ const PlanCard: React.FC<{
   isHighlighted: boolean;
   onSelect: () => void;
 }> = ({ price, monthlyPrice, period, isHighlighted, onSelect }) => {
-  const theme = useTheme();
+  const theme = useTheme(); // Usar useTheme para obtener el tema actual
   const CardComponent = isHighlighted ? HighlightedCard : StyledCard;
 
   return (
@@ -110,7 +109,8 @@ const PlanCard: React.FC<{
 
 const Pricing: React.FC = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
+  const { toggleTheme, currentTheme, isDarkMode } = useThemeContext();
+  const theme = useTheme(); // Usar useTheme para obtener el tema actual
   const [numEmployees, setNumEmployees] = useState<number>(1);
   const [animatedPrice, setAnimatedPrice] = useState<Record<string, number>>({});
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
@@ -160,108 +160,112 @@ const Pricing: React.FC = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', py: 4 }}>
-        <Box maxWidth="lg" margin="auto" sx={{ flex: '1 0 auto' }}>
-          <Typography variant="h2" component="div" align="center" gutterBottom>
-            Planes y Precios
-          </Typography>
-          <Typography variant="h5" align="center" color="textSecondary" paragraph>
-            Elige el plan perfecto para tu empresa
-          </Typography>
-          <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
-            <Typography variant="h6" gutterBottom>
-              Número de empleados: {numEmployees}
-            </Typography>
-            <Slider
-              value={numEmployees}
-              onChange={handleNumEmployeesChange}
-              aria-labelledby="employee-slider"
-              valueLabelDisplay="auto"
-              step={1}
-              marks
-              min={1}
-              max={100}
-              sx={{ width: 300, mt: 2 }}
-            />
-          </Box>
-          <Grid container spacing={4} justifyContent="center">
-            <Grid item xs={12} sm={6} md={4}>
-              <PlanCard
-                price={animatedPrice.monthly || calculatePrice(basePrice, numEmployees, false)}
-                period={'mes'}
-                isHighlighted={false}
-                onSelect={() => handleSelectPlan('mensual')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <PlanCard
-                price={animatedPrice.annual || calculatePrice(basePrice, numEmployees, true)}
-                monthlyPrice={calculatePrice(basePrice, numEmployees, true) / 12}
-                period={'año'}
-                isHighlighted={true}
-                onSelect={() => handleSelectPlan('anual')}
-              />
-            </Grid>
-          </Grid>
-          <Box mt={8} mb={4}>
-            <Typography variant="h4" component="div" align="center" gutterBottom>
-              Características Incluidas
-            </Typography>
-            <Grid container spacing={2} justifyContent="center">
-              {planFeatures.map((feature, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <FeatureItem
-                    onMouseEnter={() => setHoveredFeature(feature.name)}
-                    onMouseLeave={() => setHoveredFeature(null)}
-                  >
-                    <CheckIcon color="primary" sx={{ mr: 1 }} />
-                    <Typography variant="body2">{feature.name}</Typography>
-                    <Tooltip title={feature.description} placement="top">
-                      <IconButton size="small" sx={{ ml: 'auto' }}>
-                        <InfoOutlinedIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </FeatureItem>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-          <Box mt={4} textAlign="center">
-            <Button variant="contained" color="primary" onClick={() => navigate('/')} size="large">
-              Volver a Inicio
-            </Button>
-          </Box>
-        </Box>
-        <Fade in={hoveredFeature !== null}>
-          <Box
-            sx={{
-              position: 'fixed',
-              bottom: 16,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: theme.palette.background.paper,
-              padding: 2,
-              borderRadius: 2,
-              boxShadow: 3,
-              maxWidth: 300,
-            }}
-          >
-            <Typography variant="body2">
-              {planFeatures.find(f => f.name === hoveredFeature)?.description}
-            </Typography>
-          </Box>
-        </Fade>
-        <Box mt={2} textAlign="center" sx={{ flexShrink: 0 }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', py: 4 }}>
+      <Box maxWidth="lg" margin="auto" sx={{ flex: '1 0 auto' }}>
+        <Typography variant="h2" component="div" align="center" gutterBottom>
+          Planes y Precios
+        </Typography>
+        <Typography variant="h5" align="center" color="textSecondary" paragraph>
+          Elige el plan perfecto para tu empresa
+        </Typography>
+        <Button variant="contained" color="primary" onClick={toggleTheme}>
+          Cambiar a {isDarkMode ? 'Tema Claro' : 'Tema Oscuro'}
+        </Button>
+        <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
           <Typography variant="h6" gutterBottom>
-            ¿Necesitas un plan personalizado?
+            Número de empleados: {numEmployees}
           </Typography>
-          <Button variant="outlined" color="primary" size="large">
-            Contáctanos
+          <Slider
+            value={numEmployees}
+            onChange={handleNumEmployeesChange}
+            aria-labelledby="employee-slider"
+            valueLabelDisplay="auto"
+            step={1}
+            marks
+            min={1}
+            max={100}
+            sx={{ width: 300, mt: 2 }}
+          />
+          <Typography variant="body2" color="textSecondary" mt={2}>
+            Cada empleado adicional cuesta $4,000 al mes.
+          </Typography>
+        </Box>
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12} sm={6} md={4}>
+            <PlanCard
+              price={animatedPrice.monthly || calculatePrice(basePrice, numEmployees, false)}
+              period={'mes'}
+              isHighlighted={false}
+              onSelect={() => handleSelectPlan('mensual')}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <PlanCard
+              price={animatedPrice.annual || calculatePrice(basePrice, numEmployees, true)}
+              monthlyPrice={calculatePrice(basePrice, numEmployees, true) / 12}
+              period={'año'}
+              isHighlighted={true}
+              onSelect={() => handleSelectPlan('anual')}
+            />
+          </Grid>
+        </Grid>
+        <Box mt={8} mb={4}>
+          <Typography variant="h4" component="div" align="center" gutterBottom>
+            Características Incluidas
+          </Typography>
+          <Grid container spacing={2} justifyContent="center">
+            {planFeatures.map((feature, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <FeatureItem
+                  onMouseEnter={() => setHoveredFeature(feature.name)}
+                  onMouseLeave={() => setHoveredFeature(null)}
+                >
+                  <CheckIcon color="primary" sx={{ mr: 1 }} />
+                  <Typography variant="body2">{feature.name}</Typography>
+                  <Tooltip title={feature.description} placement="top">
+                    <IconButton size="small" sx={{ ml: 'auto' }}>
+                      <InfoOutlinedIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </FeatureItem>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+        <Box mt={4} textAlign="center">
+          <Button variant="contained" color="primary" onClick={() => navigate('/')} size="large">
+            Volver a Inicio
           </Button>
         </Box>
       </Box>
-    </ThemeProvider>
+      <Fade in={hoveredFeature !== null}>
+        <Box
+          sx={{
+            position: 'fixed',
+            bottom: 16,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: theme.palette.background.paper,
+            padding: 2,
+            borderRadius: 2,
+            boxShadow: theme.customShadows[3],
+            maxWidth: 300,
+          }}
+        >
+          <Typography variant="body2">
+            {planFeatures.find(f => f.name === hoveredFeature)?.description}
+          </Typography>
+        </Box>
+      </Fade>
+      <Box mt={2} textAlign="center" sx={{ flexShrink: 0 }}>
+        <Typography variant="h6" gutterBottom>
+          ¿Necesitas un plan personalizado?
+        </Typography>
+        <Button variant="outlined" color="primary" size="large">
+          Contáctanos
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

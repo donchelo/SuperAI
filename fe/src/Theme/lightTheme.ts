@@ -23,6 +23,15 @@ const lightTheme: ThemeOptions = {
   typography: {
     fontFamily: 'Roboto, sans-serif',
   },
+  customShadows: [
+    'none',
+    '0px 1px 3px rgba(0,0,0,0.2)',
+    '0px 1px 5px rgba(0,0,0,0.2)',
+    '0px 1px 8px rgba(0,0,0,0.2)',
+    '0px 1px 10px rgba(0,0,0,0.2)',
+    '0px 1px 14px rgba(0,0,0,0.2)',
+    '0px 1px 18px rgba(0,0,0,0.2)',
+  ],
 };
 
 export default createTheme(lightTheme);
