@@ -1,6 +1,5 @@
-import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Employee } from './types';
-import employeesData from '../data/empleados.json';
 
 interface EmployeeContextProps {
   employees: Employee[];
@@ -13,7 +12,7 @@ const EmployeeContext = createContext<EmployeeContextProps | undefined>(undefine
 export const useEmployeeContext = () => {
   const context = useContext(EmployeeContext);
   if (!context) {
-    throw new Error('useEmployeeContext must be used within a EmployeeProvider');
+    throw new Error('useEmployeeContext must be used within an EmployeeProvider');
   }
   return context;
 };
@@ -21,17 +20,16 @@ export const useEmployeeContext = () => {
 export const EmployeeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [employees, setEmployees] = useState<Employee[]>([]);
 
-  useEffect(() => {
-    // Cargar datos desde empleados.json al inicializar el contexto
-    setEmployees(employeesData);
-  }, []);
-
   const addEmployee = (employee: Employee) => {
     setEmployees([...employees, employee]);
   };
 
   const updateEmployee = (updatedEmployee: Employee) => {
-    setEmployees(employees.map(emp => (emp.id === updatedEmployee.id ? updatedEmployee : emp)));
+    setEmployees(
+      employees.map(employee =>
+        employee.id === updatedEmployee.id ? updatedEmployee : employee
+      )
+    );
   };
 
   return (

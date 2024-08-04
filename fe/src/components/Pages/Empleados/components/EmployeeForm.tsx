@@ -125,6 +125,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave, onCancel 
             InputLabelProps={{
               shrink: true,
             }}
+            required
           />
         </Grid>
       </Grid>
