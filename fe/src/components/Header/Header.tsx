@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { AppBar, Toolbar, Typography, Avatar, Box, Button, useMediaQuery, useTheme, IconButton, Menu, MenuItem, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Brightness4, Brightness7, Menu as MenuIcon } from '@mui/icons-material';
 import Icon from '@mdi/react';
 import { mdiChat, mdiMemory, mdiHelpCircle, mdiViewDashboard } from '@mdi/js';
 import profilePicture from '../../assets/profile-picture.png';
-import { useThemeContext } from '../Context/ThemeContext';  // Corrected import path
+import { useThemeContext } from '../Context/ThemeContext';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-const ProfilePicture: React.FC<{ onClick: (event: React.MouseEvent<HTMLElement>) => void }> = ({ onClick }) => {
+// Componente ProfilePicture con memo para optimizar el rendimiento
+const ProfilePicture: React.FC<{ onClick: (event: React.MouseEvent<HTMLElement>) => void }> = React.memo(({ onClick }) => {
   const [imageError, setImageError] = useState(false);
   return (
     <Avatar
@@ -20,57 +21,69 @@ const ProfilePicture: React.FC<{ onClick: (event: React.MouseEvent<HTMLElement>)
       U
     </Avatar>
   );
-};
+});
 
 const Header: React.FC = () => {
   const theme = useTheme();
   const { toggleTheme, isDarkMode } = useThemeContext();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [profileAnchorEl, setProfileAnchorEl] = useState<null | HTMLElement>(null);
+  const profileAnchorEl = useRef<null | HTMLElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleDrawerOpen = () => {
-    setDrawerOpen(true);
-  };
-
-  const handleDrawerClose = () => {
+  // Cerrar el Drawer cuando cambia la ruta
+  useEffect(() => {
     setDrawerOpen(false);
-  };
+  }, [location.pathname]);
 
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setProfileAnchorEl(event.currentTarget);
-  };
+  // Manejadores de eventos envueltos en useCallback
+  const handleDrawerOpen = useCallback(() => {
+    setDrawerOpen(true);
+  }, []);
 
-  const handleProfileMenuClose = () => {
-    setProfileAnchorEl(null);
-  };
+  const handleDrawerClose = useCallback(() => {
+    setDrawerOpen(false);
+  }, []);
 
-  const handleSignOut = () => {
+  const handleProfileMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    profileAnchorEl.current = event.currentTarget;
+  }, []);
+
+  const handleProfileMenuClose = useCallback(() => {
+    profileAnchorEl.current = null;
+  }, []);
+
+  const handleSignOut = useCallback(() => {
     handleProfileMenuClose();
     navigate('/');
-  };
+  }, [handleProfileMenuClose, navigate]);
 
-  const menuItems = [
+  const handleMenuItemClick = useCallback((route: string) => {
+    navigate(route);
+    handleDrawerClose();
+  }, [navigate, handleDrawerClose]);
+
+  // Memoizar el array de items del menú
+  const menuItems = useMemo(() => [
     { icon: mdiChat, label: 'Chat', route: '/app/chat' },
     { icon: mdiMemory, label: 'Memoria', route: '/app/memoria' },
     { icon: mdiViewDashboard, label: 'Dashboards', route: '/app/dashboards' },
     { icon: mdiHelpCircle, label: 'Ayuda', route: '/app/ayuda' }
-  ];
+  ], []);
 
   return (
     <>
-      <AppBar 
-        position="fixed" 
-        sx={{ 
+      <AppBar
+        position="fixed"
+        sx={{
           bgcolor: isDarkMode ? theme.palette.background.default : theme.palette.background.paper,
           color: theme.palette.text.primary,
-        }} 
+        }}
         elevation={1}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          {isMobile ? (
+          {isMobile && (
             <>
               <IconButton
                 edge="start"
@@ -94,12 +107,11 @@ const Header: React.FC = () => {
                 >
                   <List>
                     {menuItems.map((item) => (
-                      <ListItem 
-                        button 
-                        key={item.route} 
+                      <ListItem
+                        button
+                        key={item.route}
                         selected={location.pathname === item.route}
-                        component={Link}
-                        to={item.route}
+                        onClick={() => handleMenuItemClick(item.route)}
                       >
                         <ListItemIcon>
                           <Icon path={item.icon} size={1} />
@@ -111,18 +123,18 @@ const Header: React.FC = () => {
                 </Box>
               </Drawer>
             </>
-          ) : null}
+          )}
 
-          <Box sx={{ 
-            flexGrow: 1, 
-            display: 'flex', 
+          <Box sx={{
+            flexGrow: 1,
+            display: 'flex',
             justifyContent: isMobile ? 'center' : 'flex-start',
             alignItems: 'center'
           }}>
-            <Typography 
-              variant={isMobile ? 'h6' : 'h5'} 
-              component="h1" 
-              fontWeight="bold" 
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              component="h1"
+              fontWeight="bold"
               noWrap
               sx={{ flexGrow: isMobile ? 0 : 1 }}
             >
@@ -156,8 +168,8 @@ const Header: React.FC = () => {
             </IconButton>
             <ProfilePicture onClick={handleProfileMenuOpen} />
             <Menu
-              anchorEl={profileAnchorEl}
-              open={Boolean(profileAnchorEl)}
+              anchorEl={profileAnchorEl.current}
+              open={Boolean(profileAnchorEl.current)}
               onClose={handleProfileMenuClose}
             >
               <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
