@@ -1,34 +1,40 @@
 import React, { useState } from 'react';
-import { EmployeeProvider } from './context/EmployeeContext';
-import EmployeeList from './components/EmployeeList';
+import { Box, Button } from '@mui/material';
 import EmployeeForm from './components/EmployeeForm';
-import { Button, Box } from '@mui/material';
+import EmployeeList from './components/EmployeeList';
+import { useEmployeeContext } from './context/EmployeeContext';
 import { Employee } from './context/types';
 
 const EmployeeManagement: React.FC = () => {
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const { employees } = useEmployeeContext();
 
-  const handleEdit = (employee: Employee) => {
-    setEditingEmployee(employee);
-    setIsFormOpen(true);
+  const handleEditEmployee = (employee: Employee) => {
+    setSelectedEmployee(employee);
   };
 
   const handleSave = () => {
-    setIsFormOpen(false);
-    setEditingEmployee(null);
+    setSelectedEmployee(null);
+    // Cualquier otra lógica que necesites ejecutar después de guardar
+  };
+
+  const handleCancel = () => {
+    setSelectedEmployee(null);
+    // Cualquier otra lógica que necesites ejecutar al cancelar
   };
 
   return (
-    <EmployeeProvider>
-      <Box>
-        <Button variant="contained" color="primary" onClick={() => setIsFormOpen(true)}>
-          Add Employee
-        </Button>
-        <EmployeeList onEdit={handleEdit} />
-        {isFormOpen && <EmployeeForm employee={editingEmployee} onSave={handleSave} />}
-      </Box>
-    </EmployeeProvider>
+    <Box>
+      <Button onClick={() => setSelectedEmployee({} as Employee)}>Add Employee</Button>
+      {selectedEmployee !== null && (
+        <EmployeeForm
+          employee={selectedEmployee}
+          onSave={handleSave}
+          onCancel={handleCancel}
+        />
+      )}
+      <EmployeeList employees={employees} onEdit={handleEditEmployee} />
+    </Box>
   );
 };
 

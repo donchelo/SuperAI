@@ -6,9 +6,10 @@ import { Employee } from '../context/types';
 interface EmployeeFormProps {
   employee?: Employee | null;
   onSave: () => void;
+  onCancel: () => void;
 }
 
-const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave }) => {
+const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave, onCancel }) => {
   const { addEmployee, updateEmployee } = useEmployeeContext();
   const [formState, setFormState] = useState<Employee>({
     id: '',
@@ -34,7 +35,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (employee) {
+    if (employee && employee.id) {
       updateEmployee(formState);
     } else {
       addEmployee({ ...formState, id: Date.now().toString() });
@@ -52,6 +53,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave }) => {
       <TextField label="End Date" name="endDate" value={formState.endDate} onChange={handleChange} fullWidth />
       <TextField label="Area" name="area" value={formState.area} onChange={handleChange} fullWidth />
       <Button type="submit" variant="contained" color="primary">Save</Button>
+      <Button type="button" variant="outlined" color="secondary" onClick={onCancel}>Cancel</Button>
     </Box>
   );
 };
