@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { 
-  Box, 
-  Container, 
-  Typography, 
-  Accordion, 
-  AccordionSummary, 
+import {
+  Box,
+  Typography,
+  Accordion,
+  AccordionSummary,
   AccordionDetails,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  Fade,
+  Container,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { motion, AnimatePresence } from 'framer-motion';
-import { frequentQuestionsSales } from '../Ayuda/frequentQuestionsSales';
+import { motion } from 'framer-motion';
+import { frequentQuestionsSales, FrequentQuestion } from './frequentQuestionsSales';
 
 const PreguntasFrecuentes: React.FC = () => {
   const [expandedPanel, setExpandedPanel] = useState<number | false>(false);
@@ -23,99 +24,31 @@ const PreguntasFrecuentes: React.FC = () => {
   };
 
   return (
-    <Box 
-      component={motion.div}
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      sx={{ 
-        backgroundColor: theme.palette.background.paper,
-        py: { xs: 6, md: 10 },
-        borderRadius: 4,
-        boxShadow: 3
-      }}
-    >
-      <Container maxWidth="md">
-        <Typography 
-          variant={isMobile ? "h4" : "h3"}
-          gutterBottom
-          align="center" 
-          sx={{ 
-            fontWeight: 'bold', 
-            color: theme.palette.text.primary, 
-            mb: { xs: 4, sm: 5, md: 6 },
-            textShadow: '1px 1px 2px rgba(0,0,0,0.1)'
-          }}
-        >
-          Preguntas Frecuentes
-        </Typography>
-        <Box sx={{ mt: 4 }}>
-          {frequentQuestionsSales.map((faq, index) => (
-            <Accordion 
-              key={index}
-              expanded={expandedPanel === index}
-              onChange={handleChange(index)}
-              sx={{
-                mb: 2,
-                border: 'none',
-                '&:before': {
-                  display: 'none',
-                },
-                backgroundColor: theme.palette.background.paper,
-                borderRadius: 2,
-                transition: 'all 0.3s ease-in-out',
-                '&:hover': {
-                  backgroundColor: theme.palette.background.default,
-                  transform: 'translateY(-2px)',
-                  boxShadow: 2
-                }
-              }}
+    <Container>
+      <Typography variant={isMobile ? 'h4' : 'h2'} align="center" gutterBottom>
+        Preguntas Frecuentes
+      </Typography>
+      <Box component={motion.div}>
+        {frequentQuestionsSales.map((faq: FrequentQuestion, index: number) => (
+          <Accordion
+            key={index}
+            expanded={expandedPanel === index}
+            onChange={handleChange(index)}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls={`panel${index}-content`}
+              id={`panel${index}-header`}
             >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.primary.main }} />}
-                aria-controls={`panel${index}-content`}
-                id={`panel${index}-header`}
-                sx={{
-                  '& .MuiAccordionSummary-content': {
-                    margin: '12px 0',
-                  }
-                }}
-              >
-                <Typography 
-                  sx={{ 
-                    fontWeight: 600,
-                    color: theme.palette.text.primary
-                  }}
-                >
-                  {faq.question}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <AnimatePresence>
-                  {expandedPanel === index && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Typography 
-                        sx={{ 
-                          color: theme.palette.text.secondary,
-                          lineHeight: 1.6
-                        }}
-                      >
-                        {faq.answer}
-                      </Typography>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Box>
-      </Container>
-    </Box>
+              <Typography>{faq.question}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>{faq.answer}</Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+      </Box>
+    </Container>
   );
 };
 
