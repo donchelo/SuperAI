@@ -33,18 +33,18 @@ const StyledCard = styled(motion.div)(({ theme }) => ({
   transition: 'all 0.3s ease-in-out',
   backgroundColor: theme.palette.background.paper,
   borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.customShadows[3],
+  boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.2)', // Reemplazar customShadows
   overflow: 'hidden',
 }));
 
 const HighlightedCard = styled(StyledCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.light,
-  boxShadow: theme.customShadows[5],
+  boxShadow: '0px 1px 10px rgba(0, 0, 0, 0.2)', // Reemplazar customShadows
 }));
 
 const PriceTypography = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
-  color: theme.palette.primary.main,
+  color: theme.palette.primary.light, // Asegurarse de que el texto sea claro en modo oscuro
 }));
 
 const FeatureItem = styled(Box)(({ theme }) => ({
@@ -57,6 +57,12 @@ const FeatureItem = styled(Box)(({ theme }) => ({
   transition: 'all 0.3s ease-in-out',
   '&:hover': {
     backgroundColor: theme.palette.action.hover,
+  },
+  '& .MuiTypography-body2': {
+    color: theme.palette.text.primary, // Texto principal claro en modo oscuro
+  },
+  '& .MuiIconButton-root': {
+    color: theme.palette.text.secondary, // Color secundario para iconos
   },
 }));
 
@@ -78,20 +84,20 @@ const PlanCard: React.FC<{
     >
       <Card elevation={0} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <CardContent>
-          <Typography variant="h5" component="div" gutterBottom fontWeight="bold">
+          <Typography variant="h5" component="div" gutterBottom fontWeight="bold" color="text.primary">
             {period === 'año' ? 'Plan Anual' : 'Plan Mensual'}
           </Typography>
           <PriceTypography variant="h3" gutterBottom>
             ${price.toLocaleString()}
           </PriceTypography>
-          <Typography variant="subtitle1" color="textSecondary" gutterBottom>
+          <Typography variant="subtitle1" color="text.secondary" gutterBottom>
             por{' '}
             <span style={{ fontWeight: 'bold', color: isHighlighted ? theme.palette.secondary.main : theme.palette.primary.main }}>
               {period.toUpperCase()}
             </span>
           </Typography>
           {monthlyPrice && (
-            <Typography variant="subtitle2" color="textSecondary" gutterBottom>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
               (${monthlyPrice.toLocaleString()} / mes)
             </Typography>
           )}
@@ -162,17 +168,17 @@ const Pricing: React.FC = () => {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', py: 4 }}>
       <Box maxWidth="lg" margin="auto" sx={{ flex: '1 0 auto' }}>
-        <Typography variant="h2" component="div" align="center" gutterBottom>
+        <Typography variant="h2" component="div" align="center" gutterBottom color="text.primary">
           Planes y Precios
         </Typography>
-        <Typography variant="h5" align="center" color="textSecondary" paragraph>
+        <Typography variant="h5" align="center" color="text.primary" paragraph>
           Elige el plan perfecto para tu empresa
         </Typography>
         <Button variant="contained" color="primary" onClick={toggleTheme}>
           Cambiar a {isDarkMode ? 'Tema Claro' : 'Tema Oscuro'}
         </Button>
         <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom color="text.primary">
             Número de empleados: {numEmployees}
           </Typography>
           <Slider
@@ -186,7 +192,7 @@ const Pricing: React.FC = () => {
             max={100}
             sx={{ width: 300, mt: 2 }}
           />
-          <Typography variant="body2" color="textSecondary" mt={2}>
+          <Typography variant="body2" color="text.primary" mt={2}>
             Cada empleado adicional cuesta $4,000 al mes.
           </Typography>
         </Box>
@@ -210,7 +216,7 @@ const Pricing: React.FC = () => {
           </Grid>
         </Grid>
         <Box mt={8} mb={4}>
-          <Typography variant="h4" component="div" align="center" gutterBottom>
+          <Typography variant="h4" component="div" align="center" gutterBottom color="text.primary">
             Características Incluidas
           </Typography>
           <Grid container spacing={2} justifyContent="center">
@@ -221,7 +227,7 @@ const Pricing: React.FC = () => {
                   onMouseLeave={() => setHoveredFeature(null)}
                 >
                   <CheckIcon color="primary" sx={{ mr: 1 }} />
-                  <Typography variant="body2">{feature.name}</Typography>
+                  <Typography variant="body2" color="text.primary">{feature.name}</Typography>
                   <Tooltip title={feature.description} placement="top">
                     <IconButton size="small" sx={{ ml: 'auto' }}>
                       <InfoOutlinedIcon fontSize="small" />
@@ -248,17 +254,17 @@ const Pricing: React.FC = () => {
             backgroundColor: theme.palette.background.paper,
             padding: 2,
             borderRadius: 2,
-            boxShadow: theme.customShadows[3],
+            boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.2)', // Reemplazar customShadows
             maxWidth: 300,
           }}
         >
-          <Typography variant="body2">
+          <Typography variant="body2" color="text.primary">
             {planFeatures.find(f => f.name === hoveredFeature)?.description}
           </Typography>
         </Box>
       </Fade>
       <Box mt={2} textAlign="center" sx={{ flexShrink: 0 }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom color="text.primary">
           ¿Necesitas un plan personalizado?
         </Typography>
         <Button variant="outlined" color="primary" size="large">
