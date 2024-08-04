@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
   Box,
   Button,
@@ -17,8 +17,9 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Save, Info } from '@mui/icons-material';
-import CategoryComponent from './CategoryComponent';
 import { sections } from './questionsData';
+
+const SectionComponent = lazy(() => import('./SectionComponent'));
 
 interface Section {
   title: string;
@@ -171,20 +172,22 @@ const ADN: React.FC = () => {
       </Paper>
 
       <form onSubmit={handleSubmit}>
-        {(sections as Section[]).map((section) => (
-          <CategoryComponent
-            key={section.key}
-            section={section}
-            formData={formData}
-            expandedSections={expandedSections}
-            handleChange={handleChange}
-            toggleSection={toggleSection}
-            errors={{}}
-            editingField={editingField}
-            handleEditField={handleEditField}
-            handleSaveField={handleSaveField}
-          />
-        ))}
+        <Suspense fallback={<CircularProgress />}>
+          {(sections as Section[]).map((section) => (
+            <SectionComponent
+              key={section.key}
+              section={section}
+              formData={formData}
+              expandedSections={expandedSections}
+              handleChange={handleChange}
+              toggleSection={toggleSection}
+              errors={{}}
+              editingField={editingField}
+              handleEditField={handleEditField}
+              handleSaveField={handleSaveField}
+            />
+          ))}
+        </Suspense>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
           <Button
             type="submit"
@@ -231,4 +234,4 @@ const ADN: React.FC = () => {
   );
 };
 
-export default ADN;
+export default React.memo(ADN);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Box, IconButton, Typography, useTheme, useMediaQuery } from '@mui/material';
+import { TextField, Box, IconButton, Typography, useTheme, useMediaQuery, Tooltip } from '@mui/material';
 import { Edit, Check } from '@mui/icons-material';
 
 interface FieldComponentProps {
@@ -56,15 +56,18 @@ const FieldComponent: React.FC<FieldComponentProps> = ({
           }}
           sx={{ mr: 1 }}
         />
-        <IconButton 
-          onClick={() => isEditing ? handleSaveField(category, field) : handleEditField(category, field)}
-          sx={{ ml: 1, color: theme.palette.primary.main }}
-        >
-          {isEditing ? <Check /> : <Edit />}
-        </IconButton>
+        <Tooltip title={isEditing ? "Guardar cambios" : "Editar campo"}>
+          <IconButton 
+            onClick={() => isEditing ? handleSaveField(category, field) : handleEditField(category, field)}
+            sx={{ ml: 1, color: theme.palette.primary.main }}
+            aria-label={isEditing ? "Guardar cambios" : "Editar campo"}
+          >
+            {isEditing ? <Check /> : <Edit />}
+          </IconButton>
+        </Tooltip>
       </Box>
     </Box>
   );
 };
 
-export default FieldComponent;
+export default React.memo(FieldComponent);

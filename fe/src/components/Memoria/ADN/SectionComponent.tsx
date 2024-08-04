@@ -1,5 +1,5 @@
-import React from 'react';
-import { Paper, Box, Typography, CircularProgress, IconButton, Fade, useTheme, useMediaQuery } from '@mui/material';
+import React, { useCallback, useMemo } from 'react';
+import { Paper, Box, Typography, CircularProgress, IconButton, Fade, useTheme, useMediaQuery, Tooltip } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import FieldComponent from './FieldComponent';
 
@@ -29,37 +29,53 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isExpanded = expandedSections[section.key];
-  const sectionProgress = section.fields.filter(([field]) => formData[section.key]?.[field]).length / section.fields.length * 100;
+
+  const calculateSectionProgress = useCallback(() => {
+    const filledFields = section.fields.filter(([field]) => formData[section.key]?.[field]).length;
+    return (filledFields / section.fields.length) * 100;
+  }, [section, formData]);
+
+  const sectionProgress = useMemo(() => calculateSectionProgress(), [calculateSectionProgress]);
+
+  const handleSectionToggle = useCallback(() => {
+    toggleSection(section.key);
+  }, [toggleSection, section.key]);
 
   return (
-    <Paper key={section.key} sx={{ mb: 2, overflow: 'hidden', width: '100%' }}>
-      <Box
-        sx={{
-          p: 2,
-          bgcolor: 'primary.main',
-          color: 'primary.contrastText',
-          cursor: 'pointer',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          width: '100%'
-        }}
-        onClick={() => toggleSection(section.key)}
-      >
-        <Typography variant={isMobile ? 'subtitle1' : 'h6'}>{section.title}</Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <CircularProgress
-            variant="determinate"
-            value={sectionProgress}
-            size={24}
-            thickness={5}
-            sx={{ mr: 1, color: 'primary.contrastText' }}
-          />
-          <IconButton sx={{ color: 'primary.contrastText' }}>
-            {isExpanded ? <ExpandLess /> : <ExpandMore />}
-          </IconButton>
+    <Paper elevation={3} sx={{ mb: 2, overflow: 'hidden', width: '100%', transition: 'box-shadow 0.3s' }}>
+      <Tooltip title={isExpanded ? "Contraer sección" : "Expandir sección"} placement="top-start">
+        <Box
+          sx={{
+            p: 2,
+            bgcolor: 'primary.main',
+            color: 'primary.contrastText',
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            transition: 'background-color 0.3s',
+            '&:hover': {
+              bgcolor: 'primary.dark',
+            },
+          }}
+          onClick={handleSectionToggle}
+        >
+          <Typography variant={isMobile ? 'subtitle1' : 'h6'}>{section.title}</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <CircularProgress
+              variant="determinate"
+              value={sectionProgress}
+              size={24}
+              thickness={5}
+              sx={{ mr: 1, color: 'primary.contrastText' }}
+            />
+            <IconButton sx={{ color: 'primary.contrastText' }}>
+              {isExpanded ? <ExpandLess /> : <ExpandMore />}
+            </IconButton>
+          </Box>
         </Box>
-      </Box>
+      </Tooltip>
       <Fade in={isExpanded}>
         <Box sx={{ p: 2, display: isExpanded ? 'block' : 'none' }}>
           {section.fields.map(([fieldName, label]) => (
@@ -82,4 +98,4 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
   );
 };
 
-export default SectionComponent;
+export default React.memo(SectionComponent);
