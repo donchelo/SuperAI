@@ -51,10 +51,23 @@ const Header: React.FC = () => {
   }, [navigate]);
 
   const DrawerContent = useMemo(() => (
-    <Box sx={{ width: 280, height: '100%', display: 'flex', flexDirection: 'column' }} role="presentation">
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, borderBottom: `1px solid ${theme.palette.divider}` }}>
+    <Box sx={{ 
+      width: 280, 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column',
+      bgcolor: 'background.paper',
+      color: 'text.primary',
+    }} role="presentation">
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        p: 2, 
+        borderBottom: `1px solid ${theme.palette.divider}` 
+      }}>
         <Typography variant="h6">Menú</Typography>
-        <IconButton onClick={toggleDrawer} edge="end" aria-label="cerrar menú">
+        <IconButton onClick={toggleDrawer} edge="end" aria-label="cerrar menú" color="inherit">
           <CloseIcon />
         </IconButton>
       </Box>
@@ -75,18 +88,28 @@ const Header: React.FC = () => {
             }}
           >
             <ListItemIcon>
-              <Icon path={item.icon} size={1} color={location.pathname === item.route ? theme.palette.primary.main : theme.palette.text.primary} />
+              <Icon 
+                path={item.icon} 
+                size={1} 
+                color={location.pathname === item.route ? theme.palette.primary.main : theme.palette.text.primary} 
+              />
             </ListItemIcon>
-            <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: location.pathname === item.route ? 'bold' : 'normal' }} />
+            <ListItemText 
+              primary={item.label} 
+              primaryTypographyProps={{ 
+                fontWeight: location.pathname === item.route ? 'bold' : 'normal',
+                color: 'text.primary'
+              }} 
+            />
           </ListItemButton>
         ))}
       </List>
       <Box sx={{ p: 2, borderTop: `1px solid ${theme.palette.divider}` }}>
         <ListItemButton onClick={handleSignOut} sx={{ py: 2 }}>
           <ListItemIcon>
-            <ExitToAppIcon />
+            <ExitToAppIcon color="error" />
           </ListItemIcon>
-          <ListItemText primary="Cerrar Sesión" />
+          <ListItemText primary="Cerrar Sesión" primaryTypographyProps={{ color: 'error.main' }} />
         </ListItemButton>
         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
           <ThemeToggle />
@@ -104,7 +127,10 @@ const Header: React.FC = () => {
         sx={{
           borderBottom: `1px solid ${theme.palette.divider}`,
           backdropFilter: 'blur(20px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          backgroundColor: theme.palette.mode === 'light' 
+            ? 'rgba(255, 255, 255, 0.8)' 
+            : 'rgba(0, 0, 0, 0.8)',
+          color: theme.palette.text.primary,
           transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -140,24 +166,18 @@ const Header: React.FC = () => {
                   key={item.route}
                   component={Link}
                   to={item.route}
-                  color="inherit"
                   sx={{ 
                     mx: 0.5,
                     px: 2,
                     py: 1,
                     borderRadius: 2,
                     transition: 'all 0.3s',
+                    color: location.pathname === item.route ? 'primary.contrastText' : 'text.primary',
+                    backgroundColor: location.pathname === item.route ? 'primary.main' : 'transparent',
                     '&:hover': { 
-                      backgroundColor: theme.palette.action.hover,
+                      backgroundColor: location.pathname === item.route ? 'primary.dark' : 'action.hover',
                       transform: 'translateY(-2px)',
                     },
-                    ...(location.pathname === item.route && {
-                      backgroundColor: theme.palette.primary.main,
-                      color: theme.palette.primary.contrastText,
-                      '&:hover': {
-                        backgroundColor: theme.palette.primary.dark,
-                      },
-                    }),
                   }}
                   startIcon={<Icon path={item.icon} size={1} />}
                 >
@@ -181,6 +201,8 @@ const Header: React.FC = () => {
           sx: {
             width: 280,
             boxShadow: theme.shadows[5],
+            bgcolor: 'background.paper',
+            color: 'text.primary',
           },
         }}
       >
