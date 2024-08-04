@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Button,
@@ -52,7 +52,7 @@ const ADN: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleChange = (category: string, field: string, value: string) => {
+  const handleChange = useCallback((category: string, field: string, value: string) => {
     setFormData(prevState => ({
       ...prevState,
       [category]: {
@@ -60,7 +60,7 @@ const ADN: React.FC = () => {
         [field]: value
       }
     }));
-  };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,29 +88,29 @@ const ADN: React.FC = () => {
     calculateProgress();
   };
 
-  const toggleSection = (section: string) => {
+  const toggleSection = useCallback((section: string) => {
     setExpandedSections(prevState => ({
       ...prevState,
       [section]: !prevState[section]
     }));
-  };
+  }, []);
 
-  const calculateProgress = (data = formData) => {
+  const calculateProgress = useCallback((data = formData) => {
     const filledFields = sections.reduce((acc, section) =>
       acc + section.fields.filter(([field]) => data[section.key]?.[field]).length, 0
     );
     const progress = (filledFields / totalFields) * 100;
     setFormProgress(progress);
     return progress;
-  };
+  }, [formData, totalFields]);
 
-  const handleEditField = (category: string, field: string) => {
+  const handleEditField = useCallback((category: string, field: string) => {
     setEditingField(`${category}-${field}`);
-  };
+  }, []);
 
-  const handleSaveField = (category: string, field: string) => {
+  const handleSaveField = useCallback((category: string, field: string) => {
     setEditingField(null);
-  };
+  }, []);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflowY: 'auto', bgcolor: 'background.default', p: 2 }}>
