@@ -14,10 +14,11 @@ const Dashboards: React.FC = () => {
 
   return (
     <Box sx={{ 
-      padding: { xs: 1, sm: 2 }, 
+      padding: { xs: 2, sm: 3 }, 
       marginTop: { xs: '56px', sm: '64px' },
-      bgcolor: theme.palette.background.default,
-      color: theme.palette.text.primary,
+      bgcolor: 'background.default',
+      color: 'text.primary',
+      minHeight: '100vh'
     }}>
       <Typography variant={isMobile ? "h5" : "h4"} gutterBottom sx={{ marginBottom: 2 }}>
         Dashboards
@@ -32,8 +33,8 @@ const Dashboards: React.FC = () => {
           onChange={handleDashboardChange}
           aria-label="Seleccionar tipo de dashboard"
           sx={{
-            bgcolor: theme.palette.background.paper,
-            color: theme.palette.text.primary,
+            bgcolor: 'background.paper',
+            color: 'text.primary',
           }}
         >
           <MenuItem value="ventas">Dashboard Ventas Mensuales</MenuItem>
