@@ -1,0 +1,83 @@
+[
+    {
+      "id": "1",
+      "fullName": "Martin",
+      "position": "Jefe de Producción",
+      "responsibility": "Supervisar y coordinar las operaciones de producción",
+      "reportsTo": "Raul",
+      "startDate": "2020-02-15",
+      "endDate": "",
+      "area": "Producción"
+    },
+    {
+      "id": "2",
+      "fullName": "Simon",
+      "position": "Jefe de Mercadeo y Experiencias",
+      "responsibility": "Diseñar y ejecutar estrategias de marketing y experiencias de cliente",
+      "reportsTo": "Raul",
+      "startDate": "2019-05-01",
+      "endDate": "",
+      "area": "Marketing"
+    },
+    {
+      "id": "3",
+      "fullName": "Mariano",
+      "position": "Líder de Estrategia y Growth Hacking",
+      "responsibility": "Desarrollar estrategias de crecimiento y optimización",
+      "reportsTo": "Raul",
+      "startDate": "2021-08-20",
+      "endDate": "",
+      "area": "Estrategia"
+    },
+    {
+      "id": "4",
+      "fullName": "Milena",
+      "position": "Asistente Administrativa",
+      "responsibility": "Apoyar en tareas administrativas y de oficina",
+      "reportsTo": "Raul",
+      "startDate": "2018-11-10",
+      "endDate": "",
+      "area": "Administración"
+    },
+    {
+      "id": "5",
+      "fullName": "Andres",
+      "position": "Líder Electrónico y Mecánico",
+      "responsibility": "Supervisar y coordinar los equipos electrónicos y mecánicos",
+      "reportsTo": "Martin",
+      "startDate": "2017-03-30",
+      "endDate": "",
+      "area": "Ingeniería"
+    },
+    {
+      "id": "6",
+      "fullName": "Alexander",
+      "position": "Comercial Vendedor",
+      "responsibility": "Gestionar y realizar ventas de productos y servicios",
+      "reportsTo": "Simon",
+      "startDate": "2021-06-15",
+      "endDate": "",
+      "area": "Ventas"
+    },
+    {
+      "id": "7",
+      "fullName": "Johana",
+      "position": "Servicio al Cliente, Comercial y Asistente de Aseo",
+      "responsibility": "Atender a clientes, apoyar en ventas y mantener la limpieza",
+      "reportsTo": "Simon",
+      "startDate": "2022-01-10",
+      "endDate": "",
+      "area": "Servicios"
+    },
+    {
+      "id": "8",
+      "fullName": "Raul",
+      "position": "Líder Financiero",
+      "responsibility": "Gestionar las finanzas y supervisar el presupuesto",
+      "reportsTo": "CEO",
+      "startDate": "2016-09-05",
+      "endDate": "",
+      "area": "Finanzas"
+    }
+  ]
+  

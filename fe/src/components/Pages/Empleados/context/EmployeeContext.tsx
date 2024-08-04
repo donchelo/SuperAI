@@ -1,5 +1,6 @@
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { Employee } from './types';
+import employeesData from '../data/empleados.json';
 
 interface EmployeeContextProps {
   employees: Employee[];
@@ -19,6 +20,11 @@ export const useEmployeeContext = () => {
 
 export const EmployeeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [employees, setEmployees] = useState<Employee[]>([]);
+
+  useEffect(() => {
+    // Cargar datos desde empleados.json al inicializar el contexto
+    setEmployees(employeesData);
+  }, []);
 
   const addEmployee = (employee: Employee) => {
     setEmployees([...employees, employee]);
