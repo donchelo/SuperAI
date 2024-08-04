@@ -20,7 +20,6 @@ import {
   Menu as MenuIcon,
   PrecisionManufacturing,
   Speed,
-  Home,
   TrendingUp,
   Visibility,
   EmojiNature
@@ -98,14 +97,12 @@ const SuperAILandingPage: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose} component={RouterLink} to="/">Inicio</MenuItem>
                 <MenuItem onClick={handleClose} component={RouterLink} to="/Pricing">Pricing</MenuItem>
                 <MenuItem onClick={handleClose} component={RouterLink} to="/app/chat">Sign In</MenuItem>
               </Menu>
             </>
           ) : (
             <Box>
-              <Button color="inherit" component={RouterLink} to="/">Inicio</Button>
               <Button color="inherit" component={RouterLink} to="/Pricing">Pricing</Button>
               <Button color="inherit" component={RouterLink} to="/app/chat">Sign In</Button>
             </Box>
@@ -162,7 +159,6 @@ const SuperAILandingPage: React.FC = () => {
             {[
               { icon: PrecisionManufacturing, title: "Precisión", description: "Garantizamos la exactitud en cada dato y análisis para decisiones infalibles." },
               { icon: Speed, title: "Proactividad", description: "Anticipamos necesidades y ofrecemos recomendaciones antes de que las solicites." },
-              { icon: Home, title: "Integración", description: "Unificamos todos tus sistemas para una visión empresarial completa." },
               { icon: TrendingUp, title: "Innovación", description: "Estamos a la vanguardia de la tecnología para impulsar tu crecimiento." },
               { icon: Visibility, title: "Transparencia", description: "Ofrecemos claridad total en cada proceso y recomendación." },
               { icon: EmojiNature, title: "Sostenibilidad", description: "Promovemos decisiones que aseguran un crecimiento responsable y duradero." }
