@@ -1,5 +1,5 @@
 import React, { createContext, useState, ReactNode, useContext } from 'react';
-import { Employee } from '../context/types';
+import { Employee } from './types';
 
 interface EmployeeContextProps {
   employees: Employee[];

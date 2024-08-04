@@ -4,13 +4,13 @@ import { useEmployeeContext } from '../context/EmployeeContext';
 import { Employee } from '../context/types';
 
 interface EmployeeFormProps {
-  employee?: Employee;
+  employee?: Employee | null;
   onSave: () => void;
 }
 
 const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave }) => {
   const { addEmployee, updateEmployee } = useEmployeeContext();
-  const [formState, setFormState] = useState<Employee>(employee || {
+  const [formState, setFormState] = useState<Employee>({
     id: '',
     fullName: '',
     position: '',

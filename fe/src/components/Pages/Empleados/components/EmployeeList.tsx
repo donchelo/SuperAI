@@ -1,9 +1,14 @@
 import React from 'react';
 import { useEmployeeContext } from '../context/EmployeeContext';
-import { Box, List, ListItem, ListItemText, Divider } from '@mui/material';
+import { Box, List, ListItem, ListItemText, Divider, IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import { Employee } from '../context/types';
 
-const EmployeeList: React.FC = () => {
+interface EmployeeListProps {
+  onEdit: (employee: Employee) => void;
+}
+
+const EmployeeList: React.FC<EmployeeListProps> = ({ onEdit }) => {
   const { employees } = useEmployeeContext();
 
   const groupedEmployees = employees.reduce((acc: { [key: string]: Employee[] }, employee) => {
@@ -22,7 +27,13 @@ const EmployeeList: React.FC = () => {
           <List>
             {groupedEmployees[area].map(employee => (
               <div key={employee.id}>
-                <ListItem>
+                <ListItem
+                  secondaryAction={
+                    <IconButton edge="end" aria-label="edit" onClick={() => onEdit(employee)}>
+                      <EditIcon />
+                    </IconButton>
+                  }
+                >
                   <ListItemText primary={employee.fullName} secondary={employee.position} />
                 </ListItem>
                 <Divider />
