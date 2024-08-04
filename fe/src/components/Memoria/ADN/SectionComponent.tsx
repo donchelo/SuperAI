@@ -3,9 +3,15 @@ import { Paper, Box, Typography, CircularProgress, IconButton, Fade, useTheme, u
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import FieldComponent from './FieldComponent';
 
+interface Section {
+  title: string;
+  key: string;
+  fields: [string, string][];
+}
+
 interface SectionComponentProps {
-  section: { title: string; key: string; fields: [string, string][] };
-  formData: Record<string, any>;
+  section: Section;
+  formData: Record<string, Record<string, string>>;
   expandedSections: Record<string, boolean>;
   handleChange: (category: string, field: string, value: string) => void;
   toggleSection: (section: string) => void;
@@ -42,12 +48,24 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
   }, [toggleSection, section.key]);
 
   return (
-    <Paper elevation={3} sx={{ mb: 2, overflow: 'hidden', width: '100%', transition: 'box-shadow 0.3s' }}>
+    <Paper 
+      elevation={3} 
+      sx={{ 
+        mb: 2, 
+        overflow: 'hidden', 
+        width: '100%', 
+        transition: 'all 0.3s',
+        transform: isExpanded ? 'scale(1.02)' : 'scale(1)',
+        '&:hover': {
+          boxShadow: theme.shadows[6],
+        },
+      }}
+    >
       <Tooltip title={isExpanded ? "Contraer sección" : "Expandir sección"} placement="top-start">
         <Box
           sx={{
             p: 2,
-            bgcolor: 'primary.main',
+            bgcolor: isExpanded ? 'primary.dark' : 'primary.main',
             color: 'primary.contrastText',
             cursor: 'pointer',
             display: 'flex',
@@ -61,7 +79,9 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
           }}
           onClick={handleSectionToggle}
         >
-          <Typography variant={isMobile ? 'subtitle1' : 'h6'}>{section.title}</Typography>
+          <Typography variant={isMobile ? 'subtitle1' : 'h6'} sx={{ fontWeight: 'bold' }}>
+            {section.title}
+          </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <CircularProgress
               variant="determinate"
@@ -76,7 +96,7 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
           </Box>
         </Box>
       </Tooltip>
-      <Fade in={isExpanded}>
+      <Fade in={isExpanded} timeout={300}>
         <Box sx={{ p: 2, display: isExpanded ? 'block' : 'none' }}>
           {section.fields.map(([fieldName, label]) => (
             <FieldComponent

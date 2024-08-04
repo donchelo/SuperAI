@@ -21,7 +21,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Icon from '@mdi/react';
 import { mdiChat, mdiMemory, mdiHelpCircle, mdiViewDashboard, mdiRobotExcited } from '@mdi/js';
 import ProfilePicture from './ProfilePicture';
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from './ThemeToggle'; // Importación de ThemeToggle
 
 const menuItems = [
   { icon: mdiChat, label: 'Chat', route: '/app/chat' },
@@ -111,12 +111,14 @@ const Header: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Cerrar Sesión" primaryTypographyProps={{ color: 'error.main' }} />
         </ListItemButton>
-        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
-          <ThemeToggle />
-        </Box>
+        {isMobile && (
+          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+            <ThemeToggle />
+          </Box>
+        )}
       </Box>
     </Box>
-  ), [location.pathname, toggleDrawer, theme, handleSignOut, handleNavigation]);
+  ), [location.pathname, toggleDrawer, theme, handleSignOut, handleNavigation, isMobile]);
 
   return (
     <>
@@ -187,7 +189,7 @@ const Header: React.FC = () => {
             </Box>
           )}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ThemeToggle />
+            {isMobile && <ThemeToggle />}
             <ProfilePicture onSignOut={handleSignOut} />
           </Box>
         </Toolbar>

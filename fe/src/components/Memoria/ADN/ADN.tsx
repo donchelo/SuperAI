@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Button,
@@ -18,8 +18,7 @@ import {
 } from '@mui/material';
 import { Save, Info } from '@mui/icons-material';
 import { sections } from './questionsData';
-
-const SectionComponent = lazy(() => import('./SectionComponent'));
+import SectionComponent from './SectionComponent';
 
 interface Section {
   title: string;
@@ -114,7 +113,7 @@ const ADN: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflowY: 'auto', bgcolor: 'background.default', p: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default', p: 2 }}>
       <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', mb: 2, borderRadius: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 'bold' }}>
@@ -171,9 +170,9 @@ const ADN: React.FC = () => {
         </Grid>
       </Paper>
 
-      <form onSubmit={handleSubmit}>
-        <Suspense fallback={<CircularProgress />}>
-          {(sections as Section[]).map((section) => (
+      <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', mb: 2 }}>
+          {sections.map((section) => (
             <SectionComponent
               key={section.key}
               section={section}
@@ -187,8 +186,8 @@ const ADN: React.FC = () => {
               handleSaveField={handleSaveField}
             />
           ))}
-        </Suspense>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
             type="submit"
             variant="contained"
@@ -199,7 +198,7 @@ const ADN: React.FC = () => {
             Actualizar ADN
           </Button>
         </Box>
-      </form>
+      </Box>
 
       <Snackbar
         open={submitStatus === 'success'}
