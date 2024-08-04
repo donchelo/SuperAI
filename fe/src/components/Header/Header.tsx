@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -19,7 +20,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Icon from '@mdi/react';
 import { mdiChat, mdiMemory, mdiHelpCircle, mdiViewDashboard, mdiRobotExcited } from '@mdi/js';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import ProfilePicture from './ProfilePicture';
 import ThemeToggle from './ThemeToggle';
 
@@ -35,8 +35,7 @@ const Header: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const location = useLocation();
   const navigate = useNavigate();
-
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = useCallback(() => {
     setDrawerOpen(prev => !prev);
@@ -94,11 +93,24 @@ const Header: React.FC = () => {
         </Box>
       </Box>
     </Box>
-  ), [location.pathname, handleNavigation, handleSignOut, theme, toggleDrawer]);
+  ), [location.pathname, toggleDrawer, theme, handleSignOut, handleNavigation]);
 
   return (
     <>
-      <AppBar position="fixed" color="default" elevation={1}>
+      <AppBar 
+        position="fixed" 
+        color="default" 
+        elevation={0}
+        sx={{
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          backdropFilter: 'blur(20px)',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+        }}
+      >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {isMobile && (
@@ -128,11 +140,24 @@ const Header: React.FC = () => {
                   key={item.route}
                   component={Link}
                   to={item.route}
-                  color={location.pathname === item.route ? 'primary' : 'inherit'}
+                  color="inherit"
                   sx={{ 
                     mx: 0.5,
-                    fontWeight: location.pathname === item.route ? 'bold' : 'normal',
-                    '&:hover': { backgroundColor: theme.palette.action.hover },
+                    px: 2,
+                    py: 1,
+                    borderRadius: 2,
+                    transition: 'all 0.3s',
+                    '&:hover': { 
+                      backgroundColor: theme.palette.action.hover,
+                      transform: 'translateY(-2px)',
+                    },
+                    ...(location.pathname === item.route && {
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.primary.contrastText,
+                      '&:hover': {
+                        backgroundColor: theme.palette.primary.dark,
+                      },
+                    }),
                   }}
                   startIcon={<Icon path={item.icon} size={1} />}
                 >
@@ -141,7 +166,10 @@ const Header: React.FC = () => {
               ))}
             </Box>
           )}
-          <ProfilePicture onSignOut={handleSignOut} />
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <ThemeToggle />
+            <ProfilePicture onSignOut={handleSignOut} />
+          </Box>
         </Toolbar>
       </AppBar>
       <Toolbar />
