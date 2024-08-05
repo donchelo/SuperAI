@@ -13,6 +13,7 @@ const TabSwitcher = React.lazy(() => import('./components/Memoria/TabSwitcher'))
 const Pricing = React.lazy(() => import('./components/landingPage/Pricing'));
 const TerminosYCondiciones = React.lazy(() => import('./components/landingPage/TerminosYCondiciones'));
 const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/PoliticaDePrivacidad'));
+const EmployeeManagement = React.lazy(() => import('./components/Pages/Empleados/components/EmployeeManagement'));
 
 const App: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ const App: React.FC = () => {
                 <Route path="memoria" element={<TabSwitcher />} />
                 <Route path="ayuda" element={<Ayuda />} />
                 <Route path="dashboards" element={<Dashboards />} />
+                <Route path="empleados" element={<EmployeeManagement />} />
               </Route>
             </Routes>
           </Suspense>

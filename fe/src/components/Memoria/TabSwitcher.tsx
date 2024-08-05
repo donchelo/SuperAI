@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Tabs, Tab, useTheme, useMediaQuery } from '@mui/material';
 import ADN from './ADN/ADN';
 import DatosInternos from './DatosInternos/DatosInternos';
-import EmployeeManagement from '../Pages/Empleados/EmployeeManagement';
+import EmployeeManagement from '../Pages/Empleados/components/EmployeeManagement';
 
 const TabSwitcher: React.FC = () => {
   const [value, setValue] = useState<number>(0);

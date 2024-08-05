@@ -1,14 +1,20 @@
 import React from 'react';
 import { Box, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import { useEmployeeContext } from '../context/EmployeeContext';
 import { Employee } from '../context/types';
 
 interface EmployeeListProps {
-  employees: Employee[];
   onEdit: (employee: Employee) => void;
 }
 
-const EmployeeList: React.FC<EmployeeListProps> = ({ employees, onEdit }) => {
+const EmployeeList: React.FC<EmployeeListProps> = ({ onEdit }) => {
+  const { employees } = useEmployeeContext();
+
+  if (employees.length === 0) {
+    return <div>No employees found.</div>;
+  }
+
   return (
     <Box>
       <List>

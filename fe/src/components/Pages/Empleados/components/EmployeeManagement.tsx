@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Button } from '@mui/material';
-import EmployeeForm from './components/EmployeeForm';
-import EmployeeList from './components/EmployeeList';
-import { useEmployeeContext } from './context/EmployeeContext';
-import { Employee } from './context/types';
+import EmployeeForm from './EmployeeForm';
+import EmployeeList from './EmployeeList';
+import { useEmployeeContext } from '../context/EmployeeContext';
+import { Employee } from '../context/types';
 
 const EmployeeManagement: React.FC = () => {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
@@ -33,7 +33,7 @@ const EmployeeManagement: React.FC = () => {
           onCancel={handleCancel}
         />
       )}
-      <EmployeeList employees={employees} onEdit={handleEditEmployee} />
+      <EmployeeList onEdit={handleEditEmployee} />
     </Box>
   );
 };
