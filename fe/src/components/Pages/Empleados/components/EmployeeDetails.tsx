@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEmployeeContext } from '../context/EmployeeContext';
+import { useEmployeeContext } from './EmployeeContext';
 import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { Employee } from '../context/types';

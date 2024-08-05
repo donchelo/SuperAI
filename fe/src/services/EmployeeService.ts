@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Employee } from '../context/types';
+import { Employee } from '../components/Pages/Empleados/context/types';
 
 const API_URL = 'https://yourapiurl.com/employees';
 

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { Employee } from './types';
+import { Employee } from '../context/types';
 
 interface EmployeeContextProps {
   employees: Employee[];
@@ -21,17 +21,14 @@ export const EmployeeProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [employees, setEmployees] = useState<Employee[]>([]);
 
   useEffect(() => {
-    fetch('/data/empleados.json')
+    fetch('/public/data/empleados.json')
       .then(response => response.json())
-      .then(data => {
-        console.log("Loaded employees: ", data); // Log para verificar la carga de datos
-        setEmployees(data);
-      })
+      .then(data => setEmployees(data))
       .catch(error => console.error('Error loading employees: ', error));
   }, []);
 
   const addEmployee = (employee: Employee) => {
-    setEmployees([...employees, employee]);
+    setEmployees([...employees, { ...employee, id: (employees.length + 1).toString() }]);
   };
 
   const updateEmployee = (updatedEmployee: Employee) => {

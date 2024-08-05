@@ -1,31 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Grid, Typography } from '@mui/material';
-import { useEmployeeContext } from '../context/EmployeeContext';
 import { Employee } from '../context/types';
 
 interface EmployeeFormProps {
-  employee?: Employee | null;
-  onSave: () => void;
+  employee: Employee;
+  onSave: (employee: Employee) => void;
   onCancel: () => void;
 }
 
 const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave, onCancel }) => {
-  const { addEmployee, updateEmployee } = useEmployeeContext();
-  const [formState, setFormState] = useState<Employee>({
-    id: '',
-    fullName: '',
-    position: '',
-    responsibility: '',
-    reportsTo: '',
-    startDate: '',
-    endDate: '',
-    area: ''
-  });
+  const [formState, setFormState] = useState<Employee>(employee);
 
   useEffect(() => {
-    if (employee) {
-      setFormState(employee);
-    }
+    setFormState(employee);
   }, [employee]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,18 +22,13 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave, onCancel 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (employee && employee.id) {
-      updateEmployee(formState);
-    } else {
-      addEmployee({ ...formState, id: Date.now().toString() });
-    }
-    onSave();
+    onSave(formState);
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
       <Typography variant="h6" gutterBottom>
-        {employee ? 'Edit Employee' : 'Add New Employee'}
+        {employee.id ? 'Edit Employee' : 'Add New Employee'}
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
@@ -125,7 +107,6 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave, onCancel 
             InputLabelProps={{
               shrink: true,
             }}
-            required
           />
         </Grid>
       </Grid>
@@ -134,7 +115,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onSave, onCancel 
           Cancel
         </Button>
         <Button type="submit" variant="contained" color="primary">
-          {employee ? 'Update' : 'Save'}
+          {employee.id ? 'Update' : 'Save'}
         </Button>
       </Box>
     </Box>

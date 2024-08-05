@@ -2,25 +2,28 @@ import React, { useState } from 'react';
 import { Box, Button } from '@mui/material';
 import EmployeeForm from './EmployeeForm';
 import EmployeeList from './EmployeeList';
-import { useEmployeeContext } from '../context/EmployeeContext';
+import { useEmployeeContext } from 'components/Pages/Empleados/components/EmployeeContext';
 import { Employee } from '../context/types';
 
 const EmployeeManagement: React.FC = () => {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
-  const { employees } = useEmployeeContext();
+  const { employees, addEmployee, updateEmployee } = useEmployeeContext();
 
   const handleEditEmployee = (employee: Employee) => {
     setSelectedEmployee(employee);
   };
 
-  const handleSave = () => {
+  const handleSave = (employee: Employee) => {
+    if (employee.id) {
+      updateEmployee(employee);
+    } else {
+      addEmployee(employee);
+    }
     setSelectedEmployee(null);
-    // Cualquier otra lógica que necesites ejecutar después de guardar
   };
 
   const handleCancel = () => {
     setSelectedEmployee(null);
-    // Cualquier otra lógica que necesites ejecutar al cancelar
   };
 
   return (

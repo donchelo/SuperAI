@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
 import { CustomThemeProvider } from './components/Context/ThemeContext';
-import { EmployeeProvider } from './components/Pages/Empleados/context/EmployeeContext';
+import { EmployeeProvider } from './components/Pages/Empleados/components/EmployeeContext';
 
 const SuperAILandingPage = React.lazy(() => import('./components/landingPage/SuperAILandingPage'));
 const Header = React.lazy(() => import('./components/Header/Header'));

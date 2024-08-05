@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { useEmployeeContext } from '../context/EmployeeContext';
+import { useEmployeeContext } from './EmployeeContext';
 import { Employee } from '../context/types';
 
 interface EmployeeListProps {
