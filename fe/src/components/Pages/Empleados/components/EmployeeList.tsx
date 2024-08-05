@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { useEmployeeContext } from './EmployeeContext';
+import { useEmployeeContext } from '../components/EmployeeContext';
 import { Employee } from '../context/types';
 
 interface EmployeeListProps {
@@ -20,7 +20,10 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ onEdit }) => {
       <List>
         {employees.map((employee) => (
           <ListItem key={employee.id}>
-            <ListItemText primary={employee.fullName} secondary={employee.position} />
+            <ListItemText
+              primary={employee.fullName}
+              secondary={`${employee.position} - ${employee.responsibility}`}
+            />
             <IconButton edge="end" onClick={() => onEdit(employee)}>
               <EditIcon />
             </IconButton>
