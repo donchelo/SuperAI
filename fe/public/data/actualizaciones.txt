@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Nueva funcionalidad de análisis de datos",
+    "date": "2023-07-10",
+    "description": "Hemos lanzado una nueva funcionalidad que permite a los usuarios analizar datos en tiempo real.",
+    "type": "Funcionalidad",
+    "link": "/app/dashboards"
+  },
+  {
+    "title": "Actualización de la política de privacidad",
+    "date": "2023-07-08",
+    "description": "Nuestra política de privacidad ha sido actualizada para cumplir con las nuevas regulaciones.",
+    "type": "Notificación",
+    "link": "/politica-de-privacidad"
+  },
+  {
+    "title": "Mejoras en el rendimiento de la plataforma",
+    "date": "2023-07-05",
+    "description": "Hemos mejorado el rendimiento general de la plataforma para una experiencia más fluida.",
+    "type": "Mejora",
+    "link": "/app/memoria"
+  }
+]
