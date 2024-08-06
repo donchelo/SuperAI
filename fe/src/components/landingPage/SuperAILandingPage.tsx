@@ -22,7 +22,8 @@ import {
   Speed,
   TrendingUp,
   Visibility,
-  EmojiNature
+  EmojiNature,
+  Security
 } from '@mui/icons-material';
 import HeroSection from './HeroSection/HeroSection';
 import PreguntasFrecuentes from './PreguntasFrecuentes';
@@ -64,6 +65,15 @@ const SuperAILandingPage: React.FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const strategicValues = [
+    { icon: PrecisionManufacturing, title: "Precisión", description: "Garantizamos la exactitud en cada dato y análisis para decisiones infalibles." },
+    { icon: Speed, title: "Proactividad", description: "Anticipamos necesidades y ofrecemos recomendaciones antes de que las solicites." },
+    { icon: TrendingUp, title: "Innovación", description: "Estamos a la vanguardia de la tecnología para impulsar tu crecimiento." },
+    { icon: Visibility, title: "Transparencia", description: "Ofrecemos claridad total en cada proceso y recomendación." },
+    { icon: EmojiNature, title: "Sostenibilidad", description: "Promovemos decisiones que aseguran un crecimiento responsable y duradero." },
+    { icon: Security, title: "Seguridad", description: "Protegemos tus datos y garantizamos la privacidad en todas nuestras operaciones." }
+  ];
 
   return (
     <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh' }}>
@@ -156,13 +166,7 @@ const SuperAILandingPage: React.FC = () => {
             Nuestros Valores
           </Typography>
           <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
-            {[
-              { icon: PrecisionManufacturing, title: "Precisión", description: "Garantizamos la exactitud en cada dato y análisis para decisiones infalibles." },
-              { icon: Speed, title: "Proactividad", description: "Anticipamos necesidades y ofrecemos recomendaciones antes de que las solicites." },
-              { icon: TrendingUp, title: "Innovación", description: "Estamos a la vanguardia de la tecnología para impulsar tu crecimiento." },
-              { icon: Visibility, title: "Transparencia", description: "Ofrecemos claridad total en cada proceso y recomendación." },
-              { icon: EmojiNature, title: "Sostenibilidad", description: "Promovemos decisiones que aseguran un crecimiento responsable y duradero." }
-            ].map((item, index) => (
+            {strategicValues.map((item, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <ValueItem 
                   icon={item.icon}
