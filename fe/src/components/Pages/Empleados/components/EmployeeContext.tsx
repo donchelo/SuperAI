@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Employee } from '../context/types';
 import empleados from '../../../../../public/data/empleados.json';
+
 interface EmployeeContextProps {
   employees: Employee[];
   addEmployee: (employee: Employee) => void;
   updateEmployee: (employee: Employee) => void;
+  deleteEmployee: (id: string) => void;
 }
 
 const EmployeeContext = createContext<EmployeeContextProps | undefined>(undefined);
@@ -36,8 +38,12 @@ export const EmployeeProvider: React.FC<{ children: ReactNode }> = ({ children }
     );
   };
 
+  const deleteEmployee = (id: string) => {
+    setEmployees(employees.filter(employee => employee.id !== id));
+  };
+
   return (
-    <EmployeeContext.Provider value={{ employees, addEmployee, updateEmployee }}>
+    <EmployeeContext.Provider value={{ employees, addEmployee, updateEmployee, deleteEmployee }}>
       {children}
     </EmployeeContext.Provider>
   );
