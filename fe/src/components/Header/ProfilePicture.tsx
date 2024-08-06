@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Avatar, Menu, MenuItem, Box, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import profilePicture from '../../assets/profile-picture.png';
 import ThemeToggle from './ThemeToggle';
@@ -72,6 +73,9 @@ const ProfilePicture: React.FC<ProfilePictureProps> = React.memo(({ onSignOut })
       >
         <MenuItem>
           <ThemeToggle />
+        </MenuItem>
+        <MenuItem component={Link} to="/actualizaciones">
+          <Typography>Últimas Actualizaciones</Typography>
         </MenuItem>
         <MenuItem onClick={handleSignOut}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
