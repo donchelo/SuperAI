@@ -114,7 +114,7 @@ const ADN: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default', p: 2 }}>
-      <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', mb: 2, borderRadius: 2 }}>
+      <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', mb: 2, borderRadius: 2, width: '100%', maxWidth: '1200px', mx: 'auto' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 'bold' }}>
             ADN de tu Startup
@@ -170,7 +170,7 @@ const ADN: React.FC = () => {
         </Grid>
       </Paper>
 
-      <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '1200px', mx: 'auto' }}>
         <Box sx={{ flexGrow: 1, overflowY: 'auto', mb: 2 }}>
           {sections.map((section) => (
             <SectionComponent
