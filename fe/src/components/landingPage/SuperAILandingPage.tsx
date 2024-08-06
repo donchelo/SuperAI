@@ -24,7 +24,7 @@ import {
   Visibility,
   EmojiNature
 } from '@mui/icons-material';
-import HeroSection from '../HeroSection/HeroSection';
+import HeroSection from './HeroSection/HeroSection';
 import PreguntasFrecuentes from './PreguntasFrecuentes';
 import Footer from './Footer';
 import KeyFeatures from './KeyFeatures';

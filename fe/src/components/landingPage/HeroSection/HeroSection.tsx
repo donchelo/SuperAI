@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Container, Grid, Typography, Fade, useTheme, useMediaQuery } from '@mui/material';
 import { ArrowForward } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
-import BackgroundImage from '../../../public/images/hero-background.png';
+import BackgroundImage from "/images/hero-background.png";
 
 const HeroSection: React.FC = () => {
   const theme = useTheme();
