@@ -14,6 +14,7 @@ const Pricing = React.lazy(() => import('./components/Pages/Pricing'));
 const TerminosYCondiciones = React.lazy(() => import('./components/landingPage/TerminosYCondiciones'));
 const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/PoliticaDePrivacidad'));
 const EmployeeManagement = React.lazy(() => import('./components/Pages/Empleados/components/EmployeeManagement'));
+const Actualizaciones = React.lazy(() => import('./components/Header/Actualizaciones'));
 
 const App: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const App: React.FC = () => {
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/terms" element={<TerminosYCondiciones />} />
               <Route path="/politica-de-privacidad" element={<PoliticaDePrivacidad />} />
+              <Route path="/actualizaciones" element={<Actualizaciones />} />
               <Route path="/app" element={<Header />}>
                 <Route path="chat" element={<Chat />} />
                 <Route path="memoria" element={<TabSwitcher />} />
