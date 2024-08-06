@@ -16,7 +16,7 @@
     "@emotion/styled": "^11.13.0",
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
-    "@mui/icons-material": "^5.16.5",
+    "@mui/icons-material": "^5.16.6",
     "@mui/material": "^5.16.5",
     "dotenv": "^16.4.5",
     "file-saver": "^2.0.5",
