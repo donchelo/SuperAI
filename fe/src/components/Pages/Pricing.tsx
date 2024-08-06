@@ -171,9 +171,6 @@ const Pricing: React.FC = () => {
         <Typography variant="h5" align="center" color="text.primary" paragraph>
           Elige el plan perfecto para tu empresa
         </Typography>
-        <Button variant="contained" color="primary" onClick={toggleTheme}>
-          Cambiar a {isDarkMode ? 'Tema Claro' : 'Tema Oscuro'}
-        </Button>
         <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
           <Typography variant="h6" gutterBottom color="text.primary">
             Número de empleados: {numEmployees}
