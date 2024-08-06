@@ -1,7 +1,7 @@
 import React, { useState, KeyboardEvent } from 'react';
 import { Box, Button, TextField, InputAdornment, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import QuickReplyIcon from '@mui/icons-material/QuickReply'; // Asegúrate de que este icono existe
+import QuickReplyIcon from '@mui/icons-material/Quickreply'; // Asegúrate de que este icono existe
 
 interface MessageInputProps {
   newMessage: string;
