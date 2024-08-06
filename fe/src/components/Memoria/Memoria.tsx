@@ -14,7 +14,17 @@ const Memoria: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-      <Paper elevation={3} sx={{ position: 'sticky', top: isMobile ? 56 : 64, zIndex: 1, width: '100%' }}>
+      <Paper 
+        elevation={3} 
+        sx={{ 
+          position: 'sticky', 
+          top: isMobile ? 56 : 64, 
+          zIndex: 1, 
+          width: '100%',
+          pt: isMobile ? 1 : 2, // Ajuste del padding superior para acercar al header
+          pb: isMobile ? 1 : 2  // Ajuste del padding inferior para separación visual
+        }}
+      >
         <Tabs
           value={tabIndex}
           onChange={handleTabChange}
