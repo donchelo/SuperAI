@@ -116,7 +116,7 @@ const ADN: React.FC = () => {
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default', p: 2 }}>
       <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', mb: 2, borderRadius: 2, width: '100%', maxWidth: '1200px', mx: 'auto' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 'bold' }}>
+          <Typography variant="h5" sx={{ color: theme.palette.text.primary, fontWeight: 'bold' }}>
             ADN de tu Startup
           </Typography>
           <Tooltip title="Ver información sobre la importancia del ADN">
@@ -205,6 +205,7 @@ const ADN: React.FC = () => {
         autoHideDuration={3000}
         onClose={() => setSubmitStatus(null)}
         message="¡Tu ADN se ha actualizado correctamente! La IA ahora podrá ofrecerte respuestas más precisas."
+        sx={{ bgcolor: theme.palette.success.main }}
       />
 
       <Snackbar
@@ -212,15 +213,16 @@ const ADN: React.FC = () => {
         autoHideDuration={3000}
         onClose={() => setSubmitStatus(null)}
         message="Error al actualizar el ADN. Por favor, inténtalo de nuevo."
+        sx={{ bgcolor: theme.palette.error.main }}
       />
 
       <Dialog open={showInfoDialog} onClose={() => setShowInfoDialog(false)}>
-        <DialogTitle>Importancia del ADN de tu Startup</DialogTitle>
+        <DialogTitle sx={{ color: theme.palette.primary.main }}>Importancia del ADN de tu Startup</DialogTitle>
         <DialogContent>
-          <Typography paragraph>
+          <Typography paragraph sx={{ color: theme.palette.text.primary }}>
             El ADN de tu startup es la esencia de tu negocio y es crucial para que nuestra IA pueda ofrecerte respuestas y análisis altamente personalizados y relevantes para tu empresa.
           </Typography>
-          <Typography paragraph>
+          <Typography paragraph sx={{ color: theme.palette.text.primary }}>
             Cuanta más información proporciones y más detallada sea, mejor podremos entender tu empresa y ofrecerte insights valiosos. Cada sección del ADN juega un papel importante:
           </Typography>
           {/* Aquí puedes añadir más contenido detallado sobre cada sección del ADN */}
