@@ -1,6 +1,7 @@
 // src/components/SuperPrompt.tsx
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
+import empleados from '../../../public/data/empleados.json';
 
 interface Empleado {
   id: string;
@@ -20,12 +21,7 @@ const SuperPrompt: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch empleados.json
-    fetch('/data/empleados.json')
-      .then(response => response.json())
-      .then(data => setEmpleados(data))
-      .catch((error: Error) => console.error('Error fetching empleados.json:', error));
-
+    setEmpleados(empleados);
     // Fetch ventas.csv
     fetch('/data/ventas.csv')
       .then(response => response.text())

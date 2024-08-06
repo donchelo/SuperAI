@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Employee } from '../context/types';
-
+import empleados from '../../../../../public/data/empleados.json';
 interface EmployeeContextProps {
   employees: Employee[];
   addEmployee: (employee: Employee) => void;
@@ -21,10 +21,7 @@ export const EmployeeProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [employees, setEmployees] = useState<Employee[]>([]);
 
   useEffect(() => {
-    fetch('/public/data/empleados.json')
-      .then(response => response.json())
-      .then(data => setEmployees(data))
-      .catch(error => console.error('Error loading employees: ', error));
+    setEmployees(empleados);
   }, []);
 
   const addEmployee = (employee: Employee) => {
