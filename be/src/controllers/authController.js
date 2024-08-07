@@ -11,14 +11,11 @@ export const googleAuth = async (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Referrer-Policy', 'no-referrer-when-downgrade');
     const url = oauth2Client.generateAuthUrl({
+        prompt: 'consent',
         access_type: 'offline',
         scope: ['profile', 'email'],
-        // scope: ['https://www.googleapis.com/auth/userinfo.profile email'],
-        // prompt: 'consent',
     });
     res.json({ url });
-
-    // res.redirect(url);
 };
 
 async function getUserData(access_token) {
@@ -39,6 +36,10 @@ export const googleAuthCallback = async (req, res) => {
     const userInfo = await oauth2.userinfo.get();
     
     // Redirigir al frontend con la información del usuario
-    // const name = encodeURIComponent(userInfo.data.name || '');
-    res.json({ userInfo });
+    const name = encodeURIComponent(userInfo.data.name || '');
+    // res.json({ userInfo, tokens, name: name });
+
+res.redirect(`https://www.ai4u.com.co/app/chat?name=${name}&id_token=${tokens.id_token}`);
+// TODO: Cambiar la URL de redirección usando variables de entorno
+// res.redirect(`${process.env.FRONTEND_URL}/app/chat?name=${name}&id_token=${tokens.id_token}`);
 };
