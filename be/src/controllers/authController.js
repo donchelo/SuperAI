@@ -14,7 +14,7 @@ export const googleAuth = async (req, res) => {
         access_type: 'offline',
         scope: ['profile', 'email'],
         // scope: ['https://www.googleapis.com/auth/userinfo.profile email'],
-        // prompt: 'consent',
+        prompt: 'consent',
     });
     res.json({ url });
 
@@ -31,22 +31,23 @@ async function getUserData(access_token) {
 
 export const googleAuthCallback = async (req, res) => {
     const { code } = req.query;
-    
     try{
         if (!code) {
             throw new Error('No code provided');
         }
-        const token = await oauth2Client.getToken(code);
-        await oauth2Client.setCredentials(token);
+        const { code } = req.query;
+        const { tokens } = await oauth2Client.getToken(code);
+        oauth2Client.setCredentials(tokens);
+    
         // Obtener información del usuario
         const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
         const userInfo = await oauth2.userinfo.get();
-        const name = encodeURIComponent(userInfo.data.name || '');
-        res.redirect('https://www.ai4u.com.co/app/chat?user=' + name);
+        
+        res.json({ userInfo });
+        // res.redirect('https://www.ai4u.com.co/app/chat?user=' + name);
     }
     catch(err){
         console.error(err);
     }
     // Redirigir al frontend con la información del usuario
-    // res.json({ userInfo });
 };
