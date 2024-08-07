@@ -1,5 +1,9 @@
 import axios from 'axios';
 
 export const loginWithGoogle = async () => {
-    window.location.href = 'http://ai4u.com.co/app/chat';
+
+    // Obtener URL de autenticación de Google
+    const { data } = await axios.get(`{VITE_API_URL}/google`);
+    console.log(data);
+    // window.location.href = 'http://ai4u.com.co/app/chat';
 };
