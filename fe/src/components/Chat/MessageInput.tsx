@@ -1,7 +1,7 @@
 import React, { useState, KeyboardEvent } from 'react';
 import { Box, Button, TextField, InputAdornment, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import QuickReplyIcon from '@mui/icons-material/Quickreply'; // Asegúrate de que este icono existe
+import QuickReplyIcon from '@mui/icons-material/Quickreply';
 
 interface MessageInputProps {
   newMessage: string;
@@ -34,8 +34,8 @@ const MessageInput: React.FC<MessageInputProps> = ({ newMessage, setNewMessage, 
           ),
         }}
       />
-      <Button onClick={() => handleSendMessage()} variant="contained" color="primary">
-        Enviar
+      <Button onClick={() => handleSendMessage()} variant="contained" color="primary" sx={{ ml: 1 }}>
+        <SendIcon />
       </Button>
     </Box>
   );

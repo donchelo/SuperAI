@@ -1,186 +1,180 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Paper, useTheme, IconButton, Drawer, useMediaQuery } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import QuickPrompts from './QuickPrompts';
-import { Message } from './types';
-import { MessageItem } from './MessageItem';
-import MessageInput from './MessageInput';
-import ReactMarkdown from 'react-markdown';
+import {
+  Box,
+  Paper,
+  Typography,
+  TextField,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Avatar,
+  Fade,
+  Tooltip,
+  useTheme,
+  useMediaQuery
+} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import MicIcon from '@mui/icons-material/Mic';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { motion } from 'framer-motion';
+
+interface Message {
+  id: number;
+  text: string;
+  sender: 'user' | 'ai';
+  timestamp: Date;
+}
 
 const Chat: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([
+    { id: 1, text: 'Hola, ¿en qué puedo ayudarte hoy?', sender: 'ai', timestamp: new Date() },
+  ]);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      text: 'Bienvenido a tu Asistente de IA Empresarial. Estoy aquí para ayudarte con tus consultas empresariales. Puedes hacer preguntas específicas o elegir una de las preguntas rápidas sugeridas.',
-      sender: 'bot'
-    },
-  ]);
-  const [newMessage, setNewMessage] = useState('');
-  const [quickPromptsOpen, setQuickPromptsOpen] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [defaultPrompt, setDefaultPrompt] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/get-responses`);
-        const data = await response.json();
-        setDefaultPrompt(`Rol: Eres un asistente profesional de startups.
-
-Contexto: [ ${JSON.stringify(data)} ]
-
-Tarea: Responder las preguntas que se te hacen teniendo en cuenta las siguientes reglas.
-
-1. Responde teniendo en cuenta el contexto proporcionado.
-2. Tómate el tiempo necesario para responder y explica tu proceso paso a paso antes de dar una respuesta final.
-3. Presenta tus respuestas en formato Markdown para una mejor legibilidad.
-
-Instrucciones adicionales:
-
-- Usa ejemplos prácticos cuando sea posible para ilustrar tus respuestas.
-- Divide la información en secciones claras con encabezados y listas para facilitar la lectura.
-- Asegúrate de que la respuesta sea coherente y bien estructurada.
- `);
-      } catch (error) {
-        console.error('Error al cargar datos del servidor:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = async (text = newMessage) => {
-    if (typeof text === 'string' && text.trim() !== '') {
-      addMessage(text.trim(), 'user');
-      setNewMessage('');
-      await getBotResponse(text.trim());
-    }
-    setQuickPromptsOpen(false);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const addMessage = (text: string, sender: 'bot' | 'user') => {
-    setMessages(prev => [...prev, { id: prev.length + 1, text, sender }]);
-  };
-
-  const getBotResponse = async (text: string) => {
-    addMessage('Gracias por tu pregunta. Estoy procesando la información...', 'bot');
-
-    try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {  
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_APP_OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-4",
-          messages: [
-            { role: "system", content: defaultPrompt },
-            { role: "user", content: text }
-          ],
-          temperature: 0.7,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Error fetching data from OpenAI API');
-      }
-
-      const data = await response.json();
-      const botMessage = { sender: 'bot', text: data.choices[0].message.content.trim() };
-      addMessage(botMessage.text, 'bot');
-    } catch (error) {
-      console.error(error);
-      addMessage('Lo siento, hubo un error procesando tu solicitud.', 'bot');
+  const handleSendMessage = () => {
+    if (inputMessage.trim() !== '') {
+      const newMessage: Message = {
+        id: messages.length + 1,
+        text: inputMessage,
+        sender: 'user',
+        timestamp: new Date(),
+      };
+      setMessages([...messages, newMessage]);
+      setInputMessage('');
+      setIsTyping(true);
+      
+      // Simulate AI response
+      setTimeout(() => {
+        const aiResponse: Message = {
+          id: messages.length + 2,
+          text: 'Gracias por tu mensaje. Estoy procesando tu solicitud...',
+          sender: 'ai',
+          timestamp: new Date(),
+        };
+        setMessages(prevMessages => [...prevMessages, aiResponse]);
+        setIsTyping(false);
+      }, 1000);
     }
   };
 
-  const toggleQuickPrompts = () => {
-    setQuickPromptsOpen(!quickPromptsOpen);
+  const formatTimestamp = (date: Date) => {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: 'calc(100vh - 64px)', // Ajustado para considerar el header
-      bgcolor: 'background.default',
-      position: 'relative',
-    }}>
-      <Box sx={{ 
-        flexGrow: 1, 
-        overflowY: 'auto', 
-        display: 'flex',
-        flexDirection: 'column',
-        p: 2,
-        pb: '70px',
-      }}>
-        {messages.map((message) => (
-          <MessageItem key={message.id} message={message} />
-        ))}
-        <div ref={messagesEndRef} />
-      </Box>
-
-      <Paper 
-        elevation={3} 
-        sx={{ 
-          p: 2, 
-          borderTop: 1, 
-          borderColor: 'divider', 
-          position: 'sticky', 
-          bottom: 0, 
-          left: 0, 
-          right: 0,
-          zIndex: theme.zIndex.appBar,
-          bgcolor: 'background.paper',
-        }}
-      >
-        <MessageInput
-          newMessage={newMessage}
-          setNewMessage={setNewMessage}
-          handleSendMessage={handleSendMessage}
-          toggleQuickPrompts={toggleQuickPrompts}
-        />
+    <Box sx={{ height: 'calc(100vh - 64px)', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
+      <Paper elevation={3} sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRadius: 2 }}>
+        <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography variant="h6" component="div">
+            Chat con SuperAI
+          </Typography>
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
+        </Box>
+        <List sx={{ flex: 1, overflow: 'auto', p: 2 }}>
+          {messages.map((message) => (
+            <ListItem
+              key={message.id}
+              sx={{
+                flexDirection: message.sender === 'user' ? 'row-reverse' : 'row',
+                alignItems: 'flex-start',
+                mb: 2,
+              }}
+            >
+              <Avatar
+                sx={{
+                  bgcolor: message.sender === 'user' ? 'primary.main' : 'secondary.main',
+                  width: 40,
+                  height: 40,
+                }}
+              >
+                {message.sender === 'user' ? 'U' : 'AI'}
+              </Avatar>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Paper
+                  elevation={1}
+                  sx={{
+                    p: 2,
+                    ml: message.sender === 'user' ? 1 : 2,
+                    mr: message.sender === 'user' ? 2 : 1,
+                    bgcolor: message.sender === 'user' ? 'primary.light' : 'background.paper',
+                    borderRadius: 2,
+                    maxWidth: '70%',
+                  }}
+                >
+                  <ListItemText
+                    primary={message.text}
+                    secondary={formatTimestamp(message.timestamp)}
+                    primaryTypographyProps={{
+                      color: message.sender === 'user' ? 'primary.contrastText' : 'text.primary',
+                    }}
+                    secondaryTypographyProps={{
+                      color: message.sender === 'user' ? 'primary.contrastText' : 'text.secondary',
+                    }}
+                  />
+                </Paper>
+              </motion.div>
+            </ListItem>
+          ))}
+          {isTyping && (
+            <Fade in={isTyping}>
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
+                <Typography variant="body2" color="text.secondary">
+                  SuperAI está escribiendo...
+                </Typography>
+              </Box>
+            </Fade>
+          )}
+          <div ref={messagesEndRef} />
+        </List>
+        <Box sx={{ p: 2, borderTop: 1, borderColor: 'divider' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              placeholder="Escribe un mensaje..."
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              sx={{ mr: 1 }}
+            />
+            <Tooltip title="Adjuntar archivo">
+              <IconButton color="primary" sx={{ mr: 1 }}>
+                <AttachFileIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Mensaje de voz">
+              <IconButton color="primary" sx={{ mr: 1 }}>
+                <MicIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Enviar mensaje">
+              <IconButton color="primary" onClick={handleSendMessage}>
+                <SendIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
       </Paper>
-
-      <Drawer
-        anchor="bottom"
-        open={quickPromptsOpen && isMobile}
-        onClose={toggleQuickPrompts}
-      >
-        <Box sx={{ p: 2, pt: 0 }}>
-          <IconButton
-            color="primary"
-            onClick={toggleQuickPrompts}
-            sx={{ float: 'right' }}
-          >
-            <Close />
-          </IconButton>
-          <QuickPrompts onPromptClick={handleSendMessage} />
-        </Box>
-      </Drawer>
-
-      <Drawer
-        anchor="right"
-        open={quickPromptsOpen && !isMobile}
-        onClose={toggleQuickPrompts}
-      >
-        <Box sx={{ p: 2, width: 300, pt: '64px' }}>
-          <IconButton
-            color="primary"
-            onClick={toggleQuickPrompts}
-            sx={{ float: 'right' }}
-          >
-            <Close />
-          </IconButton>
-          <QuickPrompts onPromptClick={handleSendMessage} />
-        </Box>
-      </Drawer>
     </Box>
   );
 };
