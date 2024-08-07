@@ -41,12 +41,11 @@ export const googleAuthCallback = async (req, res) => {
         // Obtener información del usuario
         const user = oauth2Client.credentials;
         await getUserData(user.access_token);
-
     }
     catch(err){
         console.error(err);
     }
-
+    res.redirect('https://www.ai4u.com.co/app/chat', 301);
 
     // const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
     // const userInfo = await oauth2.userinfo.get();
