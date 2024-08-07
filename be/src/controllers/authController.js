@@ -14,11 +14,8 @@ export const googleAuth = async (req, res) => {
         prompt: 'consent',
         access_type: 'offline',
         scope: ['profile', 'email'],
-        // scope: ['https://www.googleapis.com/auth/userinfo.profile email'],
     });
     res.json({ url });
-
-    // res.redirect(url);
 };
 
 async function getUserData(access_token) {
@@ -42,7 +39,7 @@ export const googleAuthCallback = async (req, res) => {
     const name = encodeURIComponent(userInfo.data.name || '');
     // res.json({ userInfo, tokens, name: name });
 
-res.redirect(`https://www.ai4u.com.co/?name=${name}&id_token=${tokens.id_token}`);
+res.redirect(`https://www.ai4u.com.co/app/chat?name=${name}&id_token=${tokens.id_token}`);
 // TODO: Cambiar la URL de redirección usando variables de entorno
-// res.redirect(`${process.env.FRONTEND_URL}/?name=${name}&id_token=${tokens.id_token}`);
+// res.redirect(`${process.env.FRONTEND_URL}/app/chat?name=${name}&id_token=${tokens.id_token}`);
 };
