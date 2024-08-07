@@ -4,7 +4,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import cors from 'cors';
-import authRoutes from './routes/authRoutes';
+import { googleAuth, googleAuthCallback } from './src/controllers/authController.js';
 
 
 const app = express();
@@ -17,7 +17,6 @@ const port = 3001;
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use('/auth', authRoutes);
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -61,6 +60,10 @@ app.get('/ventas', (req, res) => {
   });
 }
 );
+
+app.get('/auth/google', googleAuth);
+app.get('/auth/google/callback', googleAuthCallback);
+
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
