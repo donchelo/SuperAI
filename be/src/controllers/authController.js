@@ -40,5 +40,9 @@ export const googleAuthCallback = async (req, res) => {
     
     // Redirigir al frontend con la información del usuario
     const name = encodeURIComponent(userInfo.data.name || '');
-    res.json({ userInfo, tokens, name: name });
+    // res.json({ userInfo, tokens, name: name });
+
+res.redirect(`https://www.ai4u.com.co/?name=${name}&id_token=${tokens.id_token}`);
+// TODO: Cambiar la URL de redirección usando variables de entorno
+// res.redirect(`${process.env.FRONTEND_URL}/?name=${name}&id_token=${tokens.id_token}`);
 };
