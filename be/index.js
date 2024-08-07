@@ -10,7 +10,7 @@ import { googleAuth, googleAuthCallback } from './src/controllers/authController
 const app = express();
 const port = 3001;
  const corsOptions = {
-    origin: 'https://www.ai4u.com.co',
+    origin: '*',
     optionsSuccessStatus: 200,
     allowedHeaders: 'Content-Type,Authorization'
 
@@ -67,6 +67,10 @@ app.get('/ventas', (req, res) => {
 app.post('/auth/google', googleAuth);
 app.get('/auth/google/callback', googleAuthCallback);
 
+app.get('/', (req, res) => {
+  res.send(app._router.stack.map( r => r.route? r.route : ''));
+}
+);
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
