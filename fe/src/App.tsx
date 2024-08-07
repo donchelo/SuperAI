@@ -15,19 +15,23 @@ const TerminosYCondiciones = React.lazy(() => import('./components/landingPage/T
 const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/PoliticaDePrivacidad'));
 const EmployeeManagement = React.lazy(() => import('./components/Pages/Empleados/components/EmployeeManagement'));
 const Actualizaciones = React.lazy(() => import('./components/Header/Actualizaciones'));
+const LoginPage = React.lazy(() => import('./components/Pages/LoginPage/LoginPage'));
+
+const Loading: React.FC = () => (
+  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <CircularProgress />
+  </Box>
+);
 
 const App: React.FC = () => {
   return (
     <Router basename="/">
       <CustomThemeProvider>
         <EmployeeProvider>
-          <Suspense fallback={
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-              <CircularProgress />
-            </Box>
-          }>
+          <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<SuperAILandingPage />} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/terms" element={<TerminosYCondiciones />} />
               <Route path="/politica-de-privacidad" element={<PoliticaDePrivacidad />} />
