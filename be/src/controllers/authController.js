@@ -36,7 +36,7 @@ export const googleAuthCallback = async (req, res) => {
         if (!code) {
             throw new Error('No code provided');
         }
-        const { token } = await oauth2Client.getToken(code);
+        const token = await oauth2Client.getToken(code);
         await oauth2Client.setCredentials(token);
         // Obtener información del usuario
         const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
@@ -47,8 +47,6 @@ export const googleAuthCallback = async (req, res) => {
     catch(err){
         console.error(err);
     }
-
-    
     // Redirigir al frontend con la información del usuario
     // res.json({ userInfo });
 };
