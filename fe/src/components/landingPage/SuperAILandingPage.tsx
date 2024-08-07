@@ -108,13 +108,13 @@ const SuperAILandingPage: React.FC = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose} component={RouterLink} to="/Pricing">Pricing</MenuItem>
-                <MenuItem onClick={handleClose} component={RouterLink} to="/app/chat">Sign In</MenuItem>
+                <MenuItem onClick={handleClose} component={RouterLink} to="/login">Sign In</MenuItem>
               </Menu>
             </>
           ) : (
             <Box>
               <Button color="inherit" component={RouterLink} to="/Pricing">Pricing</Button>
-              <Button color="inherit" component={RouterLink} to="/app/chat">Sign In</Button>
+              <Button color="inherit" component={RouterLink} to="/login">Sign In</Button>
             </Box>
           )}
         </Toolbar>
