@@ -8,6 +8,7 @@ const oauth2Client = new google.auth.OAuth2(
 );
 
 export const googleAuth = (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: ['profile', 'email'],
@@ -16,6 +17,7 @@ export const googleAuth = (req, res) => {
 };
 
 export const googleAuthCallback = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const { code } = req.query;
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
