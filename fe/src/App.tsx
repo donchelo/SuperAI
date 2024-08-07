@@ -17,7 +17,8 @@ const PoliticaDePrivacidad = React.lazy(() => import('./components/landingPage/P
 const EmployeeManagement = React.lazy(() => import('./components/Pages/Empleados/components/EmployeeManagement'));
 const Actualizaciones = React.lazy(() => import('./components/Header/Actualizaciones'));
 const LoginPage = React.lazy(() => import('./components/Pages/LoginPage/LoginPage'));
-const BugsAndComments = React.lazy(() => import('./components/Ayuda/BugsAndComments')); // Asegúrate de que la ruta sea correcta
+const BugsAndComments = React.lazy(() => import('./components/Admin/BugsAndComments')); // Corrige la ruta
+const AdminPanel = React.lazy(() => import('./components/Admin/AdminPanel')); // Importa el nuevo componente
 
 const Loading: React.FC = () => (
   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -45,8 +46,8 @@ const App: React.FC = () => {
                   <Route path="ayuda" element={<Ayuda />} />
                   <Route path="dashboards" element={<Dashboards />} />
                   <Route path="empleados" element={<EmployeeManagement />} />
-                  <Route path="bugs-and-comments" element={<BugsAndComments />} /> {/* Nueva ruta */}
                 </Route>
+                <Route path="/admin/*" element={<AdminPanel />} /> {/* Nueva ruta */}
               </Routes>
             </Suspense>
           </CommentProvider>

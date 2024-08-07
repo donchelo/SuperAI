@@ -14,7 +14,7 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material';
-import { useComments, Comment } from './CommentContext';
+import { useComments, Comment } from '../Ayuda/CommentContext';
 
 const BugsAndComments: React.FC = () => {
   const { comments, updateComment } = useComments();
