@@ -45,7 +45,7 @@ export const googleAuthCallback = async (req, res) => {
     catch(err){
         console.error(err);
     }
-    res.redirect('https://www.ai4u.com.co/app/chat', 301);
+    res.redirect('https://www.ai4u.com.co/app/chat?token=' + user.access_token);
 
     // const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
     // const userInfo = await oauth2.userinfo.get();
