@@ -8,4 +8,7 @@ export const loginWithGoogle = async () => {
     const { data } = await axios.get(`/auth/google`);
     console.log(data);
     // window.location.href = 'http://ai4u.com.co/app/chat';
-};
+
+    fetch(`${import.meta.env.VITE_API_URL}/auth/google`, {
+        credentials: 'include'
+      })
