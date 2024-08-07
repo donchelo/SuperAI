@@ -27,5 +27,5 @@ export const googleAuthCallback = async (req: Request, res: Response) => {
     
     // Redirigir al frontend con la información del usuario
     const name = encodeURIComponent(userInfo.data.name || '');
-    res.redirect(`http://localhost:5173/app?name=${name}`);
+    res.redirect(`http://ai4u.com.co/app?name=${name}`);
 };

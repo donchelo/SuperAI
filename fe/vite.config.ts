@@ -18,7 +18,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/data': {
-        target: 'http://localhost:5173',  // Asegúrate de que este sea el puerto correcto
+        target: 'https://ai4u.com.co',  // Asegúrate de que este sea el puerto correcto
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/data/, '')
       }
