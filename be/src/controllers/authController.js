@@ -31,14 +31,27 @@ async function getUserData(access_token) {
 
 export const googleAuthCallback = async (req, res) => {
     const { code } = req.query;
-    const { tokens } = await oauth2Client.getToken(code);
-    oauth2Client.setCredentials(tokens);
+    
+    try{
+        if (!code) {
+            throw new Error('No code provided');
+        }
+        const res = await oauth2Client.getToken(code);
+        await oauth2Client.setCredentials(tokens);
+        // Obtener información del usuario
+        const user = oauth2Client.credentials;
+        await getUserData(user.access_token);
 
-    // Obtener información del usuario
-    const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
-    const userInfo = await oauth2.userinfo.get();
+    }
+    catch(err){
+        console.error(err);
+    }
+
+
+    // const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
+    // const userInfo = await oauth2.userinfo.get();
     
     // Redirigir al frontend con la información del usuario
     // const name = encodeURIComponent(userInfo.data.name || '');
-    res.json({ userInfo });
+    // res.json({ userInfo });
 };
