@@ -13,7 +13,7 @@ export const frequentQuestions: FrequentQuestion[] = [
     answer: "Busca en el área de ayuda la sección 'Sugerencias y Reportar Bugs' para contactar con soporte técnico. Envía tu consulta con el prefijo 'SOPORTE:'."
   },
   {
-    question: "¿Dónde puedo encontrar más información sobre las funcionalidades?",
+    question: "¿Dónde puedo encontrar información sobre las funcionalidades?",
     answer: "En el área de ayuda, busca la parte de 'Funcionalidades Principales' para encontrar una descripción detallada de cada característica de la plataforma."
   },
   {
