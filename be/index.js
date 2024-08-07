@@ -10,7 +10,7 @@ import { googleAuth, googleAuthCallback } from './src/controllers/authController
 const app = express();
 const port = 3001;
  const corsOptions = {
-    origin: '*',
+    origin: 'https://www.ai4u.com.co',
     optionsSuccessStatus: 200,
     allowedHeaders: 'Content-Type,Authorization'
 
@@ -20,6 +20,7 @@ const port = 3001;
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
+app.options('*', cors()) 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
