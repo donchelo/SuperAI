@@ -11,7 +11,9 @@ const app = express();
 const port = 3001;
  const corsOptions = {
     origin: '*',
-    optionsSuccessStatus: 200
+    optionsSuccessStatus: 200,
+    allowedHeaders: 'Content-Type,Authorization'
+
   }
 
 
