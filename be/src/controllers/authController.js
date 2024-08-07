@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import process from 'node:process'
+import 'dotenv/config'
 
 const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
@@ -10,14 +10,12 @@ const oauth2Client = new google.auth.OAuth2(
 export const googleAuth = async (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Referrer-Policy', 'no-referrer-when-downgrade');
-
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: ['profile', 'email'],
         // scope: ['https://www.googleapis.com/auth/userinfo.profile email'],
         // prompt: 'consent',
     });
-
     res.json({ url });
 
     // res.redirect(url);
