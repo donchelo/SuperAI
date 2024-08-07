@@ -4,6 +4,8 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import cors from 'cors';
+import authRoutes from './routes/authRoutes';
+
 
 const app = express();
 const port = 3001;
@@ -15,6 +17,8 @@ const port = 3001;
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use('/auth', authRoutes);
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,8 +61,6 @@ app.get('/ventas', (req, res) => {
   });
 }
 );
-
-
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
