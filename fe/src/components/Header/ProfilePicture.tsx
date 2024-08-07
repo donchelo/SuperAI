@@ -74,9 +74,6 @@ const ProfilePicture: React.FC<ProfilePictureProps> = React.memo(({ onSignOut })
         <MenuItem>
           <ThemeToggle />
         </MenuItem>
-        <MenuItem component={Link} to="/actualizaciones">
-          <Typography>Últimas Actualizaciones</Typography>
-        </MenuItem>
         <MenuItem onClick={handleSignOut}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ExitToAppIcon sx={{ mr: 1 }} />
