@@ -7,17 +7,31 @@ const oauth2Client = new google.auth.OAuth2(
    process.env.GOOGLE_CALLBACK_URL,
 );
 
-export const googleAuth = (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+export const googleAuth = async (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Referrer-Policy', 'no-referrer-when-downgrade');
+
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: ['profile', 'email'],
+        // scope: ['https://www.googleapis.com/auth/userinfo.profile email'],
+        // prompt: 'consent',
     });
-    res.redirect(url);
+
+    res.json({ url });
+
+    // res.redirect(url);
 };
 
+async function getUserData(access_token) {
+    const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+    const data = await response.json();
+    console.log(data);
+    return data;
+}
+
+
 export const googleAuthCallback = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
     const { code } = req.query;
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
@@ -27,6 +41,6 @@ export const googleAuthCallback = async (req, res) => {
     const userInfo = await oauth2.userinfo.get();
     
     // Redirigir al frontend con la información del usuario
-    const name = encodeURIComponent(userInfo.data.name || '');
-    res.redirect(`http://ai4u.com.co/app?name=${name}`);
+    // const name = encodeURIComponent(userInfo.data.name || '');
+    res.json({ userInfo });
 };
