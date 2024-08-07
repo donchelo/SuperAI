@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
 import { google } from 'googleapis';
-
+import pkg from 'express';
+const  { Request, Response } = pkg;
 
 const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
@@ -8,7 +8,7 @@ const oauth2Client = new google.auth.OAuth2(
    process.env.GOOGLE_CALLBACK_URL,
 );
 
-export const googleAuth = (req: Request, res: Response) => {
+export const googleAuth = (Request, Response) => {
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: ['profile', 'email'],
@@ -16,9 +16,9 @@ export const googleAuth = (req: Request, res: Response) => {
     res.redirect(url);
 };
 
-export const googleAuthCallback = async (req: Request, res: Response) => {
+export const googleAuthCallback = async (Request, Response) => {
     const { code } = req.query;
-    const { tokens } = await oauth2Client.getToken(code as string);
+    const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
 
     // Obtener información del usuario
