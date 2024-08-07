@@ -209,7 +209,7 @@ const Header: React.FC = () => {
       >
         {DrawerContent}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: { xs: '56px', sm: '64px' } }}>
         <Outlet />
       </Box>
     </>

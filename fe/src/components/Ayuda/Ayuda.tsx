@@ -29,18 +29,10 @@ import SendIcon from '@mui/icons-material/Send';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CloseIcon from '@mui/icons-material/Close';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-
-// Importar el contenido de ayuda
 import { frequentQuestions } from './frequentQuestions';
 import { newsAndUpdates } from './newsAndUpdates';
-import {
-  ChatIcon,
-  DnsIcon,
-  LightbulbIcon,
-  BugReportIcon,
-  SuggestIcon,
-  HelpIcon,
-} from './icons';
+import { ChatIcon, DnsIcon, LightbulbIcon, BugReportIcon, SuggestIcon, HelpIcon } from './icons';
+import { useComments, Comment } from './CommentContext';
 
 const Ayuda: React.FC = () => {
   const theme = useTheme();
@@ -52,6 +44,7 @@ const Ayuda: React.FC = () => {
   const [rating, setRating] = useState<number | null>(null);
   const [urgent, setUrgent] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const { addComment } = useComments();
 
   const handleOpenDialog = (type: 'sugerencia' | 'bug') => {
     setDialogType(type);
@@ -70,12 +63,15 @@ const Ayuda: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    console.log(`Enviando ${dialogType}:`, {
+    const newComment: Comment = {
+      id: new Date().getTime(),
+      type: dialogType!,
       feedback,
-      rating,
-      urgent,
-      file: file ? file.name : 'No file attached',
-    });
+      rating: dialogType === 'sugerencia' ? rating : null,
+      urgent: dialogType === 'bug' ? urgent : undefined,
+      status: 'abierto',
+    };
+    addComment(newComment);
     handleCloseDialog();
     setSnackbarOpen(true);
   };
