@@ -36,16 +36,16 @@ export const googleAuthCallback = async (req, res) => {
         if (!code) {
             throw new Error('No code provided');
         }
-        const res = await oauth2Client.getToken(code);
+        const { token } = await oauth2Client.getToken(code);
         await oauth2Client.setCredentials(tokens);
         // Obtener información del usuario
         const user = oauth2Client.credentials;
         await getUserData(user.access_token);
+        res.redirect('https://www.ai4u.com.co/app/chat?token=' + token);
     }
     catch(err){
         console.error(err);
     }
-    res.redirect('https://www.ai4u.com.co/app/chat?token=' + user.access_token);
 
     // const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
     // const userInfo = await oauth2.userinfo.get();
