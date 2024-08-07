@@ -64,7 +64,7 @@ app.get('/ventas', (req, res) => {
 }
 );
 
-app.get('/auth/google', googleAuth);
+app.post('/auth/google', googleAuth);
 app.get('/auth/google/callback', googleAuthCallback);
 
 
