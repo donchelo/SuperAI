@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Employee } from '../components/Pages/Empleados/context/types';
 
-const API_URL = 'https://yourapiurl.com/employees';
+const API_URL = `${import.meta.env.VITE_API_URL}`;
 
 export const getEmployees = async (): Promise<Employee[]> => {
   const response = await axios.get(API_URL);
