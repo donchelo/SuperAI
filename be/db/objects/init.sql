@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "empresa" (
 
 CREATE TABLE IF NOT EXISTS "adn_startup" (
     "id" SERIAL PRIMARY KEY,
-    "empresa_id" INT NOT NULL,
+    "empresa_id" INT NOT NULL REFERENCES empresa(id),
     "vision" VARCHAR(255) NOT NULL,
     "mision" VARCHAR(255) NOT NULL,
     "valores" VARCHAR(255) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS "adn_startup" (
 
 CREATE TABLE IF NOT EXISTS "datos_financieros" (
     "id" SERIAL PRIMARY KEY,
-    "empresa_id" INT NOT NULL,
+    "empresa_id" INT NOT NULL REFERENCES empresa(id),
     "fecha" DATE NOT NULL,
     "ingresos" FLOAT NOT NULL,
     "gastos" FLOAT NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS "datos_financieros" (
 
 CREATE TABLE IF NOT EXISTS "kpi" (
     "id" SERIAL PRIMARY KEY,
-    "empresa_id" INT NOT NULL,
+    "empresa_id" INT NOT NULL REFERENCES empresa(id),
     "nombre" VARCHAR(255) NOT NULL,
     "categoria" VARCHAR(255) NOT NULL,
     "valor_actual" FLOAT NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS "kpi" (
 
 CREATE TABLE IF NOT EXISTS "chat" (
     "id" SERIAL PRIMARY KEY,
-    "usuario_id" INT NOT NULL,
+    "usuario_id" INT NOT NULL REFERENCES usuario(id),
     "fecha_inicio" DATE NOT NULL,
     "ultima_actividad" DATE NOT NULL,
     "estado" VARCHAR(255) NOT NULL
@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS "chat" (
 
 CREATE TABLE IF NOT EXISTS "mensaje" (
     "id" SERIAL PRIMARY KEY,
-    "chat_id" INT NOT NULL,
-    "usuario_id" INT NOT NULL,
+    "chat_id" INT NOT NULL REFERENCES chat(id),
+    "usuario_id" INT NOT NULL REFERENCES usuario(id),
     "contenido" VARCHAR(255) NOT NULL,
     "timestamp" TIMESTAMP NOT NULL,
     "tipo" VARCHAR(255) NOT NULL
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS "mensaje" (
 
 CREATE TABLE IF NOT EXISTS "analisis_recomendacion" (
     "id" SERIAL PRIMARY KEY,
-    "empresa_id" INT NOT NULL,
+    "empresa_id" INT NOT NULL ,
     "fecha_generacion" DATE NOT NULL,
     "tipo_analisis" VARCHAR(255) NOT NULL,
     "contenido_analisis" VARCHAR(255) NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS "analisis_recomendacion" (
 
 CREATE TABLE IF NOT EXISTS "integracion_datos" (
     "id" SERIAL PRIMARY KEY,
-    "empresa_id" INT NOT NULL,
+    "empresa_id" INT NOT NULL REFERENCES empresa(id),
     "fuente_datos" VARCHAR(255) NOT NULL,
     "tipo_datos" VARCHAR(255) NOT NULL,
     "frecuencia_actualizacion" VARCHAR(255) NOT NULL,
@@ -112,8 +112,8 @@ CREATE TABLE IF NOT EXISTS "plan_suscripcion" (
 
 CREATE TABLE IF NOT EXISTS "suscripcion" (
     "id" SERIAL PRIMARY KEY,
-    "empresa_id" INT NOT NULL,
-    "plan_id" INT NOT NULL,
+    "empresa_id" INT NOT NULL REFERENCES empresa(id),
+    "plan_id" INT NOT NULL REFERENCES plan_suscripcion(id),
     "fecha_inicio" DATE NOT NULL,
     "fecha_renovacion" DATE NOT NULL,
     "estado" VARCHAR(255) NOT NULL
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS "suscripcion" (
 
 CREATE TABLE IF NOT EXISTS "vector_embedding" (
     "id" SERIAL PRIMARY KEY,
-    "empresa_id" INT NOT NULL,
+    "empresa_id" INT NOT NULL REFERENCES empresa(id),
     "tipo_dato" VARCHAR(255) NOT NULL,
     "vector" FLOAT NOT NULL,
     "metadatos" JSON NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS "vector_embedding" (
 
 CREATE TABLE IF NOT EXISTS "notificacion" (
     "id" SERIAL PRIMARY KEY,
-    "usuario_id" INT NOT NULL,
+    "usuario_id" INT NOT NULL REFERENCES usuario(id),
     "contenido" VARCHAR(255) NOT NULL,
     "timestamp" TIMESTAMP NOT NULL,
     "tipo" VARCHAR(255) NOT NULL,
