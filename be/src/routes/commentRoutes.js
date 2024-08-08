@@ -1,10 +1,10 @@
-// src/routes/commentRoutes.js
 import express from 'express';
-import { getComments, addComment } from '../controllers/commentController.js';
+import { getComments, addComment, updateComment } from '../controllers/commentController.js';
 
 const router = express.Router();
 
-router.get('/comments', getComments);
-router.post('/comments', addComment);
+router.get('/', getComments);
+router.post('/', addComment);
+router.put('/:id', updateComment);
 
 export default router;

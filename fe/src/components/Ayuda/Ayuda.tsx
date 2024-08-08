@@ -32,7 +32,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import { frequentQuestions } from './frequentQuestions';
 import { newsAndUpdates } from './newsAndUpdates';
 import { ChatIcon, DnsIcon, LightbulbIcon, BugReportIcon, SuggestIcon, HelpIcon } from './icons';
-import { useComments, Comment } from './CommentContext';
+import { useComments, Comment } from '../Ayuda/CommentContext';
 
 const Ayuda: React.FC = () => {
   const theme = useTheme();
