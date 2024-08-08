@@ -3,7 +3,6 @@ CREATE TABLE IF NOT EXISTS "usuario" (
     "nombre" VARCHAR(255) NOT NULL,
     "apellido" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
-    "password_hash" VARCHAR(255) NOT NULL,
     "rol" VARCHAR(255) NOT NULL,
     "fecha_registro" DATE NOT NULL,
     "ultimo_acceso" DATE NOT NULL
