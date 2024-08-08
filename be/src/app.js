@@ -1,8 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { connectDB } from './config/db';
-import authRoutes from './routes/authRoutes';
-import commentRoutes from './routes/commentRoutes';
+import authRoutes from './routes/authRoutes.js';
+import commentRoutes from './routes/commentRoutes.js';
+import userRoutes from './routes/users.routes.js';
+import morgan from 'morgan';
 
 dotenv.config();
 
