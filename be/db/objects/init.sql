@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS "mensaje" (
     "chat_id" INT NOT NULL,
     "usuario_id" INT NOT NULL,
     "contenido" VARCHAR(255) NOT NULL,
-    "timestamp" DATETIME NOT NULL,
+    "timestamp" TIMESTAMP NOT NULL,
     "tipo" VARCHAR(255) NOT NULL
 );
 
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS "integracion_datos" (
     "fuente_datos" VARCHAR(255) NOT NULL,
     "tipo_datos" VARCHAR(255) NOT NULL,
     "frecuencia_actualizacion" VARCHAR(255) NOT NULL,
-    "ultima_actualizacion" DATETIME NOT NULL,
+    "ultima_actualizacion" TIMESTAMP NOT NULL,
     "estado_conexion" VARCHAR(255) NOT NULL
 );
 
@@ -125,14 +125,14 @@ CREATE TABLE IF NOT EXISTS "vector_embedding" (
     "tipo_dato" VARCHAR(255) NOT NULL,
     "vector" FLOAT NOT NULL,
     "metadatos" JSON NOT NULL,
-    "fecha_creacion" DATETIME NOT NULL
+    "fecha_creacion" TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "notificacion" (
     "id" SERIAL PRIMARY KEY,
     "usuario_id" INT NOT NULL,
     "contenido" VARCHAR(255) NOT NULL,
-    "timestamp" DATETIME NOT NULL,
+    "timestamp" TIMESTAMP NOT NULL,
     "tipo" VARCHAR(255) NOT NULL,
     "estado" VARCHAR(255) NOT NULL
 );
