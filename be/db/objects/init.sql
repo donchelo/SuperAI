@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "usuario" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "nombre" VARCHAR(255) NOT NULL,
     "apellido" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS "usuario" (
 
 
 CREATE TABLE IF NOT EXISTS "empresa" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "nombre" VARCHAR(255) NOT NULL,
     "industria" VARCHAR(255) NOT NULL,
     "fecha_fundacion" DATE NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS "empresa" (
 
 
 CREATE TABLE IF NOT EXISTS "adn_startup" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "empresa_id" INT NOT NULL,
     "vision" VARCHAR(255) NOT NULL,
     "mision" VARCHAR(255) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS "adn_startup" (
 
 
 CREATE TABLE IF NOT EXISTS "datos_financieros" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "empresa_id" INT NOT NULL,
     "fecha" DATE NOT NULL,
     "ingresos" FLOAT NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS "datos_financieros" (
 
 
 CREATE TABLE IF NOT EXISTS "kpi" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "empresa_id" INT NOT NULL,
     "nombre" VARCHAR(255) NOT NULL,
     "categoria" VARCHAR(255) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS "kpi" (
 );
 
 CREATE TABLE IF NOT EXISTS "chat" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "usuario_id" INT NOT NULL,
     "fecha_inicio" DATE NOT NULL,
     "ultima_actividad" DATE NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS "chat" (
 
 
 CREATE TABLE IF NOT EXISTS "mensaje" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "chat_id" INT NOT NULL,
     "usuario_id" INT NOT NULL,
     "contenido" VARCHAR(255) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS "mensaje" (
 
 
 CREATE TABLE IF NOT EXISTS "analisis_recomendacion" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "empresa_id" INT NOT NULL,
     "fecha_generacion" DATE NOT NULL,
     "tipo_analisis" VARCHAR(255) NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS "analisis_recomendacion" (
 
 
 CREATE TABLE IF NOT EXISTS "integracion_datos" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "empresa_id" INT NOT NULL,
     "fuente_datos" VARCHAR(255) NOT NULL,
     "tipo_datos" VARCHAR(255) NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS "integracion_datos" (
 
 
 CREATE TABLE IF NOT EXISTS "plan_suscripcion" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "nombre" VARCHAR(255) NOT NULL,
     "descripcion" VARCHAR(255) NOT NULL,
     "precio" FLOAT NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS "plan_suscripcion" (
 
 
 CREATE TABLE IF NOT EXISTS "suscripcion" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "empresa_id" INT NOT NULL,
     "plan_id" INT NOT NULL,
     "fecha_inicio" DATE NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS "suscripcion" (
 );
 
 CREATE TABLE IF NOT EXISTS "vector_embedding" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "empresa_id" INT NOT NULL,
     "tipo_dato" VARCHAR(255) NOT NULL,
     "vector" FLOAT NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS "vector_embedding" (
 );
 
 CREATE TABLE IF NOT EXISTS "notificacion" (
-    "id" SERIAL PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "usuario_id" INT NOT NULL,
     "contenido" VARCHAR(255) NOT NULL,
     "timestamp" DATETIME NOT NULL,
