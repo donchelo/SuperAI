@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS "mensaje" (
 
 CREATE TABLE IF NOT EXISTS "analisis_recomendacion" (
     "id" SERIAL PRIMARY KEY,
-    "empresa_id" INT NOT NULL ,
+    "empresa_id" INT NOT NULL REFERENCES empresa(id), 
     "fecha_generacion" DATE NOT NULL,
     "tipo_analisis" VARCHAR(255) NOT NULL,
     "contenido_analisis" VARCHAR(255) NOT NULL,
