@@ -1,188 +1,100 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Box, Paper, useTheme, IconButton, Drawer, useMediaQuery } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import QuickPrompts from './QuickPrompts';
-import { Message } from './types';
-import { MessageItem } from './MessageItem';
-import MessageInput from './MessageInput';
-import ReactMarkdown from 'react-markdown';
+import React, { useEffect, useRef, useCallback, useState, memo } from 'react';
+import { Box, useTheme, useMediaQuery } from '@mui/material';
+import useChat from './hooks/useChat';
+import ChatFooter from './components/ChatFooter';
+import QuickPromptsDrawer from './components/QuickPromptsDrawer';
+import { MessageItem } from './components/MessageItem';
 
-const Chat: React.FC = () => {
+const Chat: React.FC = memo(() => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      text: 'Bienvenido a tu Asistente de IA Empresarial. Estoy aquí para ayudarte con tus consultas empresariales. Puedes hacer preguntas específicas o elegir una de las preguntas rápidas sugeridas.',
-      sender: 'bot'
-    },
-  ]);
+  const { messages, addMessage, fetchInitialPrompt, getBotResponse } = useChat();
   const [newMessage, setNewMessage] = useState('');
   const [quickPromptsOpen, setQuickPromptsOpen] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [defaultPrompt, setDefaultPrompt] = useState('');
+  const chatBoxRef = useRef<HTMLDivElement>(null);
+
+  // Verificamos que el mensaje de bienvenida no se añada más de una vez
+  const welcomeMessageAdded = useRef(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/get-responses`);
-        const data = await response.json();
-        setDefaultPrompt(`Rol: Eres un asistente profesional de startups.
+    fetchInitialPrompt();
+    document.getElementById('message-input')?.focus();
 
-Contexto: [ ${JSON.stringify(data)} ]
-
-Tarea: Responder las preguntas que se te hacen teniendo en cuenta las siguientes reglas.
-
-1. Responde teniendo en cuenta el contexto proporcionado.
-2. Tómate el tiempo necesario para responder y explica tu proceso paso a paso antes de dar una respuesta final.
-3. Presenta tus respuestas en formato Markdown para una mejor legibilidad.
-
-Instrucciones adicionales:
-
-- Usa ejemplos prácticos cuando sea posible para ilustrar tus respuestas.
-- Divide la información en secciones claras con encabezados y listas para facilitar la lectura.
-- Asegúrate de que la respuesta sea coherente y bien estructurada.
- `);
-      } catch (error) {
-        console.error('Error al cargar datos del servidor:', error);
-      }
-    };
-    fetchData();
-  }, []);
+    // Añadir el mensaje de bienvenida solo si no se ha añadido anteriormente
+    if (!welcomeMessageAdded.current) {
+      addMessage('Bienvenido a tu Asistente de IA Empresarial. Estoy aquí para ayudarte con tus consultas empresariales. Puedes hacer preguntas específicas o elegir una de las preguntas rápidas sugeridas.', 'bot');
+      welcomeMessageAdded.current = true; // Marcar como añadido
+    }
+  }, [fetchInitialPrompt, addMessage]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const shouldScroll = chatBoxRef.current && (chatBoxRef.current.scrollHeight - chatBoxRef.current.scrollTop <= chatBoxRef.current.clientHeight + 100);
+    
+    if (shouldScroll) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages]);
 
-  const handleSendMessage = async (text = newMessage) => {
-    if (typeof text === 'string' && text.trim() !== '') {
-      addMessage(text.trim(), 'user');
+  const handleSendMessage = useCallback(async () => {
+    if (newMessage.trim()) {
+      setIsSending(true);
+      addMessage(newMessage.trim(), 'user');
       setNewMessage('');
-      await getBotResponse(text.trim());
+      await getBotResponse(newMessage.trim());
+      setQuickPromptsOpen(false);
+      setIsSending(false);
     }
-    setQuickPromptsOpen(false);
-  };
+  }, [newMessage, addMessage, getBotResponse]);
 
-  const addMessage = (text: string, sender: 'bot' | 'user') => {
-    setMessages(prev => [...prev, { id: prev.length + 1, text, sender }]);
-  };
-
-  const getBotResponse = async (text: string) => {
-    addMessage('Gracias por tu pregunta. Estoy procesando la información...', 'bot');
-
-    try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {  
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_APP_OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-4",
-          messages: [
-            { role: "system", content: defaultPrompt },
-            { role: "user", content: text }
-          ],
-          temperature: 0.7,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Error fetching data from OpenAI API');
-      }
-
-      const data = await response.json();
-      const botMessage = { sender: 'bot', text: data.choices[0].message.content.trim() };
-      addMessage(botMessage.text, 'bot');
-    } catch (error) {
-      console.error(error);
-      addMessage('Lo siento, hubo un error procesando tu solicitud.', 'bot');
-    }
-  };
-
-  const toggleQuickPrompts = () => {
-    setQuickPromptsOpen(!quickPromptsOpen);
-  };
+  const toggleQuickPrompts = useCallback(() => {
+    setQuickPromptsOpen((prev) => !prev);
+  }, []);
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: 'calc(100vh - 64px)', // Ajustado para considerar el header
-      bgcolor: 'background.default',
-      position: 'relative',
-    }}>
-      <Box sx={{ 
-        flexGrow: 1, 
-        overflowY: 'auto', 
+    <Box
+      sx={{
         display: 'flex',
         flexDirection: 'column',
-        p: 2,
-        pb: '70px',
-      }}>
+        height: 'calc(100vh - 64px)', // Ajustado para considerar el header
+        bgcolor: 'background.default',
+        position: 'relative',
+      }}
+    >
+      <Box
+        ref={chatBoxRef}
+        sx={{
+          flexGrow: 1,
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          p: isMobile ? 1 : 2, // Menos padding en móviles
+          pb: '70px',
+        }}
+      >
         {messages.map((message) => (
           <MessageItem key={message.id} message={message} />
         ))}
         <div ref={messagesEndRef} />
       </Box>
 
-      <Paper 
-        elevation={3} 
-        sx={{ 
-          p: 2, 
-          borderTop: 1, 
-          borderColor: 'divider', 
-          position: 'sticky', 
-          bottom: 0, 
-          left: 0, 
-          right: 0,
-          zIndex: theme.zIndex.appBar,
-          bgcolor: 'background.paper',
-        }}
-      >
-        <MessageInput
-          newMessage={newMessage}
-          setNewMessage={setNewMessage}
-          handleSendMessage={handleSendMessage}
-          toggleQuickPrompts={toggleQuickPrompts}
-        />
-      </Paper>
+      <ChatFooter
+        newMessage={newMessage}
+        setNewMessage={setNewMessage}
+        handleSendMessage={handleSendMessage}
+        toggleQuickPrompts={toggleQuickPrompts}
+        disabled={isSending} // Deshabilitar entrada durante el envío
+      />
 
-      <Drawer
-        anchor="bottom"
-        open={quickPromptsOpen && isMobile}
-        onClose={toggleQuickPrompts}
-      >
-        <Box sx={{ p: 2, pt: 0 }}>
-          <IconButton
-            color="primary"
-            onClick={toggleQuickPrompts}
-            sx={{ float: 'right' }}
-          >
-            <Close />
-          </IconButton>
-          <QuickPrompts onPromptClick={handleSendMessage} />
-        </Box>
-      </Drawer>
-
-      <Drawer
-        anchor="right"
-        open={quickPromptsOpen && !isMobile}
-        onClose={toggleQuickPrompts}
-      >
-        <Box sx={{ p: 2, width: 300, pt: '64px' }}>
-          <IconButton
-            color="primary"
-            onClick={toggleQuickPrompts}
-            sx={{ float: 'right' }}
-          >
-            <Close />
-          </IconButton>
-          <QuickPrompts onPromptClick={handleSendMessage} />
-        </Box>
-      </Drawer>
+      <QuickPromptsDrawer
+        open={quickPromptsOpen}
+        isMobile={isMobile}
+        toggleQuickPrompts={toggleQuickPrompts}
+        onPromptClick={handleSendMessage}
+      />
     </Box>
   );
-};
+});
 
 export default Chat;

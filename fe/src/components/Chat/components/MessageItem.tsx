@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
-import { Message } from '../Chat/types';
+import { Message } from '../types';
 import ReactMarkdown from 'react-markdown';
 
 interface MessageItemProps {
